@@ -13,14 +13,14 @@ export default function TabsComponent() {
   ];
 
   return (
-    <div className="tabs-container">
-      <h1 className="tabs-title">Tabs Component with React</h1>
+    <div class="tabs-container">
+      <h1 class="tabs-title">Tabs Component with React</h1>
 
-      <div className="tabs">
+      <div class="tabs">
         {tabs.map((tab, index) => (
           <div
             key={index}
-            className={`tab ${activeTab === index ? "active" : ""}`}
+            class={`tab ${activeTab === index ? "active" : ""}`}
             onClick={() => setActiveTab(index)}
           >
             {tab}
@@ -28,7 +28,7 @@ export default function TabsComponent() {
         ))}
       </div>
 
-      <div className="tab-content">
+      <div class="tab-content">
         <h2>{contents[activeTab]}</h2>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla venenatis ante augue.
