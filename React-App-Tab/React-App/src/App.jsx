@@ -8,7 +8,15 @@ const TabsComponent = () => {
     { id: 2, name: "TAB 3" },
     { id: 3, name: "TAB 4" },
   ];
+
   const contents = ["Content 1", "Content 2", "Content 3", "Content 4"];
+
+  const paragraphs = [
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum a neque ut nunc euismod euismod.",
+    "Curabitur vitae turpis ac sapien blandit tincidunt. Integer convallis purus sed augue pellentesque.",
+    "Sed ac mauris quis eros efficitur accumsan. Donec finibus nisi at augue fringilla, vel consectetur.",
+    "Quisque non urna nec libero faucibus hendrerit. Phasellus fermentum sapien et turpis bibendum.",
+  ];
 
   const [activeTab, setActiveTab] = useState(
     parseInt(localStorage.getItem("activeTab")) || 0
@@ -36,13 +44,7 @@ const TabsComponent = () => {
 
       <div class="tab-content">
         <h2>{contents[activeTab]}</h2>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla
-          venenatis ante augue. Phasellus volutpat neque ac dui mattis
-          vulputate. Etiam consequat aliquam cursus. In sodales pretium
-          ultricies. Maecenas lectus est, sollicitudin consectetur felis nec,
-          feugiat ultrices mi.
-        </p>
+        <p>{paragraphs[activeTab]}</p>
       </div>
     </div>
   );
