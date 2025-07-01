@@ -1,29 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 
-export default function TabsComponent() {
-  const [activeTab, setActiveTab] = useState(0);
-
-  const tabs = ["TAB 1", "TAB 2", "TAB 3", "TAB 4"];
-  const contents = [
-    "Content 1",
-    "Content 2",
-    "Content 3",
-    "Content 4"
+const TabsComponent = () => {
+  const tabs = [
+    { id: 0, name: "TAB 1" },
+    { id: 1, name: "TAB 2" },
+    { id: 2, name: "TAB 3" },
+    { id: 3, name: "TAB 4" },
   ];
+  const contents = ["Content 1", "Content 2", "Content 3", "Content 4"];
+
+  const [activeTab, setActiveTab] = useState(
+    parseInt(localStorage.getItem("activeTab")) || 0
+  );
+
+  useEffect(() => {
+    localStorage.setItem("activeTab", activeTab);
+  }, [activeTab]);
 
   return (
     <div class="tabs-container">
       <h1 class="tabs-title">Tabs Component with React</h1>
 
       <div class="tabs">
-        {tabs.map((tab, index) => (
+        {tabs.map((tab) => (
           <div
-            key={index}
-            class={`tab ${activeTab === index ? "active" : ""}`}
-            onClick={() => setActiveTab(index)}
+            key={tab.id}
+            class={`tab ${activeTab === tab.id ? "active" : ""}`}
+            onClick={() => setActiveTab(tab.id)}
           >
-            {tab}
+            {tab.name}
           </div>
         ))}
       </div>
@@ -31,12 +37,15 @@ export default function TabsComponent() {
       <div class="tab-content">
         <h2>{contents[activeTab]}</h2>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla venenatis ante augue.
-          Phasellus volutpat neque ac dui mattis vulputate. Etiam consequat aliquam cursus.
-          In sodales pretium ultricies. Maecenas lectus est, sollicitudin consectetur felis nec,
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla
+          venenatis ante augue. Phasellus volutpat neque ac dui mattis
+          vulputate. Etiam consequat aliquam cursus. In sodales pretium
+          ultricies. Maecenas lectus est, sollicitudin consectetur felis nec,
           feugiat ultrices mi.
         </p>
       </div>
     </div>
   );
-}
+};
+
+export default TabsComponent;
