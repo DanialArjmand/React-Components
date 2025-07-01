@@ -9,7 +9,7 @@ const TabsComponent = () => {
     { id: 3, name: "TAB 4" },
   ];
 
-  const contents = ["Content 1", "Content 2", "Content 3", "Content 4"];
+  const titles = ["Content 1", "Content 2", "Content 3", "Content 4"];
 
   const paragraphs = [
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum a neque ut nunc euismod euismod.",
@@ -19,7 +19,7 @@ const TabsComponent = () => {
   ];
 
   const [activeTab, setActiveTab] = useState(
-    parseInt(localStorage.getItem("activeTab")) || 0
+    Number(localStorage.getItem("activeTab")) || 0
   );
 
   useEffect(() => {
@@ -31,19 +31,19 @@ const TabsComponent = () => {
       <h1 class="tabs-title">Tabs Component with React</h1>
 
       <div class="tabs">
-        {tabs.map((tab) => (
+        {tabs.map(({ id, name }) => (
           <div
-            key={tab.id}
-            class={`tab ${activeTab === tab.id ? "active" : ""}`}
-            onClick={() => setActiveTab(tab.id)}
+            key={id}
+            class={`tab ${activeTab === id ? "active" : ""}`}
+            onClick={() => setActiveTab(id)}
           >
-            {tab.name}
+            {name}
           </div>
         ))}
       </div>
 
       <div class="tab-content">
-        <h2>{contents[activeTab]}</h2>
+        <h2>{titles[activeTab]}</h2>
         <p>{paragraphs[activeTab]}</p>
       </div>
     </div>
