@@ -9,7 +9,7 @@
 
 .tabs-title {
   background-color: #1e94f0;
-  color: white;
+  color: #fff;
   padding: 20px;
   margin: 0;
 }
@@ -21,18 +21,18 @@
 
 .tab {
   padding: 14px 20px;
-  color: white;
+  color: #fff;
   cursor: pointer;
 }
 
 .tab.active {
-  border-bottom: 3px solid yellow;
-  color: yellow;
+  border-bottom: 3px solid #ffff00;
+  color: #ffff00;
 }
 
 .tab-content {
   background-color: #1162bc;
-  color: white;
+  color: #fff;
   padding: 20px;
   height: 540px;
 }
