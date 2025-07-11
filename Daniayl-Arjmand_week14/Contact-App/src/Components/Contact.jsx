@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import ContactList from "./ContactList.jsx";
 
 function Contact() {
+  const [contacts, setContacts] = useState([]);
   const [contact, setContact] = useState({
     Name: "",
     LastName: "",
@@ -16,7 +18,13 @@ function Contact() {
   };
 
   const addHandler = () => {
-    console.log(contact);
+    setContacts((contacts) => [...contacts, contact]);
+    setContact({
+      Name: "",
+      LastName: "",
+      Email: "",
+      PhoneNumber: "",
+    });
   };
 
   return (
@@ -52,6 +60,7 @@ function Contact() {
         />
         <button onClick={addHandler}>افزودن مخاطب</button>
       </div>
+      <ContactList contacts={contacts} />
     </div>
   );
 }
