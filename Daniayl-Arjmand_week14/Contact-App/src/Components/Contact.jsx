@@ -3,6 +3,7 @@ import ContactList from "./ContactList.jsx";
 
 function Contact() {
   const [contacts, setContacts] = useState([]);
+  const [alert, setAlert] = useState("");
   const [contact, setContact] = useState({
     Name: "",
     LastName: "",
@@ -18,6 +19,16 @@ function Contact() {
   };
 
   const addHandler = () => {
+    if (
+      !contact.Name ||
+      !contact.LastName ||
+      !contact.Email ||
+      !contact.PhoneNumber
+    ) {
+      setAlert("لطفا مقدار معتبری وارد کنید!");
+      return;
+    }
+    setAlert("");
     setContacts((contacts) => [...contacts, contact]);
     setContact({
       Name: "",
@@ -60,6 +71,7 @@ function Contact() {
         />
         <button onClick={addHandler}>افزودن مخاطب</button>
       </div>
+      <div>{alert && <p>{alert}</p>}</div>
       <ContactList contacts={contacts} />
     </div>
   );
