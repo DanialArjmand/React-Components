@@ -43,6 +43,11 @@ function Contact() {
     });
   };
 
+  const deleteHandler = (id) => {
+    const newContacts = contacts.filter((contact) => contact.id !== id);
+    setContacts(newContacts);
+  };
+
   return (
     <div>
       <div className={Styles["parent-input"]}>
@@ -104,7 +109,7 @@ function Contact() {
 
         <button onClick={addHandler}>افزودن مخاطب</button>
       </div>
-      <ContactList contacts={contacts} />
+      <ContactList contacts={contacts} deleteHandler={deleteHandler} />
     </div>
   );
 }
