@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import ContactList from "./ContactList.jsx";
+import Styles from "./Contact.module.css";
 
 function Contact() {
   const [contacts, setContacts] = useState([]);
@@ -40,38 +41,55 @@ function Contact() {
 
   return (
     <div>
-      <div>
-        <input
-          type="text"
-          placeholder="نام"
-          name="Name"
-          value={contact.Name}
-          onChange={changeHandler}
-        />
-        <input
-          type="text"
-          placeholder="نام خانوادگی"
-          name="LastName"
-          value={contact.LastName}
-          onChange={changeHandler}
-        />
-        <input
-          type="email"
-          placeholder="ایمیل"
-          name="Email"
-          value={contact.Email}
-          onChange={changeHandler}
-        />
-        <input
-          type="number"
-          placeholder="شماره تلفن"
-          name="PhoneNumber"
-          value={contact.PhoneNumber}
-          onChange={changeHandler}
-        />
+      <div className={Styles["parent-input"]}>
+        <div>{alert && <p>{alert}</p>}</div>
+
+        <div>
+          <label>نام:</label>
+          <input
+            type="text"
+            placeholder="نام"
+            name="Name"
+            value={contact.Name}
+            onChange={changeHandler}
+          />
+        </div>
+
+        <div>
+          <label>نام خانوادگی:</label>
+          <input
+            type="text"
+            placeholder="نام خانوادگی"
+            name="LastName"
+            value={contact.LastName}
+            onChange={changeHandler}
+          />
+        </div>
+
+        <div>
+          <label>ایمیل:</label>
+          <input
+            type="email"
+            placeholder="ایمیل"
+            name="Email"
+            value={contact.Email}
+            onChange={changeHandler}
+          />
+        </div>
+
+        <div>
+          <label>شماره تلفن:</label>
+          <input
+            type="number"
+            placeholder="شماره تلفن"
+            name="PhoneNumber"
+            value={contact.PhoneNumber}
+            onChange={changeHandler}
+          />
+        </div>
+
         <button onClick={addHandler}>افزودن مخاطب</button>
       </div>
-      <div>{alert && <p>{alert}</p>}</div>
       <ContactList contacts={contacts} />
     </div>
   );

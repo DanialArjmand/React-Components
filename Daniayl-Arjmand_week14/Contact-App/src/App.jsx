@@ -4,7 +4,7 @@ import Contact from "./Components/Contact.jsx";
 function App() {
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <Contact />
     </>
   );
