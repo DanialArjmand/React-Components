@@ -1,42 +1,35 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Header from "./Components/Header.jsx";
 import Contact from "./Components/Contact.jsx";
 import ContactList from "./Components/ContactList.jsx";
-import styles from "./Components/Header.module.css";
 
 function App() {
   const [contacts, setContacts] = useState([]);
   const [showModal, setShowModal] = useState(false);
 
-
-  const deleteHandler = (id) => {
-    setContacts((prev) => prev.filter((contact) => contact.id !== id));
+  const addContact = (contact) => {
+    setContacts((prev) => [...prev, contact]);
   };
 
   return (
-    <div>
-      <Header onAddContactClick={() => setShowModal(true)} />
-
-      {showModal && (
-        <div className={styles.modalBackdrop}>
-          <div className={styles.modalContent}>
-            <button
-              className={styles.closeButton}
-              onClick={() => setShowModal(false)}
-            >
-              بستن
-            </button>
-            <Contact
-              contacts={contacts}
-              setContacts={setContacts}
-              closeModal={() => setShowModal(false)}
-            />
-          </div>
-        </div>
+    <>
+      {!showModal && (
+        <Header
+          onOpenModal={() => setShowModal(true)}
+          contacts={contacts}
+          deleteHandler={(id) =>
+            setContacts(contacts.filter((c) => c.id !== id))
+          }
+        />
       )}
 
-      <ContactList contacts={contacts} deleteHandler={deleteHandler} />
-    </div>
+      {showModal && (
+        <Contact
+          addContact={addContact}
+          onCloseModal={() => setShowModal(false)}
+        />
+      )}
+    </>
   );
 }
 
