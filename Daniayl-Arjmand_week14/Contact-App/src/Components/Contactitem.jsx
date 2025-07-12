@@ -1,4 +1,7 @@
 import React from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
+
 
 function Contactitem({
   data: { id, Name, LastName, Email, Phone },
@@ -10,7 +13,10 @@ function Contactitem({
         {Name} {LastName}
       </p>
       <p>
-        <span></span> {Email}
+        <span>
+          <FontAwesomeIcon icon={faEnvelope} />
+        </span>
+        {Email}
       </p>
       <p>
         <span></span> {Phone}

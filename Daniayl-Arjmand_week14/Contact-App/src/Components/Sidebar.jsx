@@ -3,7 +3,7 @@ import Styles from "./Sidebar.module.css"
 function Sidebar() {
   return (
     <div className={Styles.side}>
-        <div></div>
+        <div>لیست ها</div>
         <div></div>
         <div></div>
         <div></div>

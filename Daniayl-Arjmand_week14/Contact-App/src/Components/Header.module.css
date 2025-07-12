@@ -10,7 +10,7 @@
 }
 
 .header {
-  width: 80%;
+  width: 90%;
   height: 50px;
   display: flex;
   flex-direction: row;
@@ -28,7 +28,7 @@
   border-radius: 50%;
   font-size: 1.5rem;
   border: none;
-  background-color: #ff9000;
+  background-color: #a4133c;
   color: #fff;
   cursor: pointer;
 }
