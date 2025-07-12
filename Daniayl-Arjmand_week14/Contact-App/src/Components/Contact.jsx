@@ -1,15 +1,18 @@
 import React, { useState } from "react";
 import ContactList from "./ContactList.jsx";
 import Styles from "./Contact.module.css";
+// import input from "../Constants/input.js";
+import { v4 } from "uuid";
 
 function Contact() {
   const [contacts, setContacts] = useState([]);
   const [alert, setAlert] = useState("");
   const [contact, setContact] = useState({
+    id: "",
     Name: "",
     LastName: "",
     Email: "",
-    PhoneNumber: "",
+    Phone: "",
   });
 
   const changeHandler = (event) => {
@@ -24,24 +27,35 @@ function Contact() {
       !contact.Name ||
       !contact.LastName ||
       !contact.Email ||
-      !contact.PhoneNumber
+      !contact.Phone
     ) {
       setAlert("لطفا مقدار معتبری وارد کنید!");
       return;
     }
     setAlert("");
-    setContacts((contacts) => [...contacts, contact]);
+    const newContact = { ...contact, id: v4() };
+    setContacts((contacts) => [...contacts, newContact]);
     setContact({
       Name: "",
       LastName: "",
       Email: "",
-      PhoneNumber: "",
+      Phone: "",
     });
   };
 
   return (
     <div>
       <div className={Styles["parent-input"]}>
+        {/* {input.map((input, index) => (
+          <input
+            key={index}
+            type={input.type}
+            name={input.name}
+            placeholder={input.placeholder}
+            value={contact[input.name]}
+            onChange={changeHandler}
+          />
+        ))} */}
         <div>{alert && <p>{alert}</p>}</div>
 
         <div>
@@ -82,8 +96,8 @@ function Contact() {
           <input
             type="number"
             placeholder="شماره تلفن"
-            name="PhoneNumber"
-            value={contact.PhoneNumber}
+            name="Phone"
+            value={contact.Phone}
             onChange={changeHandler}
           />
         </div>
