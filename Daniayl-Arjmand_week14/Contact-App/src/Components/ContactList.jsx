@@ -1,13 +1,19 @@
+import Contactitem from "./Contactitem";
+
 function ContactList({ contacts }) {
   console.log(contacts);
   return (
     <div>
       <h3>Contact List</h3>
-      <ul>
-        {contacts.map((contact) => (
-          <li key={contact.id}>{contact.name}</li>
-        ))}
-      </ul>
+      {contacts.length ? (
+        <ul>
+          {contacts.map((contact) => (
+            <Contactitem key={contact.id} data={contact} />
+          ))}
+        </ul>
+      ) : (
+        <p>هیج مخاطبی وجود نداره!</p>
+      )}
     </div>
   );
 }

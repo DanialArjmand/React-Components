@@ -2,6 +2,7 @@ import styles from "./Header.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser as faUserRegular } from "@fortawesome/free-regular-svg-icons";
 import Sidebar from "./Sidebar";
+import ContactList from "./ContactList.jsx";
 
 function Header() {
   return (
@@ -18,6 +19,7 @@ function Header() {
           </div>
         </div>
       </div>
+      <ContactList contacts={contacts} />
     </>
   );
 }
