@@ -33,9 +33,36 @@ function Contact({
       setAlert("لطفا همه مقادیر را وارد کنید!");
       return;
     }
+    if (contact.Name.trim().length < 2) {
+      setAlert("نام باید حداقل ۲ حرف باشد!");
+      return;
+    }
+
+    if (contact.LastName.trim().length < 2) {
+      setAlert("نام خانوادگی باید حداقل ۲ حرف باشد!");
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(contact.Email)) {
+      setAlert("ایمیل وارد شده معتبر نیست!");
+      return;
+    }
+
+    const phoneRegex = /^0\d{9,10}$/;
+    if (!phoneRegex.test(contact.Phone)) {
+      setAlert("شماره تلفن باید با 0 شروع شود و 10 تا 11 رقم داشته باشد!");
+      return;
+    }
+
+    if (!contact.Gender) {
+      setAlert("لطفاً جنسیت را انتخاب کنید!");
+      return;
+    }
+
     setAlert("");
     addContact({ ...contact, id: v4() });
-    setSuccessMessage("✅ مخاطب با موفقیت اضافه شد!");
+    setSuccessMessage("✅ مخاطب با موفقیت اضافه شد.");
     setTimeout(() => {
       setSuccessMessage("");
     }, 3000);
@@ -132,7 +159,7 @@ function Contact({
             افزودن مخاطب
           </button>
           <button className={Styles["butt-2"]} onClick={onCloseModal}>
-            بستن
+            برگشت
           </button>
         </div>
       </div>
