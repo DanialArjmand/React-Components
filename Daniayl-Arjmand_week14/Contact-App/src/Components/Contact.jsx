@@ -2,7 +2,12 @@ import React, { useState } from "react";
 import Styles from "./Contact.module.css";
 import { v4 } from "uuid";
 
-function Contact({ addContact, onCloseModal }) {
+function Contact({
+  addContact,
+  onCloseModal,
+  successMessage,
+  setSuccessMessage,
+}) {
   const [alert, setAlert] = useState("");
   const [contact, setContact] = useState({
     Name: "",
@@ -30,6 +35,10 @@ function Contact({ addContact, onCloseModal }) {
     }
     setAlert("");
     addContact({ ...contact, id: v4() });
+    setSuccessMessage("✅ مخاطب با موفقیت اضافه شد!");
+    setTimeout(() => {
+      setSuccessMessage("");
+    }, 3000);
 
     setContact({
       Name: "",
@@ -44,6 +53,9 @@ function Contact({ addContact, onCloseModal }) {
     <div className={Styles["modal-backdrop"]}>
       <div className={Styles["modal"]}>
         <div className={Styles["alert"]}>{alert && <p>{alert}</p>}</div>
+        {successMessage && (
+          <p className={Styles["success-message"]}>{successMessage}</p>
+        )}
 
         <div>
           <label>نام:</label>

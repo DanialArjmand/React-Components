@@ -6,6 +6,7 @@ import ContactList from "./Components/ContactList.jsx";
 function App() {
   const [contacts, setContacts] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
 
   const addContact = (contact) => {
     setContacts((prev) => [...prev, contact]);
@@ -27,6 +28,8 @@ function App() {
         <Contact
           addContact={addContact}
           onCloseModal={() => setShowModal(false)}
+          successMessage={successMessage}
+          setSuccessMessage={setSuccessMessage}
         />
       )}
     </>
