@@ -4,7 +4,7 @@ import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
 
 
 function Contactitem({
-  data: { id, Name, LastName, Email, Phone },
+  data: { id, Name, LastName, Email, Phone ,Gender },
   deleteHandler,
 }) {
   return (
@@ -20,6 +20,9 @@ function Contactitem({
       </p>
       <p>
         <span></span> {Phone}
+      </p>
+      <p>
+        {Gender}
       </p>
       <button onClick={() => deleteHandler(id)}>حذف</button>
     </li>

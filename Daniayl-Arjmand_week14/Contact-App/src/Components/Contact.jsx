@@ -9,6 +9,7 @@ function Contact({ addContact, onCloseModal }) {
     LastName: "",
     Email: "",
     Phone: "",
+    Gender: "",
   });
 
   const changeHandler = (event) => {
@@ -21,9 +22,10 @@ function Contact({ addContact, onCloseModal }) {
       !contact.Name ||
       !contact.LastName ||
       !contact.Email ||
-      !contact.Phone
+      !contact.Phone ||
+      !contact.Gender
     ) {
-      setAlert("لطفا مقدار معتبری وارد کنید!");
+      setAlert("لطفا همه مقادیر را وارد کنید!");
       return;
     }
     setAlert("");
@@ -34,6 +36,7 @@ function Contact({ addContact, onCloseModal }) {
       LastName: "",
       Email: "",
       Phone: "",
+      Gender: "",
     });
   };
 
@@ -86,9 +89,39 @@ function Contact({ addContact, onCloseModal }) {
           />
         </div>
 
+        <div>
+          <label>جنسیت:</label>
+          <div className={Styles["gender-group"]}>
+            <label>
+              <input
+                type="radio"
+                name="Gender"
+                value="مرد"
+                checked={contact.Gender === "مرد"}
+                onChange={changeHandler}
+              />
+              مرد
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="Gender"
+                value="زن"
+                checked={contact.Gender === "زن"}
+                onChange={changeHandler}
+              />
+              زن
+            </label>
+          </div>
+        </div>
+
         <div className={Styles["parent-butt"]}>
-          <button className={Styles["butt-1"]} onClick={addHandler}>افزودن مخاطب</button>
-          <button className={Styles["butt-2"]} onClick={onCloseModal}>بستن</button>
+          <button className={Styles["butt-1"]} onClick={addHandler}>
+            افزودن مخاطب
+          </button>
+          <button className={Styles["butt-2"]} onClick={onCloseModal}>
+            بستن
+          </button>
         </div>
       </div>
     </div>

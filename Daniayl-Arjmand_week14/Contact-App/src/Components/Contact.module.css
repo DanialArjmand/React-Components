@@ -91,3 +91,25 @@
   transition: 0.1s all ease-in-out;
   color: #fff;
 }
+
+::placeholder {
+  padding: 0 10px;
+}
+
+.gender-group {
+  width: 60%;
+  display: flex;
+  gap: 20px;
+  color: #fff;
+}
+
+.gender-group label {
+  gap: 5px;
+  font-size: 1.1rem;
+}
+
+.gender-group input[type="radio"] {
+  width: 20px;
+  height: 20px;
+  /* accent-color: #00a77b; */
+}
