@@ -27,22 +27,25 @@
 
 .modal div {
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
   padding: 10px;
 }
 
 .modal label {
-  width: 120px; 
+  width: 120px;
+  font-size: 1.1rem;
   text-align: right;
-  margin-left: 1rem;
+  margin-left: 15px;
+  color: #fff;
 }
 
 .modal input {
-  flex: 1;
+  /* flex: 1; */
+  width: 60%;
   height: 50px;
   border: 1px solid #ccc;
-  border-radius: 10px;
+  border-radius: 20px 0 20px 0;
 }
 
 .modal input:focus {
@@ -54,5 +57,37 @@
   width: 30%;
   height: 50px;
   color: #fff;
-  background-color: #fff;
+  /* background-color: #fff; */
+}
+
+.butt-1 {
+  width: 200px;
+  height: 50px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin: 50px 50px 0;
+  font-size: 1.1rem;
+}
+
+.butt-1:hover {
+  background-color: #00a77b;
+  transition: 0.1s all ease-in-out;
+  color: #fff;
+}
+
+.butt-2 {
+  width: 200px;
+  height: 50px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin: 50px 50px 0;
+  font-size: 1.1rem;
+}
+
+.butt-2:hover {
+  background-color: #ca2228;
+  transition: 0.1s all ease-in-out;
+  color: #fff;
 }
