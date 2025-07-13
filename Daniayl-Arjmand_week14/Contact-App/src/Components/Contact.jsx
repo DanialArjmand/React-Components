@@ -17,13 +17,17 @@ function Contact({ addContact, onCloseModal }) {
   };
 
   const addHandler = () => {
-    if (!contact.Name || !contact.LastName || !contact.Email || !contact.Phone) {
+    if (
+      !contact.Name ||
+      !contact.LastName ||
+      !contact.Email ||
+      !contact.Phone
+    ) {
       setAlert("لطفا مقدار معتبری وارد کنید!");
       return;
     }
     setAlert("");
     addContact({ ...contact, id: v4() });
-
 
     setContact({
       Name: "",
@@ -36,7 +40,7 @@ function Contact({ addContact, onCloseModal }) {
   return (
     <div className={Styles["modal-backdrop"]}>
       <div className={Styles["modal"]}>
-        <div>{alert && <p>{alert}</p>}</div>
+        <div className={Styles["alert"]}>{alert && <p>{alert}</p>}</div>
 
         <div>
           <label>نام:</label>
@@ -82,8 +86,10 @@ function Contact({ addContact, onCloseModal }) {
           />
         </div>
 
-        <button onClick={addHandler}>افزودن مخاطب</button>
-        <button onClick={onCloseModal}>بستن</button>
+        <div className={Styles["parent-butt"]}>
+          <button className={Styles["butt-1"]} onClick={addHandler}>افزودن مخاطب</button>
+          <button className={Styles["butt-2"]} onClick={onCloseModal}>بستن</button>
+        </div>
       </div>
     </div>
   );

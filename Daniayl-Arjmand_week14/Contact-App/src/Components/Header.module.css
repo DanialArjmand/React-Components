@@ -4,7 +4,7 @@
   box-sizing: border-box;
 } */
 
- .header-root {
+.header-root {
   display: flex;
   width: 100%;
 
@@ -21,7 +21,7 @@
   margin: 10px 10px;
   box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
   border-radius: 10px;
-} 
+}
 
 .secend-child {
   width: 100%;
@@ -38,6 +38,11 @@
   background-color: #a4133c;
   color: #fff;
   cursor: pointer;
+}
+
+.plusButt button:hover {
+  background-color: #590d22;
+  transition: 0.1s all ease-in-out;
 }
 
 .contact-text {

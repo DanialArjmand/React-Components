@@ -40,13 +40,49 @@
   right: 0;
   left: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: #eff7f6;
 }
 
 .modal {
-  background: white;
-  padding: 2rem;
-  margin: 5rem auto;
-  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  background: #006d77;
+  /* background: #07beb8; */
+  padding: 32px;
+  margin: 80px auto;
+  max-width: 1100px;
+  height: 550px;
   border-radius: 8px;
+}
+
+.modal div {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 10px;
+}
+
+.modal label {
+  width: 120px; /* عرض ثابت برای لیبل‌ها */
+  text-align: right; /* تراز متن لیبل */
+  margin-left: 1rem;
+}
+
+.modal input {
+  flex: 1;
+  height: 50px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+
+.modal input:focus {
+  outline: none;
+  border: 2px solid #07beb8;
+}
+
+.alert {
+  width: 30%;
+  height: 50px;
+  color: #fff;
+  background-color: #fff;
 }

@@ -4,7 +4,7 @@ import Styles from "./ContactList.module.css"
 function ContactList({ contacts, deleteHandler }) {
   return (
     <div className={Styles["parent-list"]}>
-      <h3>Contact List</h3>
+      {/* <h3>Contact List</h3> */}
       {contacts.length ? (
         <ul>
           {contacts.map((contact) => (
