@@ -4,7 +4,7 @@ import { faUser as faUserRegular } from "@fortawesome/free-regular-svg-icons";
 import Sidebar from "./Sidebar";
 import ContactList from "./ContactList";
 
-function Header({ onOpenModal, contacts, deleteHandler }) {
+function Header({ onOpenModal, contacts, deleteHandler, editHandler }) {
   return (
     <div className={styles["header-root"]}>
       <Sidebar />
@@ -20,7 +20,11 @@ function Header({ onOpenModal, contacts, deleteHandler }) {
         </div>
 
         <div>
-          <ContactList contacts={contacts} deleteHandler={deleteHandler} />
+          <ContactList
+            contacts={contacts}
+            deleteHandler={deleteHandler}
+            editHandler={editHandler}
+          />
         </div>
       </div>
     </div>

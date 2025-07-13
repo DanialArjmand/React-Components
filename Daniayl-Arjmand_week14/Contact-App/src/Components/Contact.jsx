@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Styles from "./Contact.module.css";
 import { v4 } from "uuid";
 
 function Contact({
   addContact,
+  updateContact,
+  editingContact,
   onCloseModal,
   successMessage,
   setSuccessMessage,
@@ -17,12 +19,18 @@ function Contact({
     Gender: "",
   });
 
+  useEffect(() => {
+    if (editingContact) {
+      setContact(editingContact);
+    }
+  }, [editingContact]);
+
   const changeHandler = (event) => {
     const { name, value } = event.target;
     setContact((prev) => ({ ...prev, [name]: value }));
   };
 
-  const addHandler = () => {
+  const submitHandler = () => {
     if (
       !contact.Name ||
       !contact.LastName ||
@@ -33,6 +41,7 @@ function Contact({
       setAlert("لطفا همه مقادیر را وارد کنید!");
       return;
     }
+
     if (contact.Name.trim().length < 2) {
       setAlert("نام باید حداقل ۲ حرف باشد!");
       return;
@@ -55,14 +64,16 @@ function Contact({
       return;
     }
 
-    if (!contact.Gender) {
-      setAlert("لطفاً جنسیت را انتخاب کنید!");
-      return;
+    setAlert("");
+
+    if (editingContact) {
+      updateContact(contact);
+      setSuccessMessage("✅ مخاطب با موفقیت ویرایش شد.");
+    } else {
+      addContact({ ...contact, id: v4() });
+      setSuccessMessage("✅ مخاطب با موفقیت اضافه شد.");
     }
 
-    setAlert("");
-    addContact({ ...contact, id: v4() });
-    setSuccessMessage("✅ مخاطب با موفقیت اضافه شد.");
     setTimeout(() => {
       setSuccessMessage("");
     }, 3000);
@@ -155,8 +166,8 @@ function Contact({
         </div>
 
         <div className={Styles["parent-butt"]}>
-          <button className={Styles["butt-1"]} onClick={addHandler}>
-            افزودن مخاطب
+          <button className={Styles["butt-1"]} onClick={submitHandler}>
+            {editingContact ? "ویرایش مخاطب" : "افزودن مخاطب"}
           </button>
           <button className={Styles["butt-2"]} onClick={onCloseModal}>
             برگشت

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Contactitem from "./Contactitem";
 import Styles from "./ContactList.module.css";
 
-function ContactList({ contacts, deleteHandler }) {
+function ContactList({ contacts, deleteHandler, editHandler }) {
   const [showConfirm, setShowConfirm] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
 
@@ -31,6 +31,7 @@ function ContactList({ contacts, deleteHandler }) {
               key={contact.id}
               data={contact}
               deleteHandler={handlerDelete}
+              editHandler={editHandler}
             />
           ))}
         </ul>
@@ -43,8 +44,12 @@ function ContactList({ contacts, deleteHandler }) {
           <div className={Styles["modal-content"]}>
             <p>آیا از حذف این مخاطب مطمئن هستید؟</p>
             <div>
-              <button className={Styles["butt-yes"]} onClick={confirmDelete}>بله</button>
-              <button className={Styles["butt-no"]} onClick={cancelDelete}>خیر</button>
+              <button className={Styles["butt-yes"]} onClick={confirmDelete}>
+                بله
+              </button>
+              <button className={Styles["butt-no"]} onClick={cancelDelete}>
+                خیر
+              </button>
             </div>
           </div>
         </div>
