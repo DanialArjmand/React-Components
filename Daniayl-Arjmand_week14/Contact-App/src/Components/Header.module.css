@@ -35,13 +35,13 @@
   border-radius: 50%;
   font-size: 1.5rem;
   border: none;
-  background-color: #a4133c;
+  background-color: #006d77;
   color: #fff;
   cursor: pointer;
 }
 
 .plusButt button:hover {
-  background-color: #590d22;
+  background-color: #004146;
   transition: 0.1s all ease-in-out;
 }
 
