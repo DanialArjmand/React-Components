@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Input from "./input.jsx";
 import data from "./cities.json";
 
@@ -7,6 +7,7 @@ function App() {
   const [suggestions, setSuggestions] = useState([]);
   const [ghost, setGhost] = useState("");
   const [activeIndex, setActiveIndex] = useState(-1);
+  const listRef = useRef(null);
 
   const handleChange = (event) => {
     const valid = event.target.value.toLowerCase();
@@ -57,6 +58,16 @@ function App() {
     } else {
       setGhost(value);
     }
+
+    if (listRef.current && activeIndex >= 0) {
+      const activeItem = listRef.current.children[activeIndex];
+      if (activeItem) {
+        activeItem.scrollIntoView({
+          block: "nearest",
+          behavior: "smooth",
+        });
+      }
+    }
   }, [activeIndex, suggestions, value]);
 
   return (
@@ -69,7 +80,7 @@ function App() {
       />
 
       {suggestions.length > 0 && (
-        <ul className="suggestion-list">
+        <ul ref={listRef} className="suggestion-list">
           {suggestions.map((item, index) => (
             <li
               key={index}
