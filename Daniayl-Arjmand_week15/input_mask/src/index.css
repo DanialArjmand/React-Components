@@ -1,62 +1,83 @@
+/* reset */
 body {
   margin: 0;
+  padding: 0;
+  background: #f2f2f2;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background-color: #cfb89c;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  min-height: 100vh;
+  padding-top: 100px;
+}
+
+.container {
+  width: 500px;
+  position: relative;
 }
 
 .input {
   position: relative;
-  width: 650px;
-  height: 500px;
-  margin: 20px auto;
-  display: flex;
-  align-items: center;
+  width: 100%;
 }
 
 .input input {
+  position: relative;
   width: 100%;
-  height: 45px;
-  font-size: 30px;
-  padding-left: 5px;
-  font-family: inherit;
-  border-radius: 30px;
+  height: 50px;
+  font-size: 22px;
+  padding-left: 15px;
+  border-radius: 25px;
   border: none;
   outline: none;
   position: relative;
   z-index: 2;
-  color: black;
+  background: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.input input::placeholder {
+  color: #aaa;
 }
 
 .input .ghost-text {
   position: absolute;
-  left: 5px;
-  height: 45px;
-  line-height: 45px;
-  font-size: 30px;
-  color: #000000;
-  white-space: pre;
+  left: 15px;
+  top: 0;
+  font-size: 22px;
+  height: 50px;
+  line-height: 50px;
+  z-index: 1;
+  color: #000;
   pointer-events: none;
-  z-index: 3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .input .ghost-suggestion {
-  color: #a3a3a3;
+  color: #aaa;
 }
 
-/* .input label {
-  width: 100px;
-  position: absolute;
-  left: 7px;
-  top: 0;
-  bottom: 0;
-  font-size: 30px;
-  opacity: 0.3;
-  z-index: 1;
-  user-select: none;
-  display: flex;
-  align-items: center;
-} */
+.suggestion-list {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0 0;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.suggestion-item {
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.suggestion-item:hover {
+  background: #f1f1f1;
+}

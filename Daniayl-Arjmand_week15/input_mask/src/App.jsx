@@ -4,30 +4,45 @@ import data from "./cities.json";
 
 function App() {
   const [value, setValue] = useState("");
-  const [suggestion, setSuggestion] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [ghost, setGhost] = useState("");
 
   const handleChange = (event) => {
-    const val = event.target.value;
-    setValue(val);
+    const valid = event.target.value.toLowerCase();
+    setValue(valid);
 
-    const match = data.find((item) =>
-      item.toLowerCase().startsWith(val.toLowerCase())
-    );
-
-    if (match) {
-      setSuggestion(match);
-    } else {
-      setSuggestion(val);
+    if (valid === "") {
+      setSuggestions([]);
+      setGhost("");
+      return;
     }
+
+    const matches = data.filter((item) => item.toLowerCase().startsWith(valid));
+
+    setSuggestions(matches);
+
+    if (matches.length > 0) {
+      setGhost(matches[0]);
+    } else {
+      setGhost(valid);
+    }
+    console.log("Matches:", matches);
+    console.log("Suggestions:", suggestions);
   };
 
   return (
-    <div>
-      <Input
-        value={value}
-        handleChange={handleChange}
-        suggestion={suggestion}
-      />
+    <div className="container">
+      <Input value={value} handleChange={handleChange} ghost={ghost} />
+
+      {suggestions.length > 0 && (
+        <ul className="suggestion-list">
+          {suggestions.map((item, index) => (
+            <li key={index} className="suggestion-item">
+              {item}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
