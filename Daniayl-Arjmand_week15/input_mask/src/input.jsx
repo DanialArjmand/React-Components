@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass, faXmark } from "@fortawesome/free-solid-svg-icons";
 import "./index.css";
 
-const Input = ({ value, handleChange, ghost }) => {
+const Input = ({ value, handleChange, ghost, handleKeyDown }) => {
   const showGhost =
     ghost.toLowerCase().startsWith(value.toLowerCase()) &&
     ghost.length > value.length;
@@ -28,6 +28,7 @@ const Input = ({ value, handleChange, ghost }) => {
         type="text"
         value={value}
         onChange={handleChange}
+        onKeyDown={handleKeyDown}
         autoComplete="off"
         placeholder="Search..."
       />

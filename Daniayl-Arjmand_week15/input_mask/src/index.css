@@ -55,7 +55,7 @@ body {
     linear-gradient(270deg, #ff0080, #7928ca, #2afadf, #ff0080);
   background-origin: padding-box, border-box;
   background-clip: padding-box, border-box;
-  animation: spin-border 2.5s linear infinite;
+  animation: spin-border 5s linear infinite;
 }
 
 @keyframes spin-border {
@@ -128,4 +128,8 @@ body {
   transform: translateY(-50%);
   z-index: 4;
   cursor: pointer;
+}
+
+.suggestion-item.is-active {
+  background: #f0f0f0;
 }
