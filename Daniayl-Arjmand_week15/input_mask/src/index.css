@@ -38,10 +38,23 @@ body {
   z-index: 2;
   background: white;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  border: 3px solid transparent;
+  border-radius: 25px;
 }
 
 .input input::placeholder {
   color: #aaa;
+}
+
+.input input:focus {
+  
+  border: 3px solid transparent;
+  border-radius: 25px;
+  background: linear-gradient(white, white) padding-box,
+    linear-gradient(270deg, #ff0080, #7928ca, #2afadf) border-box;
+  background-origin: padding-box, border-box;
+  background-clip: padding-box, border-box;
+  animation: spin-border 3s linear infinite;
 }
 
 .input .ghost-text {
@@ -51,10 +64,10 @@ body {
   font-size: 22px;
   height: 50px;
   line-height: 50px;
-  z-index: 1;
+  z-index: 2;
   color: #000;
   pointer-events: none;
-  white-space: nowrap;
+  white-space: pre;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -89,7 +102,8 @@ body {
   left: 15px;
   top: 50%;
   transform: translateY(-50%);
-  z-index: 3;
+  z-index: 4;
+  pointer-events: none;
 }
 
 .input .clear-icon {
@@ -97,6 +111,6 @@ body {
   right: 0;
   top: 50%;
   transform: translateY(-50%);
-  z-index: 3;
+  z-index: 4;
   cursor: pointer;
 }
