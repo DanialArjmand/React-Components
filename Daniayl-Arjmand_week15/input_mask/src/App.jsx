@@ -30,6 +30,12 @@ function App() {
     console.log("Suggestions:", suggestions);
   };
 
+  const handleSuggestionClick = (city) => {
+    setValue(city);
+    setSuggestions([]);
+    setGhost("");
+  };
+
   return (
     <div className="container">
       <Input value={value} handleChange={handleChange} ghost={ghost} />
@@ -37,7 +43,11 @@ function App() {
       {suggestions.length > 0 && (
         <ul className="suggestion-list">
           {suggestions.map((item, index) => (
-            <li key={index} className="suggestion-item">
+            <li
+              key={index}
+              className="suggestion-item"
+              onClick={() => handleSuggestionClick(item)}
+            >
               {item}
             </li>
           ))}
