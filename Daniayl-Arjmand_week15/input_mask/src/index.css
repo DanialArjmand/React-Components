@@ -22,24 +22,27 @@ body {
   position: relative;
   width: 100%;
   height: 50px;
+  font-size: 22px;
+  line-height: 50px;
 }
 
 .input input {
   position: relative;
   width: 100%;
-  height: 50px;
-  font-size: 22px;
-  /* padding-left: 40px; */
-  padding: 0 0 0 45px;
+  height: 100%;
+  padding: 0 45px;
   border-radius: 25px;
-  border: none;
+  border: 3px solid transparent;
   outline: none;
-  position: relative;
   z-index: 2;
   background: white;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-  border: 3px solid transparent;
-  border-radius: 25px;
+  box-sizing: border-box;
+  color: transparent;
+  caret-color: #333;
+  font-size: inherit;
+  font-family: inherit;
+  line-height: inherit;
 }
 
 .input input::placeholder {
@@ -47,29 +50,41 @@ body {
 }
 
 .input input:focus {
-  
-  border: 3px solid transparent;
-  border-radius: 25px;
-  background: linear-gradient(white, white) padding-box,
-    linear-gradient(270deg, #ff0080, #7928ca, #2afadf) border-box;
+  background-size: 300% 300%;
+  background-image: linear-gradient(white, white),
+    linear-gradient(270deg, #ff0080, #7928ca, #2afadf, #ff0080);
   background-origin: padding-box, border-box;
   background-clip: padding-box, border-box;
-  animation: spin-border 3s linear infinite;
+  animation: spin-border 2.5s linear infinite;
+}
+
+@keyframes spin-border {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .input .ghost-text {
   position: absolute;
-  left: 15px;
+  left: 45px;
+  right: 45px;
   top: 0;
-  font-size: 22px;
-  height: 50px;
-  line-height: 50px;
-  z-index: 2;
+  height: 100%;
+  z-index: 3;
   color: #000;
   pointer-events: none;
   white-space: pre;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: inherit;
+  font-family: inherit;
+  line-height: inherit;
 }
 
 .input .ghost-suggestion {
@@ -108,7 +123,7 @@ body {
 
 .input .clear-icon {
   position: absolute;
-  right: 0;
+  right: 15px;
   top: 50%;
   transform: translateY(-50%);
   z-index: 4;
