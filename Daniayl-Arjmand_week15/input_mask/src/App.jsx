@@ -10,7 +10,7 @@ function App() {
   const listRef = useRef(null);
 
   const handleChange = (event) => {
-    const valid = event.target.value.toLowerCase();
+    const valid = event.target.value;
     setValue(valid);
     setActiveIndex(-1);
 
@@ -19,7 +19,8 @@ function App() {
       setGhost("");
       return;
     }
-    const matches = data.filter((item) => item.toLowerCase().startsWith(valid));
+
+    const matches = data.filter((item) => item.startsWith(valid));
     setSuggestions(matches);
   };
 
