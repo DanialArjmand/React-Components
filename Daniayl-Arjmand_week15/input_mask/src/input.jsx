@@ -13,33 +13,37 @@ const Input = ({ value, handleChange, ghost, handleKeyDown }) => {
   };
 
   return (
-    <div className="input">
-      <div className="search-icon">
-        <FontAwesomeIcon icon={faMagnifyingGlass} size="lg" color="#aaa" />
-      </div>
+    <>
+      <h1 className="title">City Finder</h1>
 
-      <div className="ghost-text">
-        <span>{value}</span>
-        <span className="ghost-suggestion">
-          {showGhost ? ghost.slice(value.length) : ""}
-        </span>
-      </div>
-
-      <input
-        type="text"
-        value={value}
-        onChange={handleChange}
-        onKeyDown={handleKeyDown}
-        autoComplete="off"
-        placeholder="Search..."
-      />
-
-      {value && (
-        <div className="clear-icon" onClick={handleClear}>
-          <FontAwesomeIcon icon={faXmark} size="lg" color="#666" />
+      <div className="input">
+        <div className="search-icon">
+          <FontAwesomeIcon icon={faMagnifyingGlass} size="lg" color="#aaa" />
         </div>
-      )}
-    </div>
+
+        <div className="ghost-text">
+          <span>{value}</span>
+          <span className="ghost-suggestion">
+            {showGhost ? ghost.slice(value.length) : ""}
+          </span>
+        </div>
+
+        <input
+          type="text"
+          value={value}
+          onChange={handleChange}
+          onKeyDown={handleKeyDown}
+          autoComplete="off"
+          placeholder="Search..."
+        />
+
+        {value && (
+          <div className="clear-icon" onClick={handleClear}>
+            <FontAwesomeIcon icon={faXmark} size="lg" color="#666" />
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 
