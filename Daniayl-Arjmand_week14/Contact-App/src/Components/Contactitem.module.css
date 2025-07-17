@@ -33,6 +33,13 @@
   margin-left: 5px;
 }
 
+.butt-edit {
+  border: none;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+}
+
 .delete {
   border: none;
   background-color: antiquewhite;

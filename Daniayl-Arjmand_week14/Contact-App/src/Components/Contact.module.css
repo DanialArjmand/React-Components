@@ -11,28 +11,30 @@
   left: 0;
   bottom: 0;
   background: #eff7f6;
+  z-index: 100;
+  direction: rtl;
 }
 
 .modal {
   display: flex;
   flex-direction: column;
   background: #006d77;
-  /* background: #07beb8; */
   padding: 32px;
   margin: 80px auto;
   max-width: 1100px;
-  height: 600px;
+  height: auto;
+  min-height: 600px;
   border-radius: 8px;
 }
 
-.modal div {
+.form-row {
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 10px;
 }
 
-.modal label {
+.label {
   width: 120px;
   font-size: 1.1rem;
   text-align: right;
@@ -40,79 +42,95 @@
   color: #fff;
 }
 
-.modal input {
-  /* flex: 1; */
+.input,
+.select-category {
   width: 60%;
   height: 50px;
   border: 1px solid #ccc;
   border-radius: 20px 0 20px 0;
+  padding: 0 10px;
+  font-size: 1rem;
 }
 
-.modal input:focus {
+.select-category {
+  background-color: white;
+  color: #333;
+}
+
+.input:focus,
+.select-category:focus {
   outline: none;
   border: 2px solid #07beb8;
 }
 
 .alert {
-  width: 30%;
-  height: 50px;
-  color: #800000;
+  width: 100%;
+  min-height: 50px;
+  color: #ffdddd;
   font-size: 1.2rem;
-  /* background-color: #fff; */
+  text-align: center;
+  padding: 10px;
 }
 
-.butt-1 {
-  width: 200px;
-  height: 50px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  margin: 50px 50px 0;
-  font-size: 1.1rem;
+.alert p {
+  width: 100%;
+  background-color: #800000;
+  padding: 10px;
+  border-radius: 8px;
+  display: inline-block;
 }
 
-.butt-1:hover {
-  background-color: #00a77b;
-  transition: 0.1s all ease-in-out;
-  color: #fff;
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
 }
 
+.butt-1,
 .butt-2 {
   width: 200px;
   height: 50px;
   border: none;
   border-radius: 10px;
   cursor: pointer;
-  margin: 50px 50px 0;
+  margin: 50px 25px 0;
   font-size: 1.1rem;
+  background-color: #f0f0f0;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.butt-1:hover {
+  background-color: #00a77b;
+  color: #fff;
 }
 
 .butt-2:hover {
   background-color: #ca2228;
-  transition: 0.1s all ease-in-out;
   color: #fff;
-}
-
-::placeholder {
-  padding: 0 10px;
 }
 
 .gender-group {
   width: 60%;
   display: flex;
+  justify-content: center;
+  align-items: center;
   gap: 20px;
   color: #fff;
 }
 
-.gender-group label {
+.gender-label {
+  display: flex;
+  align-items: center;
   gap: 5px;
   font-size: 1.1rem;
+  width: auto;
+  margin: 0;
 }
 
-.gender-group input[type="radio"] {
+.radio-input {
   width: 20px;
   height: 20px;
-  /* accent-color: #00a77b; */
 }
 
 .success-message {

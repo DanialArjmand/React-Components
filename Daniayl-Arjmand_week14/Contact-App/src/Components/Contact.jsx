@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Styles from "./Contact.module.css";
 import { v4 } from "uuid";
+import Styles from "./Contact.module.css";
 
 function Contact({
   addContact,
@@ -17,11 +17,15 @@ function Contact({
     Email: "",
     Phone: "",
     Gender: "",
+    Category: "",
   });
 
   useEffect(() => {
     if (editingContact) {
-      setContact(editingContact);
+      setContact({
+        ...editingContact,
+        Category: editingContact.Category || "",
+      });
     }
   }, [editingContact]);
 
@@ -39,6 +43,11 @@ function Contact({
       !contact.Gender
     ) {
       setAlert("لطفا همه مقادیر را وارد کنید!");
+      return;
+    }
+
+    if (!contact.Category) {
+      setAlert("انتخاب حداقل یک دسته اجباری است!");
       return;
     }
 
@@ -84,20 +93,22 @@ function Contact({
       Email: "",
       Phone: "",
       Gender: "",
+      Category: "",
     });
   };
 
   return (
     <div className={Styles["modal-backdrop"]}>
-      <div className={Styles["modal"]}>
-        <div className={Styles["alert"]}>{alert && <p>{alert}</p>}</div>
+      <div className={Styles.modal}>
+        <div className={Styles.alert}>{alert && <p>{alert}</p>}</div>
         {successMessage && (
           <p className={Styles["success-message"]}>{successMessage}</p>
         )}
 
-        <div>
-          <label>نام:</label>
+        <div className={Styles["form-row"]}>
+          <label className={Styles.label}>نام:</label>
           <input
+            className={Styles.input}
             type="text"
             placeholder="نام"
             name="Name"
@@ -106,9 +117,10 @@ function Contact({
           />
         </div>
 
-        <div>
-          <label>نام خانوادگی:</label>
+        <div className={Styles["form-row"]}>
+          <label className={Styles.label}>نام خانوادگی:</label>
           <input
+            className={Styles.input}
             type="text"
             placeholder="نام خانوادگی"
             name="LastName"
@@ -117,9 +129,10 @@ function Contact({
           />
         </div>
 
-        <div>
-          <label>ایمیل:</label>
+        <div className={Styles["form-row"]}>
+          <label className={Styles.label}>ایمیل:</label>
           <input
+            className={Styles.input}
             type="email"
             placeholder="ایمیل"
             name="Email"
@@ -128,9 +141,10 @@ function Contact({
           />
         </div>
 
-        <div>
-          <label>شماره تلفن:</label>
+        <div className={Styles["form-row"]}>
+          <label className={Styles.label}>شماره تلفن:</label>
           <input
+            className={Styles.input}
             type="number"
             placeholder="شماره تلفن"
             name="Phone"
@@ -139,11 +153,30 @@ function Contact({
           />
         </div>
 
-        <div>
-          <label>جنسیت:</label>
+        <div className={Styles["form-row"]}>
+          <label className={Styles.label}>دسته بندی:</label>
+          <select
+            name="Category"
+            value={contact.Category}
+            onChange={changeHandler}
+            className={Styles["select-category"]}
+          >
+            <option value="" disabled>
+              یک دسته را انتخاب کنید
+            </option>
+            <option value="خانواده">خانواده</option>
+            <option value="همکار">همکار</option>
+            <option value="دوست">دوست</option>
+            <option value="سایر">سایر</option>
+          </select>
+        </div>
+
+        <div className={Styles["form-row"]}>
+          <label className={Styles.label}>جنسیت:</label>
           <div className={Styles["gender-group"]}>
-            <label>
+            <label className={Styles["gender-label"]}>
               <input
+                className={Styles["radio-input"]}
                 type="radio"
                 name="Gender"
                 value="مرد"
@@ -152,8 +185,9 @@ function Contact({
               />
               مرد
             </label>
-            <label>
+            <label className={Styles["gender-label"]}>
               <input
+                className={Styles["radio-input"]}
                 type="radio"
                 name="Gender"
                 value="زن"
@@ -165,7 +199,7 @@ function Contact({
           </div>
         </div>
 
-        <div className={Styles["parent-butt"]}>
+        <div className={Styles["button-container"]}>
           <button className={Styles["butt-1"]} onClick={submitHandler}>
             {editingContact ? "ویرایش مخاطب" : "افزودن مخاطب"}
           </button>

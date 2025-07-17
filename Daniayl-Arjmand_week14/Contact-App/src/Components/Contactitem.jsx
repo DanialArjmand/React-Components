@@ -1,12 +1,12 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
-import { faPhone, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faPhone, faUser, faPen } from "@fortawesome/free-solid-svg-icons";
 import Styles from "./Contactitem.module.css";
 import img from "../images/no-entry-symbol-svgrepo-com (1).svg";
 
 function Contactitem({
-  data: { id, Name, LastName, Email, Phone, Gender },
+  data: { id, Name, LastName, Email, Phone, Gender, Category },
   deleteHandler,
   editHandler,
 }) {
@@ -26,7 +26,11 @@ function Contactitem({
           {Phone}
         </p>
         <p className={Styles["gender"]}>{Gender}</p>
-        <button onClick={() => editHandler(id)}>ویرایش</button>
+        <p className={Styles["Category"]}>{Category}</p>
+
+        <button className={Styles["butt-edit"]} onClick={() => editHandler(id)}>
+          <FontAwesomeIcon icon={faPen} className={Styles["icon-edit"]} />
+        </button>
         <button className={Styles["delete"]} onClick={() => deleteHandler(id)}>
           <img src={img} alt="حذف" />
         </button>
