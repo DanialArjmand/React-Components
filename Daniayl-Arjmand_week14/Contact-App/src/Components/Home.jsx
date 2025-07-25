@@ -7,6 +7,11 @@ import { v4 } from "uuid";
 function Home() {
   const [contacts, setContacts] = useState([]);
   const [view, setView] = useState("home");
+  const [formVisible, setFormVisible] = useState(false);
+
+  const toggleForm = () => {
+    setFormVisible(!formVisible);
+  };
 
   const showListPage = () => {
     setView("list");
@@ -25,16 +30,18 @@ function Home() {
   };
 
   return (
-    <div className="home-root">
+    <div className={`home-root ${formVisible ? "visible" : ""}`}>
       {view === "home" ? (
         <>
           <div className="art-container">
-            <Inputs onSave={addContactHandler} />
+            <Inputs onSave={addContactHandler} onClose={toggleForm} />
           </div>
-
+          <div className="glass-overlay"></div>
           <div>
             <div className="text-container">
-              <button className="text-butt"> افزودن +</button>
+              <button className="text-butt" onClick={toggleForm}>
+                افزودن +
+              </button>
               <button className="text-butt" onClick={showListPage}>
                 لیست مخاطبین
               </button>

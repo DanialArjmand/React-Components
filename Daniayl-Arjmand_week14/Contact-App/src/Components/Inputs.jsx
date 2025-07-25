@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function Inputs({ onSave }) {
+function Inputs({ onSave, onClose }) {
   const [form, setForm] = useState({
     Name: "",
     LastName: "",
@@ -119,8 +119,12 @@ function Inputs({ onSave }) {
         </div>
       </div>
       <div className="butt-parent">
-        <button className="text-butt-state" onClick={submitHandler}>ذخیره</button>
-        <button className="text-butt-state">برگشت</button>
+        <button className="text-butt-state" onClick={submitHandler}>
+          ذخیره
+        </button>
+        <button className="text-butt-state" onClick={onClose}>
+          برگشت
+        </button>
       </div>
     </div>
   );
