@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./Home.css";
 import Inputs from "./Inputs";
 import ContactList from "./ContactList";
+import { v4 } from "uuid";
 
 function Home() {
   const [contacts, setContacts] = useState([]);
@@ -16,7 +17,11 @@ function Home() {
   };
 
   const addContactHandler = (contact) => {
-    setContacts((prevContacts) => [...prevContacts, contact]);
+    const contactWithId = {
+      ...contact,
+      id: v4(),
+    };
+    setContacts((prevContacts) => [...prevContacts, contactWithId]);
   };
 
   return (
@@ -50,14 +55,7 @@ function Home() {
         </>
       ) : (
         <div className="contact-list-page">
-          <ContactList contacts={contacts} />
-          <button
-            className="text-butt"
-            style={{ marginTop: "20px" }}
-            onClick={showHomePage}
-          >
-            بازگشت به صفحه اصلی
-          </button>
+          <ContactList contacts={contacts} onBack={showHomePage} />
         </div>
       )}
     </div>
