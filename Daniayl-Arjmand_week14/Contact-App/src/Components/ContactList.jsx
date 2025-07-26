@@ -4,7 +4,12 @@ import Styles from "./ContactList.module.css";
 function ContactList({ contacts, onBack }) {
   return (
     <div className={Styles["Parent-list"]}>
-      <h1>ContactList</h1>
+      <div className={Styles["title"]}>
+        <h1>لیست مخاطبین</h1>
+        <button className="text-butt" onClick={onBack}>
+          صفحه اصلی
+        </button>
+      </div>
       {contacts.map((contact) => (
         <div key={contact.id} className={Styles["item"]}>
           <p>
@@ -16,9 +21,6 @@ function ContactList({ contacts, onBack }) {
           <p>{contact.Gender}</p>
         </div>
       ))}
-      <button className="text-butt" onClick={onBack}>
-        صفحه اصلی
-      </button>
     </div>
   );
 }

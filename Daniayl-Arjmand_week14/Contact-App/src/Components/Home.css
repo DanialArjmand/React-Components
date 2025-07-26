@@ -47,7 +47,6 @@ body {
   padding: 0 30px;
   z-index: 1;
   background-color: #fff;
-  border-radius: 0;
   overflow: visible;
   /* background: url(../images/blob-scene-haikei.svg); */
   background-position: right center;
@@ -168,7 +167,7 @@ select:focus {
 .butt-parent {
   display: flex;
   width: 100%;
-  margin-top: 35px;
+  margin-top: 20px;
   justify-content: space-around;
 }
 
@@ -208,4 +207,86 @@ select:focus {
   background: url(../images/wave-haikei.svg);
   width: 100%;
   background-repeat: no-repeat;
+}
+
+.input-wrapper {
+  margin-bottom: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.input-container {
+  position: relative;
+  width: 300px;
+  display: flex;
+  align-items: center;
+}
+
+.input-container input {
+  width: 100%;
+}
+
+.input-error {
+  border: 2px solid #ff7b7b !important;
+  background-color: #fff2f2 !important;
+}
+
+.input-error:focus {
+  border: 2px solid #ff0000 !important;
+}
+
+.error-text {
+  color: #d32f2f;
+  font-size: 12px;
+  text-align: center;
+  width: 300px;
+  margin-right: 50px;
+}
+
+.icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+}
+
+.icon.error-icon {
+  color: #d32f2f;
+}
+
+.icon.success-icon {
+  color: #38a169;
+}
+
+.error-banner {
+  display: flex;
+  align-items: center;
+  background-color: #ffebee;
+  color: #c62828;
+  border: 1px solid #ffcdd2;
+  border-radius: 8px;
+  padding: 10px 15px;
+  margin-top: 10px;
+}
+
+.error-banner p {
+  margin: 0;
+  margin-right: 10px;
+}
+
+.inputs-error {
+  padding-bottom: 0;
+  padding-top: 15px;
+}
+
+.select-error {
+  padding-bottom: 0;
+  padding-top: 15px;
+}
+
+.gender-error {
+  padding-bottom: 0;
+  padding-top: 15px;
 }
