@@ -37,26 +37,24 @@ function Home() {
             <Inputs onSave={addContactHandler} onClose={toggleForm} />
           </div>
           <div className="glass-overlay"></div>
-          <div>
-            <div className="text-container">
-              <button className="text-butt" onClick={toggleForm}>
-                افزودن +
-              </button>
-              <button className="text-butt" onClick={showListPage}>
-                لیست مخاطبین
-              </button>
-              <button className="text-butt"> حالت تاریک</button>
-              <div className="text-content">
-                <h1>
-                  برنامه مخاطبین برای ثبت شماره و ایمیل های
-                  <span> تحت وب</span>
-                </h1>
-                <p>
-                  شما میتوانید با دکمه افزودن لیستی از مخاطبین را ثبت کنید و در
-                  هر فیلد اسم ، شماره تلفن ، ایمیل ، دسته بندی و جنسیت رو داشته
-                  باشید
-                </p>
-              </div>
+
+          <div className="text-container">
+            <button className="text-butt" onClick={toggleForm}>
+              افزودن +
+            </button>
+            <button className="text-butt" onClick={showListPage}>
+              لیست مخاطبین
+            </button>
+            <button className="text-butt"> حالت تاریک</button>
+            <div className="text-content">
+              <h1>
+                برنامه مخاطبین برای ثبت شماره و ایمیل های
+                <span> تحت وب</span>
+              </h1>
+              <p>
+                شما میتوانید با دکمه افزودن لیستی از مخاطبین را ثبت کنید و در هر
+                فیلد اسم ، شماره تلفن ، ایمیل ، دسته بندی و جنسیت رو داشته باشید
+              </p>
             </div>
           </div>
         </>

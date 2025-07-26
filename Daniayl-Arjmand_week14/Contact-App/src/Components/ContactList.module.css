@@ -1,0 +1,19 @@
+.Parent-list {
+  width: 100%;
+  display: flex;
+  justify-content:flex-start;
+  align-items: center;
+  flex-direction: column;
+}
+
+.item {
+  width: 800px;
+  height: 45px;
+  background-color: #e9ecef;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 10px;
+  border: 2px solid #5046e3;
+  margin: 30px;
+}
