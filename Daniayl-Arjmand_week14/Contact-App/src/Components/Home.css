@@ -114,7 +114,8 @@ button {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 20px 0;
+  min-height: 50px;
+  padding: 15px 0;
 }
 
 .inputs input {
@@ -139,7 +140,7 @@ select:focus {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 20px 0;
+  padding: 15px 0;
 }
 
 .select-op select {
@@ -154,7 +155,7 @@ select:focus {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 20px 0;
+  padding: 15px 0 0;
 }
 
 .gender-parent {
@@ -167,7 +168,6 @@ select:focus {
 .butt-parent {
   display: flex;
   width: 100%;
-  margin-top: 20px;
   justify-content: space-around;
 }
 
@@ -210,10 +210,11 @@ select:focus {
 }
 
 .input-wrapper {
-  margin-bottom: 5px;
+  /* margin-bottom: 10px; */
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-height: 76px;
 }
 
 .input-container {
@@ -268,8 +269,12 @@ select:focus {
   border: 1px solid #ffcdd2;
   border-radius: 8px;
   padding: 10px 15px;
-  margin-top: 10px;
 }
+
+/* .input-success {
+  border-color: #28a745 !important;
+  background-color: #f0fff4 !important;
+} */
 
 .error-banner p {
   margin: 0;
@@ -289,4 +294,38 @@ select:focus {
 .gender-error {
   padding-bottom: 0;
   padding-top: 15px;
+}
+
+.banner {
+  display: flex;
+  align-items: center;
+  border: 1px solid;
+  border-radius: 10px;
+  padding: 10px 15px;
+  transition: all 0.3s ease-in-out;
+  margin-top: 10px;
+}
+
+.banner p {
+  margin: 0;
+  margin-right: 10px;
+  font-weight: 500;
+}
+
+.banner-default {
+  background-color: #e3f2fd;
+  color: #1565c0;
+  border-color: #90caf9;
+}
+
+.banner-error {
+  background-color: #ffebee;
+  color: #c62828;
+  border-color: #ffcdd2;
+}
+
+.banner-success {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  border-color: #a5d6a7;
 }
