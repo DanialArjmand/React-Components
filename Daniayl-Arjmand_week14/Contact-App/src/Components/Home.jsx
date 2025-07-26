@@ -3,6 +3,12 @@ import "./Home.css";
 import Inputs from "./Inputs";
 import ContactList from "./ContactList";
 import { v4 } from "uuid";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faAddressBook,
+  faUserPlus,
+  faMoon,
+} from "@fortawesome/free-solid-svg-icons";
 
 function Home() {
   const [contacts, setContacts] = useState([]);
@@ -39,13 +45,22 @@ function Home() {
           <div className="glass-overlay"></div>
 
           <div className="text-container">
-            <button className="text-butt" onClick={toggleForm}>
-              افزودن +
-            </button>
-            <button className="text-butt" onClick={showListPage}>
-              لیست مخاطبین
-            </button>
-            <button className="text-butt"> حالت تاریک</button>
+            <div className="button-container">
+              <button className="text-butt-user" onClick={toggleForm}>
+                <span className="label-butt"> افزودن </span>
+                <FontAwesomeIcon icon={faUserPlus} className="icon-user" />
+              </button>
+
+              <button className="text-butt-list" onClick={showListPage}>
+                <span className="label-butt"> لیست مخاطبین </span>
+                <FontAwesomeIcon icon={faAddressBook} className="icon-list" />
+              </button>
+
+              <button className="text-butt-mode">
+                <span className="label-butt"> حالت شب</span>
+                <FontAwesomeIcon icon={faMoon} className="icon-moon" />
+              </button>
+            </div>
             <div className="text-content">
               <h1>
                 برنامه مخاطبین برای ثبت شماره و ایمیل های

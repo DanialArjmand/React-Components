@@ -89,7 +89,7 @@ span {
 
 .text-butt {
   width: 100px;
-  height: 40px;
+  height: 45px;
   margin-left: 25px;
   border: none;
   background-color: #000;
@@ -328,4 +328,157 @@ select:focus {
   background-color: #e8f5e9;
   color: #2e7d32;
   border-color: #a5d6a7;
+}
+
+.button-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  padding: 5px 0;
+}
+
+.text-butt-user {
+  position: relative;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: none;
+  background-color: #000000;
+  cursor: pointer;
+  overflow: hidden;
+  transition: width 0.4s ease-in-out, border-radius 0.4s ease-in-out;
+  margin: 5px;
+}
+
+.icon-user {
+  position: absolute;
+  font-size: 20px;
+  color: #ffffff;
+  top: 50%;
+  left: 22.5px;
+  transform: translate(-50%, -50%);
+  transition: transform 0.4s ease-in-out;
+}
+
+.label-butt {
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+  top: 50%;
+  left: 40px;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffffff;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+.text-butt-user:hover {
+  width: 90px;
+  border-radius: 20px;
+  border: none;
+}
+
+.text-butt-user:hover .label-butt {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0.1s;
+}
+
+.text-butt-list {
+  position: relative;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: none;
+  background-color: #000000;
+  cursor: pointer;
+  overflow: hidden;
+  transition: width 0.4s ease-in-out, border-radius 0.4s ease-in-out;
+  margin: 5px;
+}
+
+.icon-list {
+  position: absolute;
+  font-size: 22px;
+  color: #ffffff;
+  top: 50%;
+  left: 22.5px;
+  transform: translate(-50%, -50%);
+  transition: transform 0.4s ease-in-out;
+}
+
+.label-butt {
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+  top: 50%;
+  left: 40px;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffffff;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+.text-butt-list:hover {
+  width: 125px;
+  border-radius: 20px;
+}
+
+.text-butt-list:hover .label-butt {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0.1s;
+}
+
+.text-butt-mode {
+  position: relative;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: none;
+  background-color: #000000;
+  cursor: pointer;
+  overflow: hidden;
+  transition: width 0.4s ease-in-out, border-radius 0.4s ease-in-out;
+  margin: 5px;
+}
+
+.icon-moon {
+  position: absolute;
+  font-size: 22px;
+  color: #ffffff;
+  top: 50%;
+  left: 22.5px;
+  transform: translate(-50%, -50%);
+  transition: transform 0.4s ease-in-out;
+}
+
+.label-butt {
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+  top: 50%;
+  left: 40px;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffffff;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+.text-butt-mode:hover {
+  width: 100px;
+  border-radius: 20px;
+  border: none;
+}
+
+.text-butt-mode:hover .label-butt {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0.1s;
 }
