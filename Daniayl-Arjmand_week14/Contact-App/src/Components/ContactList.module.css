@@ -12,7 +12,7 @@
   justify-content: space-between;
   align-items: center;
   margin-top: 10px;
-  gap: 20px
+  gap: 20px;
 }
 
 .title h1 {
@@ -193,7 +193,7 @@
 
 .confirmButton {
   background-color: #000;
-  color: #FFF;
+  color: #fff;
 }
 .confirmButton:hover {
   background-color: #1fb172;
@@ -218,7 +218,7 @@
 
 .searchInput:focus {
   outline: none;
-  border-color: #5900FF;
+  border-color: #5900ff;
 }
 
 .noContactsMessage {
@@ -231,4 +231,42 @@
 
 .noContactsMessage p {
   font-size: 1.2rem;
+}
+
+.selectedItem {
+  background-color: #d6eaff;
+  border-color: #007bff;
+}
+
+.checkbox {
+  width: 20px;
+  height: 20px;
+  margin: 0 15px;
+  cursor: pointer;
+}
+
+.deleteSelectedButton {
+  width: 75px;
+  height: 38px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: "Yekan", sans-serif;
+  font-weight: bold;
+  transition: background-color 0.2s, color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.deleteSelectedButton {
+  background-color: #dc3545;
+  color: white;
+}
+.deleteSelectedButton:hover:not(:disabled) {
+  background-color: #c82333;
+}
+.deleteSelectedButton:disabled {
+  background-color: #a0a0a0;
+  cursor: not-allowed;
 }

@@ -10,7 +10,7 @@ import {
   faMoon,
 } from "@fortawesome/free-solid-svg-icons";
 
-function Home() {
+const Home = () => {
   const [contacts, setContacts] = useState([]);
   const [view, setView] = useState("home");
   const [formVisible, setFormVisible] = useState(false);
@@ -57,13 +57,11 @@ function Home() {
     setContacts(contacts.filter((item) => item.id !== contactId));
   };
 
-  // const addContactHandler = (contact) => {
-  //   const contactWithId = {
-  //     ...contact,
-  //     id: v4(),
-  //   };
-  //   setContacts((prevContacts) => [...prevContacts, contactWithId]);
-  // };
+  const deleteMultipleContactsHandler = (contactIds) => {
+    setContacts((prevContacts) =>
+      prevContacts.filter((contact) => !contactIds.includes(contact.id))
+    );
+  };
 
   return (
     <div className={`home-root ${formVisible ? "visible" : ""}`}>
@@ -114,11 +112,12 @@ function Home() {
             onBack={showHomePage}
             onEdit={startEditHandler}
             onDelete={deleteContactHandler}
+            onDeleteMultiple={deleteMultipleContactsHandler}
           />
         </div>
       )}
     </div>
   );
-}
+};
 
 export default Home;

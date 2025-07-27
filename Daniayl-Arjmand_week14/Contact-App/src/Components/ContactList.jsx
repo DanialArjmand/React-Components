@@ -12,12 +12,46 @@ import {
   faList,
   faCheck,
   faExclamation,
+  faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import Modal from "./Modal";
 
-function ContactList({ contacts, onBack, onEdit, onDelete }) {
+const ContactList = ({
+  contacts,
+  onBack,
+  onEdit,
+  onDelete,
+  onDeleteMultiple,
+}) => {
   const [modal, setModal] = useState({ isOpen: false, type: "", data: null });
   const [search, setSearch] = useState("");
+  const [selection, setSelection] = useState(false);
+  const [selectedIds, setSelectedIds] = useState([]);
+
+  const checkboxChangeHandler = (contactId) => {
+    setSelectedIds((prevIds) => {
+      if (prevIds.includes(contactId)) {
+        return prevIds.filter((id) => id !== contactId);
+      } else {
+        return [...prevIds, contactId];
+      }
+    });
+  };
+
+  const toggleSelection = () => {
+    setSelection(!selection);
+    setSelectedIds([]);
+  };
+
+  const deleteSelectedHandler = () => {
+    onDeleteMultiple(selectedIds);
+    setModal({
+      isOpen: true,
+      type: "success",
+      data: `${selectedIds.length} مخاطبین با موفقیت حذف شدند.`,
+    });
+    toggleSelection();
+  };
 
   const confirmDeleteHandler = () => {
     onDelete(modal.data.id);
@@ -108,6 +142,28 @@ function ContactList({ contacts, onBack, onEdit, onDelete }) {
     }
     return null;
   };
+  if (modal.type === "delete-multiple") {
+    return (
+      <>
+        <h3>تایید حذف گروهی</h3>
+        <p>آیا از حذف {selectedIds.length} مخاطب انتخاب شده مطمئن هستید؟</p>
+        <div className={Styles.modalActions}>
+          <button
+            onClick={deleteSelectedHandler}
+            className={Styles.confirmButton}
+          >
+            بله
+          </button>
+          <button
+            onClick={() => setModal({ isOpen: false })}
+            className={Styles.cancelButton}
+          >
+            خیر
+          </button>
+        </div>
+      </>
+    );
+  }
 
   const filteredContacts = contacts.filter((contact) => {
     const fullName = `${contact.Name} ${contact.LastName}`.toLowerCase();
@@ -131,67 +187,114 @@ function ContactList({ contacts, onBack, onEdit, onDelete }) {
         />
 
         <div className={Styles["button-container"]}>
-          <button className={Styles["trash-butt"]}>
-            <span className={Styles["label-butt"]}> حذف گروهی </span>
-            <FontAwesomeIcon icon={faList} className={Styles["icon-trash"]} />
-          </button>
-          <button className={Styles["home-butt"]} onClick={onBack}>
-            <span className={Styles["label-butt"]}> صفحه اصلی </span>
-            <FontAwesomeIcon icon={faHouse} className={Styles["icon-house"]} />
-          </button>
+          {selection ? (
+            <>
+              <button
+                onClick={() => setModal({ isOpen: true, type: "delete-multiple" })}
+                disabled={selectedIds.length === 0}
+                className={Styles.deleteSelectedButton}
+              >
+                حذف ({selectedIds.length})
+              </button>
+              <button onClick={toggleSelection} className={Styles.cancelButton}>
+                <FontAwesomeIcon icon={faTimes} /> لغو
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                className={Styles["trash-butt"]}
+                onClick={toggleSelection}
+              >
+                <span className={Styles["label-butt"]}> حذف گروهی </span>
+                <FontAwesomeIcon
+                  icon={faList}
+                  className={Styles["icon-trash"]}
+                />
+              </button>
+              <button className={Styles["home-butt"]} onClick={onBack}>
+                <span className={Styles["label-butt"]}> صفحه اصلی </span>
+                <FontAwesomeIcon
+                  icon={faHouse}
+                  className={Styles["icon-house"]}
+                />
+              </button>
+            </>
+          )}
         </div>
       </div>
 
       {filteredContacts.length > 0 ? (
-        filteredContacts.map((contact) => (
-          <div key={contact.id} className={Styles["item"]}>
-            <p>
-              <FontAwesomeIcon icon={faUser} className={Styles["icon-list"]} />
-              {contact.Name} {contact.LastName}
-            </p>
+        filteredContacts.map((contact) => {
+          const isSelected = selectedIds.includes(contact.id);
+          return (
+            <div
+              key={contact.id}
+              className={`${Styles.item} ${
+                isSelected ? Styles.selectedItem : ""
+              }`}
+            >
+              {selection && (
+                <input
+                  type="checkbox"
+                  className={Styles.checkbox}
+                  checked={isSelected}
+                  onChange={() => checkboxChangeHandler(contact.id)}
+                />
+              )}
+              <p>
+                <FontAwesomeIcon
+                  icon={faUser}
+                  className={Styles["icon-list"]}
+                />
+                {contact.Name} {contact.LastName}
+              </p>
+              <p>
+                <FontAwesomeIcon
+                  icon={faEnvelope}
+                  className={Styles["icon-list"]}
+                />
+                {contact.Email}
+              </p>
+              <p>
+                <FontAwesomeIcon
+                  icon={faPhone}
+                  className={Styles["icon-list"]}
+                />
+                {contact.Phone}
+              </p>
+              <p>
+                <FontAwesomeIcon
+                  icon={faLayerGroup}
+                  className={Styles["icon-list"]}
+                />
+                {contact.Category}
+              </p>
+              <p>{contact.Gender}</p>
 
-            <p>
-              <FontAwesomeIcon
-                icon={faEnvelope}
-                className={Styles["icon-list"]}
-              />
-              {contact.Email}
-            </p>
-
-            <p>
-              <FontAwesomeIcon icon={faPhone} className={Styles["icon-list"]} />
-              {contact.Phone}
-            </p>
-            <p>
-              <FontAwesomeIcon
-                icon={faLayerGroup}
-                className={Styles["icon-list"]}
-              />
-              {contact.Category}
-            </p>
-
-            <p>{contact.Gender}</p>
-
-            <div className={Styles.itemActions}>
-              <button
-                onClick={() =>
-                  setModal({ isOpen: true, type: "edit", data: contact })
-                }
-                className={Styles.actionButton}
-              >
-                <FontAwesomeIcon icon={faPenToSquare} />
-              </button>
-              <button
-                onClick={() =>
-                  setModal({ isOpen: true, type: "delete", data: contact })
-                }
-                className={`${Styles.actionButton} ${Styles.deleteButton}`}
-              >
-                <FontAwesomeIcon icon={faTrash} />
-              </button>
+              {!selection && (
+                <div className={Styles.itemActions}>
+                  <button
+                    onClick={() =>
+                      setModal({ isOpen: true, type: "edit", data: contact })
+                    }
+                    className={Styles.actionButton}
+                  >
+                    <FontAwesomeIcon icon={faPenToSquare} />
+                  </button>
+                  <button
+                    onClick={() =>
+                      setModal({ isOpen: true, type: "delete", data: contact })
+                    }
+                    className={`${Styles.actionButton} ${Styles.deleteButton}`}
+                  >
+                    <FontAwesomeIcon icon={faTrash} />
+                  </button>
+                </div>
+              )}
             </div>
-          </div>
-        ))
+          );
+        })
       ) : (
         <div className={Styles.noContactsMessage}>
           <p>مخاطبی یافت نشد.</p>
@@ -202,6 +305,6 @@ function ContactList({ contacts, onBack, onEdit, onDelete }) {
       </Modal>
     </div>
   );
-}
+};
 
 export default ContactList;
