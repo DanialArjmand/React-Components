@@ -48,7 +48,7 @@ const ContactList = ({
     setModal({
       isOpen: true,
       type: "success",
-      data: `${selectedIds.length} مخاطبین با موفقیت حذف شدند.`,
+      data: `${selectedIds.length} مخاطب با موفقیت حذف شدند.`,
     });
     toggleSelection();
   };
@@ -124,6 +124,28 @@ const ContactList = ({
         </>
       );
     }
+    if (modal.type === "delete-multiple") {
+      return (
+        <>
+          <h3>تایید حذف گروهی</h3>
+          <p>آیا از حذف {selectedIds.length} مخاطب انتخاب شده مطمئن هستید؟</p>
+          <div className={Styles.modalActions}>
+            <button
+              onClick={deleteSelectedHandler}
+              className={Styles.confirmButton}
+            >
+              بله
+            </button>
+            <button
+              onClick={() => setModal({ isOpen: false })}
+              className={Styles.cancelButton}
+            >
+              خیر
+            </button>
+          </div>
+        </>
+      );
+    }
     if (modal.type === "success") {
       return (
         <>
@@ -142,28 +164,6 @@ const ContactList = ({
     }
     return null;
   };
-  if (modal.type === "delete-multiple") {
-    return (
-      <>
-        <h3>تایید حذف گروهی</h3>
-        <p>آیا از حذف {selectedIds.length} مخاطب انتخاب شده مطمئن هستید؟</p>
-        <div className={Styles.modalActions}>
-          <button
-            onClick={deleteSelectedHandler}
-            className={Styles.confirmButton}
-          >
-            بله
-          </button>
-          <button
-            onClick={() => setModal({ isOpen: false })}
-            className={Styles.cancelButton}
-          >
-            خیر
-          </button>
-        </div>
-      </>
-    );
-  }
 
   const filteredContacts = contacts.filter((contact) => {
     const fullName = `${contact.Name} ${contact.LastName}`.toLowerCase();
@@ -190,7 +190,9 @@ const ContactList = ({
           {selection ? (
             <>
               <button
-                onClick={() => setModal({ isOpen: true, type: "delete-multiple" })}
+                onClick={() =>
+                  setModal({ isOpen: true, type: "delete-multiple" })
+                }
                 disabled={selectedIds.length === 0}
                 className={Styles.deleteSelectedButton}
               >
