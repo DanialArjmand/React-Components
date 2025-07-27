@@ -10,11 +10,14 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-top: 10px;
+  gap: 20px
 }
 
 .title h1 {
-  margin-right: 25px;
+  margin: 0 25px;
+  white-space: nowrap;
 }
 
 .item {
@@ -38,6 +41,7 @@
   gap: 15px;
   padding: 5px 5px;
   margin: 0 5px;
+  margin: auto;
 }
 
 .home-butt {
@@ -201,4 +205,18 @@
 }
 .cancelButton:hover {
   background-color: #ff0000;
+}
+
+.searchInput {
+  width: 500px;
+  height: 45px;
+  border-radius: 30px;
+  margin: 9px 30px 0;
+  padding: 0 15px;
+  border: 2px solid #b453e8;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: #5900FF;
 }

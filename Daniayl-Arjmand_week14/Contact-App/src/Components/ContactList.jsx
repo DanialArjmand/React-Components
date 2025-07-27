@@ -17,6 +17,7 @@ import Modal from "./Modal";
 
 function ContactList({ contacts, onBack, onEdit, onDelete }) {
   const [modal, setModal] = useState({ isOpen: false, type: "", data: null });
+  const [search, setSearch] = useState("");
 
   const confirmDeleteHandler = () => {
     onDelete(modal.data.id);
@@ -42,12 +43,6 @@ function ContactList({ contacts, onBack, onEdit, onDelete }) {
     if (modal.type === "delete") {
       return (
         <>
-          <div className={Styles.messageContent}>
-             <FontAwesomeIcon icon={faExclamation} className={Styles.checkmarkError} />
-             <div className={Styles.circleE}></div>
-             <div className={Styles.circleE}></div>
-             <div className={Styles.circleE}></div>
-          </div>
           <h3>تایید حذف</h3>
           <p>
             آیا از حذف مخاطب "{modal.data.Name} {modal.data.LastName}" مطمئن
@@ -114,10 +109,27 @@ function ContactList({ contacts, onBack, onEdit, onDelete }) {
     return null;
   };
 
+  const filteredContacts = contacts.filter((contact) => {
+    const fullName = `${contact.Name} ${contact.LastName}`.toLowerCase();
+    const phone = contact.Phone.toLowerCase();
+    const term = search.toLowerCase();
+
+    return fullName.includes(term) || phone.includes(term);
+  });
+
   return (
     <div className={Styles["Parent-list"]}>
       <div className={Styles["title"]}>
         <h1>لیست مخاطبین</h1>
+
+        <input
+          type="search"
+          placeholder="جستجو بر اساس نام یا شماره تلفن..."
+          className={Styles.searchInput}
+          value={search}
+          onChange={(event) => setSearch(event.target.value)}
+        />
+
         <div className={Styles["button-container"]}>
           <button className={Styles["trash-butt"]}>
             <span className={Styles["label-butt"]}> حذف گروهی </span>
@@ -130,7 +142,7 @@ function ContactList({ contacts, onBack, onEdit, onDelete }) {
         </div>
       </div>
 
-      {contacts.map((contact) => (
+      {filteredContacts.map((contact) => (
         <div key={contact.id} className={Styles["item"]}>
           <p>
             <FontAwesomeIcon icon={faUser} className={Styles["icon-list"]} />
