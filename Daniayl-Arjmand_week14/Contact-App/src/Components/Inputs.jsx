@@ -6,7 +6,7 @@ import {
   faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
 
-const Inputs = ({ onSave, onClose }) => {
+const Inputs = ({ onSave, onClose, contactEdit }) => {
   const [form, setForm] = useState({
     Name: "",
     LastName: "",
@@ -36,6 +36,12 @@ const Inputs = ({ onSave, onClose }) => {
     }
   }, [errors, bannerState]);
 
+  useEffect(() => {
+    if (contactEdit) {
+      setForm(contactEdit);
+    }
+  }, [contactEdit]);
+
   const submitHandler = () => {
     setSubmitted(true);
     const validationErrors = validateForm(form);
@@ -44,7 +50,7 @@ const Inputs = ({ onSave, onClose }) => {
     if (Object.keys(validationErrors).length > 0) {
       setBannerState("error");
     } else {
-      onSave(form);
+      onSave({ ...form, id: contactEdit ? contactEdit.id : null });
 
       setBannerState("success");
 

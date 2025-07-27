@@ -14,9 +14,14 @@ function Home() {
   const [contacts, setContacts] = useState([]);
   const [view, setView] = useState("home");
   const [formVisible, setFormVisible] = useState(false);
+  const [contactEdit, setContactEdit] = useState(null);
 
   const toggleForm = () => {
     setFormVisible(!formVisible);
+
+    if (formVisible) {
+      setContactEdit(null);
+    }
   };
 
   const showListPage = () => {
@@ -25,22 +30,51 @@ function Home() {
 
   const showHomePage = () => {
     setView("home");
+    setContactEdit(null);
   };
 
-  const addContactHandler = (contact) => {
-    const contactWithId = {
-      ...contact,
-      id: v4(),
-    };
-    setContacts((prevContacts) => [...prevContacts, contactWithId]);
+  const saveContactHandler = (contact) => {
+    if (contact.id) {
+      setContacts(
+        contacts.map((item) => (item.id === contact.id ? contact : item))
+      );
+      setContactEdit(null);
+    } else {
+      setContacts((prevContacts) => [
+        ...prevContacts,
+        { ...contact, id: v4() },
+      ]);
+    }
   };
+
+  const startEditHandler = (contact) => {
+    setContactEdit(contact);
+    setView("home");
+    setFormVisible(true);
+  };
+
+  const deleteContactHandler = (contactId) => {
+    setContacts(contacts.filter((item) => item.id !== contactId));
+  };
+
+  // const addContactHandler = (contact) => {
+  //   const contactWithId = {
+  //     ...contact,
+  //     id: v4(),
+  //   };
+  //   setContacts((prevContacts) => [...prevContacts, contactWithId]);
+  // };
 
   return (
     <div className={`home-root ${formVisible ? "visible" : ""}`}>
       {view === "home" ? (
         <>
           <div className="art-container">
-            <Inputs onSave={addContactHandler} onClose={toggleForm} />
+            <Inputs
+              onSave={saveContactHandler}
+              onClose={toggleForm}
+              contactEdit={contactEdit}
+            />
           </div>
           <div className="glass-overlay"></div>
 
@@ -75,7 +109,12 @@ function Home() {
         </>
       ) : (
         <div className="contact-list-page">
-          <ContactList contacts={contacts} onBack={showHomePage} />
+          <ContactList
+            contacts={contacts}
+            onBack={showHomePage}
+            onEdit={startEditHandler}
+            onDelete={deleteContactHandler}
+          />
         </div>
       )}
     </div>
