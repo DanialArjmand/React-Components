@@ -142,55 +142,61 @@ function ContactList({ contacts, onBack, onEdit, onDelete }) {
         </div>
       </div>
 
-      {filteredContacts.map((contact) => (
-        <div key={contact.id} className={Styles["item"]}>
-          <p>
-            <FontAwesomeIcon icon={faUser} className={Styles["icon-list"]} />
-            {contact.Name} {contact.LastName}
-          </p>
+      {filteredContacts.length > 0 ? (
+        filteredContacts.map((contact) => (
+          <div key={contact.id} className={Styles["item"]}>
+            <p>
+              <FontAwesomeIcon icon={faUser} className={Styles["icon-list"]} />
+              {contact.Name} {contact.LastName}
+            </p>
 
-          <p>
-            <FontAwesomeIcon
-              icon={faEnvelope}
-              className={Styles["icon-list"]}
-            />
-            {contact.Email}
-          </p>
+            <p>
+              <FontAwesomeIcon
+                icon={faEnvelope}
+                className={Styles["icon-list"]}
+              />
+              {contact.Email}
+            </p>
 
-          <p>
-            <FontAwesomeIcon icon={faPhone} className={Styles["icon-list"]} />
-            {contact.Phone}
-          </p>
-          <p>
-            <FontAwesomeIcon
-              icon={faLayerGroup}
-              className={Styles["icon-list"]}
-            />
-            {contact.Category}
-          </p>
+            <p>
+              <FontAwesomeIcon icon={faPhone} className={Styles["icon-list"]} />
+              {contact.Phone}
+            </p>
+            <p>
+              <FontAwesomeIcon
+                icon={faLayerGroup}
+                className={Styles["icon-list"]}
+              />
+              {contact.Category}
+            </p>
 
-          <p>{contact.Gender}</p>
+            <p>{contact.Gender}</p>
 
-          <div className={Styles.itemActions}>
-            <button
-              onClick={() =>
-                setModal({ isOpen: true, type: "edit", data: contact })
-              }
-              className={Styles.actionButton}
-            >
-              <FontAwesomeIcon icon={faPenToSquare} />
-            </button>
-            <button
-              onClick={() =>
-                setModal({ isOpen: true, type: "delete", data: contact })
-              }
-              className={`${Styles.actionButton} ${Styles.deleteButton}`}
-            >
-              <FontAwesomeIcon icon={faTrash} />
-            </button>
+            <div className={Styles.itemActions}>
+              <button
+                onClick={() =>
+                  setModal({ isOpen: true, type: "edit", data: contact })
+                }
+                className={Styles.actionButton}
+              >
+                <FontAwesomeIcon icon={faPenToSquare} />
+              </button>
+              <button
+                onClick={() =>
+                  setModal({ isOpen: true, type: "delete", data: contact })
+                }
+                className={`${Styles.actionButton} ${Styles.deleteButton}`}
+              >
+                <FontAwesomeIcon icon={faTrash} />
+              </button>
+            </div>
           </div>
+        ))
+      ) : (
+        <div className={Styles.noContactsMessage}>
+          <p>مخاطبی یافت نشد.</p>
         </div>
-      ))}
+      )}
       <Modal isOpen={modal.isOpen} onClose={() => setModal({ isOpen: false })}>
         {modalContent()}
       </Modal>
