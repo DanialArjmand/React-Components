@@ -69,7 +69,7 @@ const Inputs = ({ onSave, onClose }) => {
       icon: faInfoCircle,
       text:
         Object.keys(errors).length === 0 && Submitted
-          ? "همه موارد صحیح است، اطلاعات خود را ثبت کنید."
+          ? "همه موارد صحیح است، اطلاعات خود را ذخیره کنید."
           : " لطفاً اطلاعات خود را وارد کنید.",
       className: "default",
     },
@@ -80,7 +80,7 @@ const Inputs = ({ onSave, onClose }) => {
     },
     success: {
       icon: faCheckCircle,
-      text: "اطلاعات شما با موفقیت ثبت شد!",
+      text: "اطلاعات شما با موفقیت ذخیره شد!",
       className: "success",
     },
   };
