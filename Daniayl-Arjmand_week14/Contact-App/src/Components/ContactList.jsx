@@ -1,7 +1,14 @@
 import React from "react";
 import Styles from "./ContactList.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHouse, faTrash } from "@fortawesome/free-solid-svg-icons";
+import {
+  faHouse,
+  faTrash,
+  faUser,
+  faEnvelope,
+  faPhone,
+  faLayerGroup,
+} from "@fortawesome/free-solid-svg-icons";
 
 function ContactList({ contacts, onBack }) {
   return (
@@ -19,14 +26,34 @@ function ContactList({ contacts, onBack }) {
           </button>
         </div>
       </div>
+
       {contacts.map((contact) => (
         <div key={contact.id} className={Styles["item"]}>
           <p>
+            <FontAwesomeIcon icon={faUser} className={Styles["icon-list"]} />
             {contact.Name} {contact.LastName}
           </p>
-          <p>{contact.Email}</p>
-          <p>{contact.Phone}</p>
-          <p>{contact.Category}</p>
+
+          <p>
+            <FontAwesomeIcon
+              icon={faEnvelope}
+              className={Styles["icon-list"]}
+            />
+            {contact.Email}
+          </p>
+
+          <p>
+            <FontAwesomeIcon icon={faPhone} className={Styles["icon-list"]} />
+            {contact.Phone}
+          </p>
+          <p>
+            <FontAwesomeIcon
+              icon={faLayerGroup}
+              className={Styles["icon-list"]}
+            />
+            {contact.Category}
+          </p>
+
           <p>{contact.Gender}</p>
         </div>
       ))}

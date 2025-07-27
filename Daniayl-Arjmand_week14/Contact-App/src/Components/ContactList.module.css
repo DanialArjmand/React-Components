@@ -19,14 +19,18 @@
 
 .item {
   width: 900px;
-  height: 45px;
+  /* height: 45px; */
   background-color: #e9ecef;
   display: flex;
   justify-content: space-around;
   align-items: center;
   border-radius: 10px;
   border: 2px solid #b453e8;
-  margin: 0 20px 30px;
+  margin: 15px 20px 15px;
+}
+
+.item p {
+  padding: 12px 0;
 }
 
 .button-container {
@@ -133,4 +137,8 @@
   opacity: 1;
   visibility: visible;
   transition-delay: 0.1s;
+}
+
+.icon-list {
+  padding: 0 7px;
 }
