@@ -227,7 +227,7 @@ const ContactList = ({
       </div>
 
       {filteredContacts.length > 0 ? (
-        filteredContacts.map((contact) => {
+        filteredContacts.map((contact, index) => {
           const isSelected = selectedIds.includes(contact.id);
           return (
             <div
@@ -244,6 +244,9 @@ const ContactList = ({
                   onChange={() => checkboxChangeHandler(contact.id)}
                 />
               )}
+
+              <p className={Styles.rowIndex}>{index + 1}</p>
+
               <p>
                 <FontAwesomeIcon
                   icon={faUser}
@@ -286,7 +289,11 @@ const ContactList = ({
                   </button>
                   <button
                     onClick={() =>
-                      setModal({ isOpen: true, type: "delete", data: contact })
+                      setModal({
+                        isOpen: true,
+                        type: "delete",
+                        data: contact,
+                      })
                     }
                     className={`${Styles.actionButton} ${Styles.deleteButton}`}
                   >
@@ -302,6 +309,7 @@ const ContactList = ({
           <p>مخاطبی یافت نشد.</p>
         </div>
       )}
+
       <Modal isOpen={modal.isOpen} onClose={() => setModal({ isOpen: false })}>
         {modalContent()}
       </Modal>
