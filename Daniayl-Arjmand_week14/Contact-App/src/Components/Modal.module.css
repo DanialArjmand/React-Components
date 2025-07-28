@@ -23,9 +23,6 @@
   direction: rtl;
 }
 
-/* === استایل‌های پیام جدید === */
-
-/* کانتینر کلی پیام‌ها */
 .messageContent {
   display: flex;
   flex-direction: column;
@@ -34,7 +31,7 @@
   color: #000;
   text-align: center;
   overflow: hidden;
-  padding-top: 20px; /* ایجاد فاصله از بالا */
+  padding-top: 20px;
 }
 
 .messageContent h2 {
@@ -51,7 +48,6 @@
   z-index: 1;
 }
 
-/* استایل پیام موفقیت (سبز) */
 .checkmarkCircle {
   color: #fff;
   background-color: #079455;
@@ -89,7 +85,6 @@
 .circleBack:nth-child(3) { width: 150px; height: 150px; animation-delay: 0.2s; }
 .circleBack:nth-child(4) { width: 100px; height: 100px; animation-delay: 0.4s; }
 
-/* استایل پیام پرسش/هشدار (زرد) */
 .checkmarkError {
   color: #fff;
   background-color: #ffc300;
@@ -127,7 +122,6 @@
 .circleE:nth-child(3) { width: 150px; height: 150px; animation-delay: 0.2s; }
 .circleE:nth-child(4) { width: 100px; height: 100px; animation-delay: 0.4s; }
 
-/* انیمیشن حلقه‌ها */
 @keyframes circlesAnim {
   0% {
     transform: translate(-50%, -50%) scale(0.5);

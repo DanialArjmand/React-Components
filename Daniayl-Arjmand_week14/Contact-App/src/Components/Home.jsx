@@ -15,23 +15,23 @@ const Home = () => {
   const [view, setView] = useState("home");
   const [formVisible, setFormVisible] = useState(false);
   const [contactEdit, setContactEdit] = useState(null);
-  const [DarkMode, setDarkMode] = useState(false);
+  // const [DarkMode, setDarkMode] = useState(false);
 
-  useEffect(() => {
-    if (DarkMode) {
-      document.body.classList.add("dark-mode");
-    } else {
-      document.body.classList.remove("dark-mode");
-    }
+  // useEffect(() => {
+  //   if (DarkMode) {
+  //     document.body.classList.add("dark-mode");
+  //   } else {
+  //     document.body.classList.remove("dark-mode");
+  //   }
 
-    return () => {
-      document.body.classList.remove("dark-mode");
-    };
-  }, [DarkMode]);
+  //   return () => {
+  //     document.body.classList.remove("dark-mode");
+  //   };
+  // }, [DarkMode]);
 
-  const toggleDarkMode = () => {
-    setDarkMode(!DarkMode);
-  };
+  // const toggleDarkMode = () => {
+  //   setDarkMode(!DarkMode);
+  // };
 
   const toggleForm = () => {
     setFormVisible(!formVisible);
