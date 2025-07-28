@@ -228,19 +228,19 @@ const ContactList = ({
 
       {filteredContacts.length > 0 ? (
         filteredContacts.map((contact, index) => {
-          const isSelected = selectedIds.includes(contact.id);
+          const selected = selectedIds.includes(contact.id);
           return (
             <div
               key={contact.id}
               className={`${Styles.item} ${
-                isSelected ? Styles.selectedItem : ""
+                selected ? Styles.selectedItem : ""
               }`}
             >
               {selection && (
                 <input
                   type="checkbox"
                   className={Styles.checkbox}
-                  checked={isSelected}
+                  checked={selected}
                   onChange={() => checkboxChangeHandler(contact.id)}
                 />
               )}

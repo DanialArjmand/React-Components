@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useContacts } from "../API/Context";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faExclamationCircle,
@@ -6,7 +7,10 @@ import {
   faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
 
-const Inputs = ({ onSave, onClose, contactEdit }) => {
+const Inputs = () => {
+  const { state, dispatch } = useContacts();
+  const { contactEdit } = state;
+
   const [form, setForm] = useState({
     Name: "",
     LastName: "",
@@ -25,20 +29,17 @@ const Inputs = ({ onSave, onClose, contactEdit }) => {
   };
 
   useEffect(() => {
-    if (Submitted) {
-      setErrors(validateForm(form));
-    }
-  }, [form, Submitted]);
-
-  useEffect(() => {
-    if (bannerState === "error" && Object.keys(errors).length === 0) {
-      setBannerState("default");
-    }
-  }, [errors, bannerState]);
-
-  useEffect(() => {
     if (contactEdit) {
       setForm(contactEdit);
+    } else {
+      setForm({
+        Name: "",
+        LastName: "",
+        Email: "",
+        Phone: "",
+        Category: "",
+        Gender: "",
+      });
     }
   }, [contactEdit]);
 
@@ -50,7 +51,10 @@ const Inputs = ({ onSave, onClose, contactEdit }) => {
     if (Object.keys(validationErrors).length > 0) {
       setBannerState("error");
     } else {
-      onSave({ ...form, id: contactEdit ? contactEdit.id : null });
+      dispatch({
+        type: "SAVE_CONTACT",
+        payload: { ...form, id: contactEdit ? contactEdit.id : null },
+      });
 
       setBannerState("success");
 
@@ -68,6 +72,10 @@ const Inputs = ({ onSave, onClose, contactEdit }) => {
         setBannerState("default");
       }, 2500);
     }
+  };
+
+  const closeHandler = () => {
+    dispatch({ type: "TOGGLE_FORM" });
   };
 
   const bannerContent = {
@@ -318,7 +326,7 @@ const Inputs = ({ onSave, onClose, contactEdit }) => {
         <button className="text-butt-state" onClick={submitHandler}>
           ذخیره
         </button>
-        <button className="text-butt-state" onClick={onClose}>
+        <button className="text-butt-state" onClick={closeHandler}>
           برگشت
         </button>
       </div>

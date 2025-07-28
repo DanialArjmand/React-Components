@@ -3,6 +3,7 @@ import "./Home.css";
 import Inputs from "./Inputs";
 import ContactList from "./ContactList";
 import { v4 } from "uuid";
+import { useContacts } from "../API/Context";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAddressBook,
@@ -11,10 +12,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 const Home = () => {
-  const [contacts, setContacts] = useState([]);
-  const [view, setView] = useState("home");
-  const [formVisible, setFormVisible] = useState(false);
-  const [contactEdit, setContactEdit] = useState(null);
+  const { state, dispatch } = useContacts();
+  const { view, formVisible, contacts, contactEdit } = state;
   // const [DarkMode, setDarkMode] = useState(false);
 
   // useEffect(() => {
@@ -34,50 +33,11 @@ const Home = () => {
   // };
 
   const toggleForm = () => {
-    setFormVisible(!formVisible);
-
-    if (formVisible) {
-      setContactEdit(null);
-    }
+    dispatch({ type: "TOGGLE_FORM" });
   };
 
   const showListPage = () => {
-    setView("list");
-  };
-
-  const showHomePage = () => {
-    setView("home");
-    setContactEdit(null);
-  };
-
-  const saveContactHandler = (contact) => {
-    if (contact.id) {
-      setContacts(
-        contacts.map((item) => (item.id === contact.id ? contact : item))
-      );
-      setContactEdit(null);
-    } else {
-      setContacts((prevContacts) => [
-        ...prevContacts,
-        { ...contact, id: v4() },
-      ]);
-    }
-  };
-
-  const startEditHandler = (contact) => {
-    setContactEdit(contact);
-    setView("home");
-    setFormVisible(true);
-  };
-
-  const deleteContactHandler = (contactId) => {
-    setContacts(contacts.filter((item) => item.id !== contactId));
-  };
-
-  const deleteMultipleContactsHandler = (contactIds) => {
-    setContacts((prevContacts) =>
-      prevContacts.filter((contact) => !contactIds.includes(contact.id))
-    );
+    dispatch({ type: "SET_VIEW", payload: "list" });
   };
 
   return (
@@ -86,11 +46,7 @@ const Home = () => {
         {view === "home" ? (
           <>
             <div className="art-container">
-              <Inputs
-                onSave={saveContactHandler}
-                onClose={toggleForm}
-                contactEdit={contactEdit}
-              />
+              <Inputs />
             </div>
             <div className="glass-overlay"></div>
 
@@ -126,13 +82,7 @@ const Home = () => {
           </>
         ) : (
           <div className="contact-list-page">
-            <ContactList
-              contacts={contacts}
-              onBack={showHomePage}
-              onEdit={startEditHandler}
-              onDelete={deleteContactHandler}
-              onDeleteMultiple={deleteMultipleContactsHandler}
-            />
+            <ContactList />
           </div>
         )}
       </div>

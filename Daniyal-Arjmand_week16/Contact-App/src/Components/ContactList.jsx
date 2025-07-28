@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Styles from "./ContactList.module.css";
+import { useContacts } from "../API/Context";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHouse,
@@ -16,25 +17,28 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Modal from "./Modal";
 
-const ContactList = ({
-  contacts,
-  onBack,
-  onEdit,
-  onDelete,
-  onDeleteMultiple,
-}) => {
+const ContactList = () => {
+  const { state, dispatch } = useContacts();
+  const { contacts } = state;
+
   const [modal, setModal] = useState({ isOpen: false, type: "", data: null });
   const [search, setSearch] = useState("");
   const [selection, setSelection] = useState(false);
   const [selectedIds, setSelectedIds] = useState([]);
 
+  const backHandler = () => dispatch({ type: "SET_VIEW", payload: "home" });
+  const startEditHandler = (contact) =>
+    dispatch({ type: "START_EDIT", payload: contact });
+  const deleteHandler = (contactId) =>
+    dispatch({ type: "DELETE_CONTACT", payload: contactId });
+  const deleteMultipleHandler = (contactIds) =>
+    dispatch({ type: "DELETE_MULTIPLE_CONTACTS", payload: contactIds });
+
   const checkboxChangeHandler = (contactId) => {
     setSelectedIds((prevIds) => {
-      if (prevIds.includes(contactId)) {
-        return prevIds.filter((id) => id !== contactId);
-      } else {
-        return [...prevIds, contactId];
-      }
+      return prevIds.includes(contactId)
+        ? prevIds.filter((id) => id !== contactId)
+        : [...prevIds, contactId];
     });
   };
 
@@ -44,7 +48,7 @@ const ContactList = ({
   };
 
   const deleteSelectedHandler = () => {
-    onDeleteMultiple(selectedIds);
+    deleteMultipleHandler(selectedIds);
     setModal({
       isOpen: true,
       type: "success",
@@ -54,7 +58,7 @@ const ContactList = ({
   };
 
   const confirmDeleteHandler = () => {
-    onDelete(modal.data.id);
+    deleteHandler(modal.data.id);
     setModal({ isOpen: false });
 
     setTimeout(
@@ -69,7 +73,7 @@ const ContactList = ({
   };
 
   const confirmEditHandler = () => {
-    onEdit(modal.data);
+    startEditHandler(modal.data);
     setModal({ isOpen: false });
   };
 
@@ -214,7 +218,7 @@ const ContactList = ({
                   className={Styles["icon-trash"]}
                 />
               </button>
-              <button className={Styles["home-butt"]} onClick={onBack}>
+              <button className={Styles["home-butt"]} onClick={backHandler}>
                 <span className={Styles["label-butt"]}> صفحه اصلی </span>
                 <FontAwesomeIcon
                   icon={faHouse}
@@ -228,19 +232,19 @@ const ContactList = ({
 
       {filteredContacts.length > 0 ? (
         filteredContacts.map((contact, index) => {
-          const isSelected = selectedIds.includes(contact.id);
+          const selected = selectedIds.includes(contact.id);
           return (
             <div
               key={contact.id}
               className={`${Styles.item} ${
-                isSelected ? Styles.selectedItem : ""
+                selected ? Styles.selectedItem : ""
               }`}
             >
               {selection && (
                 <input
                   type="checkbox"
                   className={Styles.checkbox}
-                  checked={isSelected}
+                  checked={selected}
                   onChange={() => checkboxChangeHandler(contact.id)}
                 />
               )}
