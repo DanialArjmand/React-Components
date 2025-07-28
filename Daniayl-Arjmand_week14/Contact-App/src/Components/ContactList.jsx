@@ -167,10 +167,10 @@ const ContactList = ({
 
   const filteredContacts = contacts.filter((contact) => {
     const fullName = `${contact.Name} ${contact.LastName}`.toLowerCase();
-    const phone = contact.Phone.toLowerCase();
+    const email = contact.Email.toLowerCase();
     const term = search.toLowerCase();
 
-    return fullName.includes(term) || phone.includes(term);
+    return fullName.includes(term) || email.includes(term);
   });
 
   return (
@@ -180,7 +180,7 @@ const ContactList = ({
 
         <input
           type="search"
-          placeholder="جستجو بر اساس نام یا شماره تلفن..."
+          placeholder="جستجو بر اساس نام یا ایمیل..."
           className={Styles.searchInput}
           value={search}
           onChange={(event) => setSearch(event.target.value)}

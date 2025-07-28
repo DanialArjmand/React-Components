@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Home.css";
 import Inputs from "./Inputs";
 import ContactList from "./ContactList";
@@ -15,6 +15,23 @@ const Home = () => {
   const [view, setView] = useState("home");
   const [formVisible, setFormVisible] = useState(false);
   const [contactEdit, setContactEdit] = useState(null);
+  const [DarkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    if (DarkMode) {
+      document.body.classList.add("dark-mode");
+    } else {
+      document.body.classList.remove("dark-mode");
+    }
+
+    return () => {
+      document.body.classList.remove("dark-mode");
+    };
+  }, [DarkMode]);
+
+  const toggleDarkMode = () => {
+    setDarkMode(!DarkMode);
+  };
 
   const toggleForm = () => {
     setFormVisible(!formVisible);
@@ -88,10 +105,10 @@ const Home = () => {
                 <FontAwesomeIcon icon={faAddressBook} className="icon-list" />
               </button>
 
-              <button className="text-butt-mode">
+              {/* <button className="text-butt-mode" onClick={toggleDarkMode}>
                 <span className="label-butt"> حالت شب</span>
                 <FontAwesomeIcon icon={faMoon} className="icon-moon" />
-              </button>
+              </button> */}
             </div>
             <div className="text-content">
               <h1>

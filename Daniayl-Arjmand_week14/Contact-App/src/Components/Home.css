@@ -19,6 +19,28 @@
   );
 }
 
+/* body.dark-mode  {
+  background: var(--gradient-dark);
+}
+
+body.dark-mode .art-container {
+  background-color: #000;
+}
+
+body.dark-mode .text-container {
+  background: url(../images/blob-scene-haikei.svg);
+}
+
+body.dark-mode .text-butt {
+  background-color: #fff;
+  color: #000;
+}
+
+body.dark-mode .text-butt-user {
+  background-color: #fff;
+  color: #000;
+} */
+
 body {
   display: flex;
   align-items: center;
@@ -37,6 +59,61 @@ body {
   border-radius: 30px;
   position: relative;
   overflow: hidden;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.art-container > div > *,
+.text-container > * {
+  opacity: 0;
+  animation-name: fadeInDown;
+  animation-duration: 0.5s;
+  animation-timing-function: ease-out;
+  animation-fill-mode: forwards;
+}
+
+.art-container > div > *:nth-child(1),
+.text-container > *:nth-child(1) {
+  animation-delay: 0.2s;
+}
+
+.art-container > div > *:nth-child(2),
+.text-container > *:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.art-container > div > *:nth-child(3),
+.text-container > *:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+.art-container > div > *:nth-child(4),
+.text-container > *:nth-child(4) {
+  animation-delay: 0.5s;
+}
+
+.art-container > div > *:nth-child(5),
+.text-container > *:nth-child(5) {
+  animation-delay: 0.6s;
+}
+
+.art-container > div > *:nth-child(6),
+.text-container > *:nth-child(6) {
+  animation-delay: 0.7s;
+}
+
+.art-container > div > *:nth-child(7),
+.text-container > *:nth-child(7) {
+  animation-delay: 0.8s;
 }
 
 .art-container {
@@ -59,7 +136,7 @@ body {
 }
 
 .text-container {
-  background: url(../images/blob-scene-haikei.svg);
+  background: url(../images/blob-scene-haikei-white.svg);
   padding: 20px 20px 0 5px;
 }
 
@@ -99,11 +176,6 @@ span {
   margin-bottom: 40px;
   font-family: "Yekan", sans-serif;
   font-weight: bold;
-}
-
-.text-butt:hover {
-  background-color: #5046e3;
-  transition: all 0.1s ease-in-out;
 }
 
 .inputs {
@@ -431,7 +503,7 @@ select:focus {
   transition-delay: 0.1s;
 }
 
-.text-butt-mode {
+/* .text-butt-mode {
   position: relative;
   width: 45px;
   height: 45px;
@@ -478,4 +550,4 @@ select:focus {
   opacity: 1;
   visibility: visible;
   transition-delay: 0.1s;
-}
+} */
