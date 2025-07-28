@@ -1,0 +1,31 @@
+{
+  "contacts": [
+    {
+      "id": null,
+      "Name": "دانیال",
+      "LastName": "ارجمند",
+      "Email": "ali@example.com",
+      "Phone": "09135993488",
+      "Category": "خانواده",
+      "Gender": "مرد"
+    },
+    {
+      "id": null,
+      "Name": "مجید",
+      "LastName": "ارجمند",
+      "Email": "ali@example.com",
+      "Phone": "09135993488",
+      "Category": "خانواده",
+      "Gender": "مرد"
+    },
+    {
+      "id": "4779",
+      "Name": "مجید",
+      "LastName": "ارجمند",
+      "Email": "ali@example.com",
+      "Phone": "09135993488",
+      "Category": "همکار",
+      "Gender": "مرد"
+    }
+  ]
+}

@@ -8,7 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 const Inputs = () => {
-  const { state, dispatch } = useContacts();
+  const { state, dispatch, saveContact } = useContacts();
   const { contactEdit } = state;
 
   const [form, setForm] = useState({
@@ -29,32 +29,30 @@ const Inputs = () => {
   };
 
   useEffect(() => {
+    if (Submitted) {
+      setErrors(validateForm(form));
+    }
+  }, [form, Submitted]);
+
+  useEffect(() => {
     if (contactEdit) {
       setForm(contactEdit);
-    } else {
-      setForm({
-        Name: "",
-        LastName: "",
-        Email: "",
-        Phone: "",
-        Category: "",
-        Gender: "",
-      });
     }
   }, [contactEdit]);
 
-  const submitHandler = () => {
+  const submitHandler = async () => {
     setSubmitted(true);
     const validationErrors = validateForm(form);
     setErrors(validationErrors);
 
-    if (Object.keys(validationErrors).length > 0) {
-      setBannerState("error");
-    } else {
-      dispatch({
-        type: "SAVE_CONTACT",
-        payload: { ...form, id: contactEdit ? contactEdit.id : null },
-      });
+    if (Object.keys(validationErrors).length === 0) {
+      const payload = { ...form };
+
+      if (contactEdit) {
+        payload.id = contactEdit.id;
+      }
+
+      await saveContact(payload);
 
       setBannerState("success");
 
@@ -71,6 +69,8 @@ const Inputs = () => {
         setSubmitted(false);
         setBannerState("default");
       }, 2500);
+    } else {
+      setBannerState("error");
     }
   };
 
@@ -102,36 +102,24 @@ const Inputs = () => {
   const validateForm = (form) => {
     const errors = {};
 
-    if (form.Name.trim().length < 2) {
-      errors.Name = "نام باید حداقل ۲ حرف باشد!";
-    }
+    if (form.Name.trim().length < 2) errors.Name = "نام باید حداقل ۲ حرف باشد!";
 
-    if (form.LastName.trim().length < 2) {
+    if (form.LastName.trim().length < 2)
       errors.LastName = "نام خانوادگی باید حداقل ۲ حرف باشد!";
-    }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!form.Email) {
-      errors.Email = "وارد کردن ایمیل الزامی است.";
-    } else if (!emailRegex.test(form.Email)) {
+    if (!form.Email) errors.Email = "وارد کردن ایمیل الزامی است.";
+    else if (!emailRegex.test(form.Email))
       errors.Email = "ایمیل وارد شده معتبر نیست.";
-    }
 
     const phoneRegex = /^0\d{9,10}$/;
-    if (!form.Phone) {
-      errors.Phone = "وارد کردن شماره تلفن الزامی است.";
-    } else if (!phoneRegex.test(form.Phone)) {
+    if (!form.Phone) errors.Phone = "وارد کردن شماره تلفن الزامی است.";
+    else if (!phoneRegex.test(form.Phone))
       errors.Phone = "شماره تلفن باید با 0 شروع شود و ۱۱ رقمی باشد.";
-    }
 
-    if (!form.Category) {
-      errors.Category = "انتخاب دسته بندی الزامی است.";
-    }
+    if (!form.Category) errors.Category = "انتخاب دسته بندی الزامی است.";
 
-    if (!form.Gender) {
-      errors.Gender = "انتخاب جنسیت الزامی است.";
-    }
-
+    if (!form.Gender) errors.Gender = "انتخاب جنسیت الزامی است.";
     return errors;
   };
 
