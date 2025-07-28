@@ -136,7 +136,7 @@ const Home = () => {
           </div>
         )}
       </div>
-      <p className="footer-text">Developed by Daniyal.A | Bootstart </p>
+      <p className="footer-text">Developed by Daniyal.A | Botostart </p>
     </div>
   );
 };
