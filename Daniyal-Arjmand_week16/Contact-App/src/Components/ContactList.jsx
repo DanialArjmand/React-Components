@@ -16,8 +16,8 @@ import {
 import Modal from "./Modal";
 
 const ContactList = () => {
-  // ۱. توابع async به درستی از Context گرفته شده‌اند
-  const { state, dispatch, deleteContact, deleteMultipleContacts } = useContacts();
+  const { state, dispatch, deleteContact, deleteMultipleContacts } =
+    useContacts();
   const { contacts } = state;
 
   const [modal, setModal] = useState({ isOpen: false, type: "", data: null });
@@ -42,7 +42,6 @@ const ContactList = () => {
     setSelectedIds([]);
   };
 
-  // ۲. این تابع حالا مستقیماً از deleteMultipleContacts که از Context آمده استفاده می‌کند
   const deleteSelectedHandler = async () => {
     await deleteMultipleContacts(selectedIds);
     setModal({
@@ -53,7 +52,6 @@ const ContactList = () => {
     toggleSelection();
   };
 
-  // ۳. این تابع حالا مستقیماً از deleteContact که از Context آمده استفاده می‌کند
   const confirmDeleteHandler = async () => {
     await deleteContact(modal.data.id);
     setModal({ isOpen: false });
@@ -74,16 +72,28 @@ const ContactList = () => {
     setModal({ isOpen: false });
   };
 
-  // بقیه کد شما بدون تغییر باقی می‌ماند
   const modalContent = () => {
     if (modal.type === "delete") {
       return (
         <>
           <h3>تایید حذف</h3>
-          <p>آیا از حذف مخاطب "{modal.data.Name} {modal.data.LastName}" مطمئن هستید؟</p>
+          <p>
+            آیا از حذف مخاطب "{modal.data.Name} {modal.data.LastName}" مطمئن
+            هستید؟
+          </p>
           <div className={Styles.modalActions}>
-            <button onClick={confirmDeleteHandler} className={Styles.confirmButton}>بله</button>
-            <button onClick={() => setModal({ isOpen: false })} className={Styles.cancelButton}>خیر</button>
+            <button
+              onClick={confirmDeleteHandler}
+              className={Styles.confirmButton}
+            >
+              بله
+            </button>
+            <button
+              onClick={() => setModal({ isOpen: false })}
+              className={Styles.cancelButton}
+            >
+              خیر
+            </button>
           </div>
         </>
       );
@@ -92,10 +102,23 @@ const ContactList = () => {
       return (
         <>
           <h3>تایید ویرایش</h3>
-          <p>آیا می‌خواهید مخاطب "{modal.data.Name} {modal.data.LastName}" را ویرایش کنید؟</p>
+          <p>
+            آیا می‌خواهید مخاطب "{modal.data.Name} {modal.data.LastName}" را
+            ویرایش کنید؟
+          </p>
           <div className={Styles.modalActions}>
-            <button onClick={confirmEditHandler} className={Styles.confirmButton}>بله</button>
-            <button onClick={() => setModal({ isOpen: false })} className={Styles.cancelButton}>خیر</button>
+            <button
+              onClick={confirmEditHandler}
+              className={Styles.confirmButton}
+            >
+              بله
+            </button>
+            <button
+              onClick={() => setModal({ isOpen: false })}
+              className={Styles.cancelButton}
+            >
+              خیر
+            </button>
           </div>
         </>
       );
@@ -106,8 +129,18 @@ const ContactList = () => {
           <h3>تایید حذف گروهی</h3>
           <p>آیا از حذف {selectedIds.length} مخاطب انتخاب شده مطمئن هستید؟</p>
           <div className={Styles.modalActions}>
-            <button onClick={deleteSelectedHandler} className={Styles.confirmButton}>بله</button>
-            <button onClick={() => setModal({ isOpen: false })} className={Styles.cancelButton}>خیر</button>
+            <button
+              onClick={deleteSelectedHandler}
+              className={Styles.confirmButton}
+            >
+              بله
+            </button>
+            <button
+              onClick={() => setModal({ isOpen: false })}
+              className={Styles.cancelButton}
+            >
+              خیر
+            </button>
           </div>
         </>
       );
@@ -118,7 +151,12 @@ const ContactList = () => {
           <h3>عملیات موفقیت آمیز بود</h3>
           <p>{modal.data}</p>
           <div className={Styles.modalActions}>
-            <button onClick={() => setModal({ isOpen: false })} className={Styles.confirmButton}>باشه</button>
+            <button
+              onClick={() => setModal({ isOpen: false })}
+              className={Styles.confirmButton}
+            >
+              باشه
+            </button>
           </div>
         </>
       );
@@ -137,17 +175,48 @@ const ContactList = () => {
     <div className={Styles["Parent-list"]}>
       <div className={Styles["title"]}>
         <h1>لیست مخاطبین</h1>
-        <input type="search" placeholder="جستجو بر اساس نام یا ایمیل..." className={Styles.searchInput} value={search} onChange={(event) => setSearch(event.target.value)} />
+        <input
+          type="search"
+          placeholder="جستجو بر اساس نام یا ایمیل..."
+          className={Styles.searchInput}
+          value={search}
+          onChange={(event) => setSearch(event.target.value)}
+        />
         <div className={Styles["button-container"]}>
           {selection ? (
             <>
-              <button onClick={() => setModal({ isOpen: true, type: "delete-multiple" })} disabled={selectedIds.length === 0} className={Styles.deleteSelectedButton}>حذف ({selectedIds.length})</button>
-              <button onClick={toggleSelection} className={Styles.cancelButton}><FontAwesomeIcon icon={faTimes} /> لغو</button>
+              <button
+                onClick={() =>
+                  setModal({ isOpen: true, type: "delete-multiple" })
+                }
+                disabled={selectedIds.length === 0}
+                className={Styles.deleteSelectedButton}
+              >
+                حذف ({selectedIds.length})
+              </button>
+              <button onClick={toggleSelection} className={Styles.cancelButton}>
+                <FontAwesomeIcon icon={faTimes} /> لغو
+              </button>
             </>
           ) : (
             <>
-              <button className={Styles["trash-butt"]} onClick={toggleSelection}><span className={Styles["label-butt"]}> حذف گروهی </span><FontAwesomeIcon icon={faList} className={Styles["icon-trash"]} /></button>
-              <button className={Styles["home-butt"]} onClick={backHandler}><span className={Styles["label-butt"]}> صفحه اصلی </span><FontAwesomeIcon icon={faHouse} className={Styles["icon-house"]} /></button>
+              <button
+                className={Styles["trash-butt"]}
+                onClick={toggleSelection}
+              >
+                <span className={Styles["label-butt"]}> حذف گروهی </span>
+                <FontAwesomeIcon
+                  icon={faList}
+                  className={Styles["icon-trash"]}
+                />
+              </button>
+              <button className={Styles["home-butt"]} onClick={backHandler}>
+                <span className={Styles["label-butt"]}> صفحه اصلی </span>
+                <FontAwesomeIcon
+                  icon={faHouse}
+                  className={Styles["icon-house"]}
+                />
+              </button>
             </>
           )}
         </div>
@@ -156,27 +225,77 @@ const ContactList = () => {
         filteredContacts.map((contact, index) => {
           const selected = selectedIds.includes(contact.id);
           return (
-            <div key={contact.id} className={`${Styles.item} ${selected ? Styles.selectedItem : ""}`}>
+            <div
+              key={contact.id}
+              className={`${Styles.item} ${
+                selected ? Styles.selectedItem : ""
+              }`}
+            >
               {selection && (
-                <input type="checkbox" className={Styles.checkbox} checked={selected} onChange={() => checkboxChangeHandler(contact.id)} />
+                <input
+                  type="checkbox"
+                  className={Styles.checkbox}
+                  checked={selected}
+                  onChange={() => checkboxChangeHandler(contact.id)}
+                />
               )}
               <p className={Styles.rowIndex}>{index + 1}</p>
-              <p><FontAwesomeIcon icon={faUser} className={Styles["icon-list"]} />{contact.Name} {contact.LastName}</p>
-              <p><FontAwesomeIcon icon={faEnvelope} className={Styles["icon-list"]} />{contact.Email}</p>
-              <p><FontAwesomeIcon icon={faPhone} className={Styles["icon-list"]} />{contact.Phone}</p>
-              <p><FontAwesomeIcon icon={faLayerGroup} className={Styles["icon-list"]} />{contact.Category}</p>
+              <p>
+                <FontAwesomeIcon
+                  icon={faUser}
+                  className={Styles["icon-list"]}
+                />
+                {contact.Name} {contact.LastName}
+              </p>
+              <p>
+                <FontAwesomeIcon
+                  icon={faEnvelope}
+                  className={Styles["icon-list"]}
+                />
+                {contact.Email}
+              </p>
+              <p>
+                <FontAwesomeIcon
+                  icon={faPhone}
+                  className={Styles["icon-list"]}
+                />
+                {contact.Phone}
+              </p>
+              <p>
+                <FontAwesomeIcon
+                  icon={faLayerGroup}
+                  className={Styles["icon-list"]}
+                />
+                {contact.Category}
+              </p>
               <p>{contact.Gender}</p>
               {!selection && (
                 <div className={Styles.itemActions}>
-                  <button onClick={() => setModal({ isOpen: true, type: "edit", data: contact })} className={Styles.actionButton}><FontAwesomeIcon icon={faPenToSquare} /></button>
-                  <button onClick={() => setModal({ isOpen: true, type: "delete", data: contact })} className={`${Styles.actionButton} ${Styles.deleteButton}`}><FontAwesomeIcon icon={faTrash} /></button>
+                  <button
+                    onClick={() =>
+                      setModal({ isOpen: true, type: "edit", data: contact })
+                    }
+                    className={Styles.actionButton}
+                  >
+                    <FontAwesomeIcon icon={faPenToSquare} />
+                  </button>
+                  <button
+                    onClick={() =>
+                      setModal({ isOpen: true, type: "delete", data: contact })
+                    }
+                    className={`${Styles.actionButton} ${Styles.deleteButton}`}
+                  >
+                    <FontAwesomeIcon icon={faTrash} />
+                  </button>
                 </div>
               )}
             </div>
           );
         })
       ) : (
-        <div className={Styles.noContactsMessage}><p>مخاطبی یافت نشد.</p></div>
+        <div className={Styles.noContactsMessage}>
+          <p>مخاطبی یافت نشد.</p>
+        </div>
       )}
       <Modal isOpen={modal.isOpen} onClose={() => setModal({ isOpen: false })}>
         {modalContent()}
