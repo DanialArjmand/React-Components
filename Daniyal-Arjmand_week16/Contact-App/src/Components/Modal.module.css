@@ -1,0 +1,134 @@
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: #fff;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
+  position: relative;
+  width: 90%;
+  max-width: 450px;
+  text-align: right;
+  direction: rtl;
+}
+
+.messageContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  color: #000;
+  text-align: center;
+  overflow: hidden;
+  padding-top: 20px;
+}
+
+.messageContent h2 {
+  margin-bottom: 10px;
+  font-size: 1.7rem;
+  z-index: 1;
+}
+
+.messageContent p {
+  margin-bottom: 20px;
+  width: 90%;
+  font-size: 0.9rem;
+  color: #555;
+  z-index: 1;
+}
+
+.checkmarkCircle {
+  color: #fff;
+  background-color: #079455;
+  padding: 10px;
+  width: 25px;
+  height: 25px;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.circleCompleted {
+  background-color: #079455;
+  padding: 10px;
+  border-radius: 50%;
+  margin-bottom: 25px;
+  position: relative;
+  z-index: 0;
+}
+
+.circleBack {
+  border: 1px solid #0794547d;
+  border-radius: 50%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  animation: circlesAnim 1s ease-out forwards;
+}
+
+.circleBack:nth-child(2) { width: 200px; height: 200px; animation-delay: 0s; }
+.circleBack:nth-child(3) { width: 150px; height: 150px; animation-delay: 0.2s; }
+.circleBack:nth-child(4) { width: 100px; height: 100px; animation-delay: 0.4s; }
+
+.checkmarkError {
+  color: #fff;
+  background-color: #ffc300;
+  padding: 10px;
+  width: 25px;
+  height: 25px;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.circleError {
+  background-color: #ffc300;
+  padding: 10px;
+  border-radius: 50%;
+  margin-bottom: 25px;
+  position: relative;
+  z-index: 0;
+}
+
+.circleE {
+  border: 1px solid #ffc3007d;
+  border-radius: 50%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  animation: circlesAnim 1s ease-out forwards;
+}
+
+.circleE:nth-child(2) { width: 200px; height: 200px; animation-delay: 0s; }
+.circleE:nth-child(3) { width: 150px; height: 150px; animation-delay: 0.2s; }
+.circleE:nth-child(4) { width: 100px; height: 100px; animation-delay: 0.4s; }
+
+@keyframes circlesAnim {
+  0% {
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0;
+  }
+}
