@@ -231,10 +231,11 @@ const ContactList = () => {
           const selected = selectedIds.includes(contact.id);
           return (
             <div
-              key={contact.id}
+              key={contact.id || index}
               className={`${Styles.item} ${
-                selected ? Styles.selectedItem : ""
+                selectedIds.includes(contact.id) ? Styles.selectedItem : ""
               }`}
+              style={{ animationDelay: `${index * 0.1}s` }}
             >
               {selection && (
                 <input

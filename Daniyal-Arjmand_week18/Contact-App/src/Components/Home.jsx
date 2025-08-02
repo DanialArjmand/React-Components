@@ -8,30 +8,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAddressBook,
   faUserPlus,
-  faMoon,
+  faCircleHalfStroke,
 } from "@fortawesome/free-solid-svg-icons";
 import "./DarkMode.css";
 
 const Home = () => {
   const { state, dispatch } = useContacts();
-  const { view, formVisible, contacts, contactEdit } = state;
-  // const [DarkMode, setDarkMode] = useState(false);
-
-  // useEffect(() => {
-  //   if (DarkMode) {
-  //     document.body.classList.add("dark-mode");
-  //   } else {
-  //     document.body.classList.remove("dark-mode");
-  //   }
-
-  //   return () => {
-  //     document.body.classList.remove("dark-mode");
-  //   };
-  // }, [DarkMode]);
-
-  // const toggleDarkMode = () => {
-  //   setDarkMode(!DarkMode);
-  // };
+  const { view, formVisible, darkMode } = state;
 
   const toggleForm = () => {
     dispatch({ type: "TOGGLE_FORM" });
@@ -67,8 +50,10 @@ const Home = () => {
                   className="text-butt-mode"
                   onClick={() => dispatch({ type: "TOGGLE_DARK_MODE" })}
                 >
-                  <span className="label-butt"> حالت شب</span>
-                  <FontAwesomeIcon icon={faMoon} className="icon-moon" />
+                  <span className="label-butt">
+                    {darkMode ? "حالت روز" : "حالت شب"}
+                  </span>
+                  <FontAwesomeIcon icon={faCircleHalfStroke} className="icon-light" />
                 </button>
               </div>
               <div className="text-content">
