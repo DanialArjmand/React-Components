@@ -1,0 +1,81 @@
+:root {
+  --gradient-dark: linear-gradient(
+    50deg,
+    rgba(180, 83, 232, 1) 0%,
+    rgba(32, 21, 148, 1) 25%,
+    rgba(10, 8, 47, 1) 75%
+  );
+}
+
+body.dark-mode {
+  background: var(--gradient-dark);
+}
+
+body.dark-mode .home-root {
+  box-shadow: 0px 0px 0px 6px #ffffff20;
+}
+
+body.dark-mode .art-container {
+  background-color: #111729;
+}
+
+body.dark-mode .text-container {
+  background: url(../images/blob-scene-haikei-darkblue.svg);
+}
+
+body.dark-mode .text-butt {
+  background-color: #fff;
+  color: #000;
+}
+
+body.dark-mode .text-butt-user {
+  background-color: #fff;
+  color: #000;
+}
+
+body.dark-mode .text-butt-list {
+  background-color: #fff;
+  color: #000;
+}
+
+body.dark-mode .text-butt-mode {
+  background-color: #fff;
+  color: #000;
+}
+
+body.dark-mode .label-butt {
+  color: #000;
+}
+
+body.dark-mode .icon-user {
+  color: #000;
+}
+
+body.dark-mode .icon-list {
+  color: #000;
+}
+
+body.dark-mode .icon-moon {
+  color: #000;
+}
+
+body.dark-mode .text-container {
+  color: #fff;
+}
+
+body.dark-mode label {
+  color: #fff;
+}
+
+body.dark-mode .text-butt-state {
+  background-color: #fff;
+  color: #000;
+}
+
+body.dark-mode .contact-list-page {
+  background: url(../images/wave-haikei-darkblue.svg);
+}
+
+body.dark-mode .glass-overlay {
+  border: 1px solid rgba(255, 255, 255, 0.13);
+}

@@ -10,6 +10,7 @@ import {
   faUserPlus,
   faMoon,
 } from "@fortawesome/free-solid-svg-icons";
+import "./DarkMode.css";
 
 const Home = () => {
   const { state, dispatch } = useContacts();
@@ -62,10 +63,13 @@ const Home = () => {
                   <FontAwesomeIcon icon={faAddressBook} className="icon-list" />
                 </button>
 
-                {/* <button className="text-butt-mode" onClick={toggleDarkMode}>
-                <span className="label-butt"> حالت شب</span>
-                <FontAwesomeIcon icon={faMoon} className="icon-moon" />
-              </button> */}
+                <button
+                  className="text-butt-mode"
+                  onClick={() => dispatch({ type: "TOGGLE_DARK_MODE" })}
+                >
+                  <span className="label-butt"> حالت شب</span>
+                  <FontAwesomeIcon icon={faMoon} className="icon-moon" />
+                </button>
               </div>
               <div className="text-content">
                 <h1>

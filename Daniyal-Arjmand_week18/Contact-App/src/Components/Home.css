@@ -11,35 +11,7 @@
     rgba(55, 100, 228, 1) 30%,
     #d5d9dd 72%
   );
-  --gradient-dark: linear-gradient(
-    50deg,
-    rgba(180, 83, 232, 1) 0%,
-    rgba(32, 21, 148, 1) 25%,
-    rgba(10, 8, 47, 1) 75%
-  );
 }
-
-/* body.dark-mode  {
-  background: var(--gradient-dark);
-}
-
-body.dark-mode .art-container {
-  background-color: #000;
-}
-
-body.dark-mode .text-container {
-  background: url(../images/blob-scene-haikei.svg);
-}
-
-body.dark-mode .text-butt {
-  background-color: #fff;
-  color: #000;
-}
-
-body.dark-mode .text-butt-user {
-  background-color: #fff;
-  color: #000;
-} */
 
 body {
   display: flex;
@@ -168,7 +140,7 @@ body {
 }
 
 span {
-  color: #5046e3;
+  color: #5900ff;
 }
 
 .text-butt {
@@ -510,7 +482,7 @@ select:focus {
   transition-delay: 0.1s;
 }
 
-/* .text-butt-mode {
+.text-butt-mode {
   position: relative;
   width: 45px;
   height: 45px;
@@ -557,7 +529,7 @@ select:focus {
   opacity: 1;
   visibility: visible;
   transition-delay: 0.1s;
-} */
+}
 
 .footer-text {
   padding-top: 20px;

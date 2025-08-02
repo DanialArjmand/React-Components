@@ -14,11 +14,12 @@ import {
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import Modal from "./Modal";
+import "./DarkMode.css";
 
 const ContactList = () => {
   const { state, dispatch, deleteContact, deleteMultipleContacts } =
     useContacts();
-  const { contacts } = state;
+  const { contacts, darkMode } = state;
 
   const [modal, setModal] = useState({ isOpen: false, type: "", data: null });
   const [search, setSearch] = useState("");
@@ -172,7 +173,11 @@ const ContactList = () => {
   });
 
   return (
-    <div className={Styles["Parent-list"]}>
+    <div
+      className={`${Styles["Parent-list"]} ${
+        darkMode ? Styles["dark-mode-list"] : ""
+      }`}
+    >
       <div className={Styles["title"]}>
         <h1>لیست مخاطبین</h1>
         <input

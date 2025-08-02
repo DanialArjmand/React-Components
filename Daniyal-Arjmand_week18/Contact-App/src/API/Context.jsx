@@ -9,6 +9,7 @@ const initialState = {
   view: "home",
   formVisible: false,
   contactEdit: null,
+  darkMode: false,
 };
 
 const contactReducer = (state, action) => {
@@ -53,6 +54,8 @@ const contactReducer = (state, action) => {
         ...state,
         view: action.payload,
       };
+    case "TOGGLE_DARK_MODE":
+      return { ...state, darkMode: !state.darkMode };
     default:
       return state;
   }

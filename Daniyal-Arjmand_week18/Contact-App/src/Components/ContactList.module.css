@@ -291,3 +291,49 @@
   min-width: 20px;
   text-align: center;
 }
+
+.dark-mode-list .home-butt {
+  background-color: #fff;
+}
+
+.dark-mode-list .icon-house {
+  color: #000;
+}
+
+.dark-mode-list .trash-butt {
+  background-color: #fff;
+}
+
+.dark-mode-list .icon-trash {
+  color: #000;
+}
+
+.dark-mode-list .label-butt {
+  color: #000;
+}
+
+.dark-mode-list .title h1 {
+  color: #fff;
+}
+
+.dark-mode-list .item {
+  background-color: #4a4e69;
+  color: #fff;
+}
+
+.dark-mode-list .actionButton {
+  color: #dedede;
+}
+
+.dark-mode-list .actionButton:hover {
+  transform: scale(1.2);
+  color: #007bff;
+}
+
+.dark-mode-list .deleteButton:hover {
+  color: #dc3545;
+}
+
+.dark-mode-list .noContactsMessage {
+  color: #fff;
+}

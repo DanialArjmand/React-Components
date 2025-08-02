@@ -1,14 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Home from "./Components/Home";
-import { ContactService } from "./API/Context";
+import { ContactService, useContacts } from "./API/Context";
 import "./App.css";
+
+const AppContent = () => {
+  const { state } = useContacts();
+  const { darkMode } = state;
+
+  useEffect(() => {
+    if (darkMode) {
+      document.body.classList.add("dark-mode");
+    } else {
+      document.body.classList.remove("dark-mode");
+    }
+  }, [darkMode]);
+
+  return (
+    <div className="App">
+      <Home />
+    </div>
+  );
+};
 
 const App = () => {
   return (
     <ContactService>
-      <div className="App">
-        <Home />
-      </div>
+      <AppContent />
     </ContactService>
   );
 };
