@@ -1,0 +1,293 @@
+.Parent-list {
+  width: 100%;
+  height: 580px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding-right: 15px;
+  overflow-y: auto;
+}
+
+.title {
+  width: 92%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  margin-left: 5px;
+  gap: 20px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.title h1 {
+  margin: 0 25px;
+  white-space: nowrap;
+  padding-left: 15px;
+}
+
+.item {
+  width: 975px;
+  max-width: 1000px;
+  background-color: #e9ecef;
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+  border: 2px solid #b453e8;
+  margin: 30px 20px 0;
+}
+
+.item p {
+  padding: 12px 15px;
+}
+
+.button-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  padding: 5px 5px;
+  margin: 0 5px;
+  margin: auto;
+}
+
+.home-butt {
+  position: relative;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: none;
+  background-color: #000000;
+  cursor: pointer;
+  overflow: hidden;
+  transition: width 0.4s ease-in-out, border-radius 0.4s ease-in-out;
+  margin: 5px;
+}
+
+.icon-house {
+  position: absolute;
+  font-size: 22px;
+  color: #ffffff;
+  top: 50%;
+  left: 22.5px;
+  transform: translate(-50%, -50%);
+  transition: transform 0.4s ease-in-out;
+}
+
+.label-butt {
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+  top: 50%;
+  left: 40px;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffffff;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+.home-butt:hover {
+  width: 120px;
+  border-radius: 20px;
+  border: none;
+}
+
+.home-butt:hover .label-butt {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0.1s;
+}
+
+.trash-butt {
+  position: relative;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: none;
+  background-color: #000000;
+  cursor: pointer;
+  overflow: hidden;
+  transition: width 0.4s ease-in-out, border-radius 0.4s ease-in-out;
+  margin: 5px;
+}
+
+.icon-trash {
+  position: absolute;
+  font-size: 22px;
+  color: #ffffff;
+  top: 50%;
+  left: 22.5px;
+  transform: translate(-50%, -50%);
+  transition: transform 0.4s ease-in-out;
+}
+
+.label-butt {
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+  top: 50%;
+  left: 40px;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffffff;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+.trash-butt:hover {
+  width: 120px;
+  border-radius: 20px;
+  border: none;
+}
+
+.trash-butt:hover .label-butt {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0.1s;
+}
+
+.icon-list {
+  padding: 0 7px;
+}
+
+.itemActions {
+  display: flex;
+  gap: 15px;
+  margin-right: auto;
+  padding-left: 20px;
+}
+
+.actionButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  color: #343a40;
+  transition: transform 0.2s, color 0.2s;
+}
+
+.actionButton:hover {
+  transform: scale(1.2);
+  color: #007bff;
+}
+
+.deleteButton:hover {
+  color: #dc3545;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: space-around;
+  gap: 10px;
+  margin-top: 25px;
+  border-top: 1px solid #eee;
+  padding-top: 15px;
+}
+
+.confirmButton,
+.cancelButton {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  font-family: "Yekan", sans-serif;
+  transition: background-color 0.1s;
+}
+
+.confirmButton {
+  background-color: #000;
+  color: #fff;
+}
+.confirmButton:hover {
+  background-color: #1fb172;
+}
+
+.cancelButton {
+  background-color: #000;
+  color: #fff;
+}
+.cancelButton:hover {
+  background-color: #ff0000;
+}
+
+.searchInput {
+  width: 400px;
+  height: 45px;
+  border-radius: 30px;
+  margin: 0 30px;
+  padding: 0 15px;
+  border: 2px solid #b453e8;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: #5900ff;
+}
+
+.noContactsMessage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px;
+  margin-top: 20px;
+}
+
+.noContactsMessage p {
+  font-size: 1.2rem;
+}
+
+.selectedItem {
+  background-color: #d6eaff;
+  border-color: #007bff;
+}
+
+.checkbox {
+  width: 20px;
+  height: 20px;
+  margin: 0 15px;
+  cursor: pointer;
+}
+
+.deleteSelectedButton {
+  width: 75px;
+  height: 38px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: "Yekan", sans-serif;
+  font-weight: bold;
+  transition: background-color 0.2s, color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.deleteSelectedButton {
+  background-color: #dc3545;
+  color: white;
+}
+
+.deleteSelectedButton:hover:not(:disabled) {
+  background-color: #c82333;
+}
+
+.deleteSelectedButton:disabled {
+  background-color: #a0a0a0;
+  cursor: not-allowed;
+}
+
+.rowIndex {
+  font-weight: bold;
+  min-width: 20px;
+  text-align: center;
+}
