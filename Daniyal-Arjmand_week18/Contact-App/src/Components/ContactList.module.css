@@ -186,16 +186,28 @@
 }
 
 .modalActions {
+  width: 80%;
   display: flex;
   justify-content: space-around;
   gap: 10px;
   margin-top: 25px;
-  border-top: 1px solid #eee;
   padding-top: 15px;
 }
 
 .confirmButton,
 .cancelButton {
+  padding: 12px 40px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  font-family: "Yekan", sans-serif;
+  transition: background-color 0.1s;
+}
+
+.cancelButtonGruop {
+  background-color: #000;
+  color: #fff;
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
@@ -203,6 +215,10 @@
   font-weight: bold;
   font-family: "Yekan", sans-serif;
   transition: background-color 0.1s;
+}
+
+.cancelButtonGruop:hover {
+  background-color: #ff0000;
 }
 
 .confirmButton {

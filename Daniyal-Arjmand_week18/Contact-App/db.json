@@ -26,24 +26,6 @@
       "Phone": "09135993488",
       "Category": "همکار",
       "Gender": "مرد"
-    },
-    {
-      "id": "4ae1",
-      "Name": "دانیال",
-      "LastName": "ارجمند",
-      "Email": "ali@email.com",
-      "Phone": "09135993488",
-      "Category": "خانواده",
-      "Gender": "مرد"
-    },
-    {
-      "id": "ce59",
-      "Name": "دانیال",
-      "LastName": "ارجمند",
-      "Email": "ali@email.com",
-      "Phone": "09135993488",
-      "Category": "خانواده",
-      "Gender": "مرد"
     }
   ]
 }

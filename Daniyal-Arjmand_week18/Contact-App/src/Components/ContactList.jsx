@@ -199,7 +199,7 @@ const ContactList = () => {
               >
                 حذف ({selectedIds.length})
               </button>
-              <button onClick={toggleSelection} className={Styles.cancelButton}>
+              <button onClick={toggleSelection} className={Styles.cancelButtonGruop}>
                 <FontAwesomeIcon icon={faTimes} /> لغو
               </button>
             </>
