@@ -11,7 +11,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "./DarkMode.css";
 // import CountUp from "react-countup";
-// import logo from "../images/logo_DA.svg";
+import logoWhite from "../images/logo-white.png";
+import logoDark from "../images/logo-dark.png";
 
 const Home = () => {
   const { state, dispatch } = useContacts();
@@ -36,35 +37,40 @@ const Home = () => {
             <div className="glass-overlay"></div>
 
             <div className="text-container">
-              <div className="button-container">
-                <button className="text-butt-user" onClick={toggleForm}>
-                  <span className="label-butt"> افزودن </span>
-                  <FontAwesomeIcon icon={faUserPlus} className="icon-user" />
-                </button>
+              <div className="header">
+                <div className="button-container">
+                  <button className="text-butt-user" onClick={toggleForm}>
+                    <span className="label-butt"> افزودن </span>
+                    <FontAwesomeIcon icon={faUserPlus} className="icon-user" />
+                  </button>
 
-                <button className="text-butt-list" onClick={showListPage}>
-                  <span className="label-butt"> لیست مخاطبین </span>
-                  <FontAwesomeIcon icon={faAddressBook} className="icon-list" />
-                </button>
+                  <button className="text-butt-list" onClick={showListPage}>
+                    <span className="label-butt"> لیست مخاطبین </span>
+                    <FontAwesomeIcon
+                      icon={faAddressBook}
+                      className="icon-list"
+                    />
+                  </button>
 
-                <button
-                  className="text-butt-mode"
-                  onClick={() => dispatch({ type: "TOGGLE_DARK_MODE" })}
-                >
-                  <span className="label-butt">
-                    {darkMode ? "حالت روز" : "حالت شب"}
-                  </span>
-                  <FontAwesomeIcon
-                    icon={faCircleHalfStroke}
-                    className="icon-light"
-                  />
-                </button>
+                  <button
+                    className="text-butt-mode"
+                    onClick={() => dispatch({ type: "TOGGLE_DARK_MODE" })}
+                  >
+                    <span className="label-butt">
+                      {darkMode ? "حالت روز" : "حالت شب"}
+                    </span>
+                    <FontAwesomeIcon
+                      icon={faCircleHalfStroke}
+                      className="icon-light"
+                    />
+                  </button>
+                </div>
 
-                {/* <img
-                  src={logo}
+                <img
+                  src={darkMode ? logoWhite : logoDark}
                   alt="Logo DA"
-                  style={{ width: "100px", height: "auto" }}
-                /> */}
+                  style={{ width: "65px", height: "auto", margin: "0 10px" }}
+                />
               </div>
               <div className="text-content">
                 <h1>

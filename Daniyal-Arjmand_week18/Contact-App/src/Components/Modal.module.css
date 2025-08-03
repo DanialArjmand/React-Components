@@ -41,7 +41,6 @@
 .messageContent h2 {
   margin-bottom: 10px;
   font-size: 1.7rem;
-
 }
 
 .messageContent p {
@@ -126,7 +125,6 @@
   z-index: 0;
 }
 
-
 .circleBack {
   border: 1px solid #4361ee;
   border-radius: 50%;
@@ -201,7 +199,6 @@
   position: relative;
   z-index: 0;
 }
-
 
 .circleBackDelete {
   border: 1px solid #ff0000;

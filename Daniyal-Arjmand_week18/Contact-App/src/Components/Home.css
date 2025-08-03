@@ -119,6 +119,11 @@ body {
   padding: 20px 20px 0 5px;
 }
 
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
 .glass-overlay {
   position: absolute;
   top: 0;
@@ -558,7 +563,7 @@ select:focus {
 
 .number-contacts span {
   font-family: Arial, Helvetica, sans-serif;
-   justify-items: center;
+  justify-items: center;
   align-content: center;
   color: #5900ff;
   font-size: 3rem;
