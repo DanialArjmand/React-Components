@@ -10,7 +10,7 @@ import {
   faCircleHalfStroke,
 } from "@fortawesome/free-solid-svg-icons";
 import "./DarkMode.css";
-import CountUp from "react-countup";
+// import CountUp from "react-countup";
 // import logo from "../images/logo_DA.svg";
 
 const Home = () => {
@@ -80,12 +80,13 @@ const Home = () => {
                 <div className="number-contacts">
                   <p>تعداد مخاطبین ذخیره شده:</p>
                   <span>
-                    <CountUp
+                    {contacts.length}
+                    {/* <CountUp
                       key={contacts.length}
                       start={0}
                       end={contacts.length}
                       duration={2.5}
-                    />
+                    /> */}
                   </span>
                 </div>
               </div>

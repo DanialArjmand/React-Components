@@ -303,7 +303,7 @@ const ContactList = () => {
           <p>مخاطبی یافت نشد.</p>
         </div>
       )}
-      <Modal isOpen={modal.isOpen} onClose={() => setModal({ isOpen: false })}>
+      <Modal isOpen={modal.isOpen} onClose={() => setModal({ isOpen: false })} type={modal.type}>
         {modalContent()}
       </Modal>
     </div>
