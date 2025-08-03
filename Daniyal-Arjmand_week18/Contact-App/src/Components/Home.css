@@ -251,6 +251,12 @@ select:focus {
   padding-bottom: 30px;
 }
 
+.text-content p {
+  width: 95%;
+  line-height: 1.7rem;
+  text-align: justify;
+}
+
 .contact-list-page {
   background: url(../images/wave-haikei.svg);
   width: 100%;
@@ -535,4 +541,25 @@ select:focus {
   padding-top: 20px;
   font-size: 14px;
   color: #f2f2f2;
+}
+
+.number-contacts {
+  display: flex;
+  flex-direction: row;
+  padding-top: 160px;
+}
+
+.number-contacts p {
+  width: 45%;
+  font-size: 1.1rem;
+  text-align: justify;
+  align-content: center;
+}
+
+.number-contacts span {
+  font-family: Arial, Helvetica, sans-serif;
+   justify-items: center;
+  align-content: center;
+  color: #5900ff;
+  font-size: 3rem;
 }

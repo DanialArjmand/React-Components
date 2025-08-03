@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from "react";
 import "./Home.css";
 import Inputs from "./Inputs";
 import ContactList from "./ContactList";
@@ -11,10 +10,12 @@ import {
   faCircleHalfStroke,
 } from "@fortawesome/free-solid-svg-icons";
 import "./DarkMode.css";
+import CountUp from "react-countup";
+// import logo from "../images/logo_DA.svg";
 
 const Home = () => {
   const { state, dispatch } = useContacts();
-  const { view, formVisible, darkMode } = state;
+  const { view, formVisible, darkMode, contacts } = state;
 
   const toggleForm = () => {
     dispatch({ type: "TOGGLE_FORM" });
@@ -53,19 +54,40 @@ const Home = () => {
                   <span className="label-butt">
                     {darkMode ? "حالت روز" : "حالت شب"}
                   </span>
-                  <FontAwesomeIcon icon={faCircleHalfStroke} className="icon-light" />
+                  <FontAwesomeIcon
+                    icon={faCircleHalfStroke}
+                    className="icon-light"
+                  />
                 </button>
+
+                {/* <img
+                  src={logo}
+                  alt="Logo DA"
+                  style={{ width: "100px", height: "auto" }}
+                /> */}
               </div>
               <div className="text-content">
                 <h1>
-                  برنامه مخاطبین برای ثبت شماره و ایمیل های
-                  <span> تحت وب</span>
+                  مدیریت هوشمند
+                  <span> مخاطبین</span>
                 </h1>
                 <p>
-                  شما میتوانید با دکمه افزودن لیستی از مخاطبین را ثبت کنید و در
-                  هر فیلد اسم ، شماره تلفن ، ایمیل ، دسته بندی و جنسیت رو داشته
-                  باشید
+                  این برنامه به شما کمک می‌کند تا لیستی کامل از مخاطبین خود
+                  بسازید. برای هر شخص اطلاعاتی مانند نام، شماره تلفن، ایمیل،
+                  دسته‌بندی (دوست، همکار، ...) و جنسیت را ثبت کرده و به سرعت به
+                  آنها دسترسی پیدا کنید.
                 </p>
+                <div className="number-contacts">
+                  <p>تعداد مخاطبین ذخیره شده:</p>
+                  <span>
+                    <CountUp
+                      key={contacts.length}
+                      start={0}
+                      end={contacts.length}
+                      duration={2.5}
+                    />
+                  </span>
+                </div>
               </div>
             </div>
           </>
