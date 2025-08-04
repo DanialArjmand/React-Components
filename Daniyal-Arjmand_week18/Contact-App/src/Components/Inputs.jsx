@@ -9,6 +9,16 @@ import {
   faCheckCircle,
   faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
+import InputField from "./InputField";
+
+const INITIAL_FORM_STATE = {
+  Name: "",
+  LastName: "",
+  Email: "",
+  Phone: "",
+  Category: "",
+  Gender: "",
+};
 
 const Inputs = () => {
   const { state, dispatch, saveContact } = useContacts();
@@ -29,14 +39,7 @@ const Inputs = () => {
     if (contactEdit) {
       reset(contactEdit);
     } else {
-      reset({
-        Name: "",
-        LastName: "",
-        Email: "",
-        Phone: "",
-        Category: "",
-        Gender: "",
-      });
+      reset(INITIAL_FORM_STATE);
     }
   }, [contactEdit, reset]);
 
@@ -48,14 +51,7 @@ const Inputs = () => {
     await saveContact(payload);
 
     setTimeout(() => {
-      reset({
-        Name: "",
-        LastName: "",
-        Email: "",
-        Phone: "",
-        Category: "",
-        Gender: "",
-      });
+      reset(INITIAL_FORM_STATE);
     }, 2500);
   };
 
@@ -102,124 +98,46 @@ const Inputs = () => {
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
-        <div className="input-wrapper">
-          <div className={`inputs ${errors.Name ? "inputs-error" : ""}`}>
-            <label> نام : </label>
-            <div className="input-container">
-              <input
-                type="text"
-                placeholder="نام"
-                {...register("Name")}
-                className={errors.Name ? "input-error" : ""}
-              />
-
-              {isSubmitted &&
-                (errors.Name ? (
-                  <FontAwesomeIcon
-                    icon={faExclamationCircle}
-                    className="icon error-icon"
-                  />
-                ) : (
-                  watch("Name") && (
-                    <FontAwesomeIcon
-                      icon={faCheckCircle}
-                      className="icon success-icon"
-                    />
-                  )
-                ))}
-            </div>
-          </div>
-          {errors.Name && <p className="error-text">{errors.Name.message}</p>}
-        </div>
-
-        <div className="input-wrapper">
-          <div className={`inputs ${errors.LastName ? "inputs-error" : ""}`}>
-            <label> نام خانوادگی : </label>
-            <div className="input-container">
-              <input
-                type="text"
-                placeholder="نام خانوادگی"
-                {...register("LastName")}
-                className={errors.LastName ? "input-error" : ""}
-              />
-              {isSubmitted &&
-                (errors.LastName ? (
-                  <FontAwesomeIcon
-                    icon={faExclamationCircle}
-                    className="icon error-icon"
-                  />
-                ) : (
-                  watch("LastName") && (
-                    <FontAwesomeIcon
-                      icon={faCheckCircle}
-                      className="icon success-icon"
-                    />
-                  )
-                ))}
-            </div>
-          </div>
-          {errors.LastName && (
-            <p className="error-text">{errors.LastName.message}</p>
-          )}
-        </div>
-
-        <div className="input-wrapper">
-          <div className={`inputs ${errors.Email ? "inputs-error" : ""}`}>
-            <label> ایمیل : </label>
-            <div className="input-container">
-              <input
-                type="email"
-                placeholder="ایمیل"
-                {...register("Email")}
-                className={errors.Email ? "input-error" : ""}
-              />
-              {isSubmitted &&
-                (errors.Email ? (
-                  <FontAwesomeIcon
-                    icon={faExclamationCircle}
-                    className="icon error-icon"
-                  />
-                ) : (
-                  watch("Email") && (
-                    <FontAwesomeIcon
-                      icon={faCheckCircle}
-                      className="icon success-icon"
-                    />
-                  )
-                ))}
-            </div>
-          </div>
-          {errors.Email && <p className="error-text">{errors.Email.message}</p>}
-        </div>
-
-        <div className="input-wrapper">
-          <div className={`inputs ${errors.Phone ? "inputs-error" : ""}`}>
-            <label> شماره تلفن : </label>
-            <div className="input-container">
-              <input
-                type="number"
-                placeholder="شماره تلفن "
-                {...register("Phone")}
-                className={errors.Phone ? "input-error" : ""}
-              />
-              {isSubmitted &&
-                (errors.Phone ? (
-                  <FontAwesomeIcon
-                    icon={faExclamationCircle}
-                    className="icon error-icon"
-                  />
-                ) : (
-                  watch("Phone") && (
-                    <FontAwesomeIcon
-                      icon={faCheckCircle}
-                      className="icon success-icon"
-                    />
-                  )
-                ))}
-            </div>
-          </div>
-          {errors.Phone && <p className="error-text">{errors.Phone.message}</p>}
-        </div>
+        <InputField
+          name="Name"
+          label="نام"
+          type="text"
+          placeholder="نام"
+          register={register}
+          errors={errors}
+          watch={watch}
+          isSubmitted={isSubmitted}
+        />
+        <InputField
+          name="LastName"
+          label="نام خانوادگی"
+          type="text"
+          placeholder="نام خانوادگی"
+          register={register}
+          errors={errors}
+          watch={watch}
+          isSubmitted={isSubmitted}
+        />
+        <InputField
+          name="Email"
+          label="ایمیل"
+          type="email"
+          placeholder="ایمیل"
+          register={register}
+          errors={errors}
+          watch={watch}
+          isSubmitted={isSubmitted}
+        />
+        <InputField
+          name="Phone"
+          label="شماره تلفن"
+          type="number"
+          placeholder="شماره تلفن"
+          register={register}
+          errors={errors}
+          watch={watch}
+          isSubmitted={isSubmitted}
+        />
 
         <div className="input-wrapper">
           <div className={`select-op ${errors.Category ? "select-error" : ""}`}>

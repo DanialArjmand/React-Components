@@ -2,19 +2,10 @@ import React, { useState } from "react";
 import Styles from "./ContactList.module.css";
 import { useContacts } from "../context/Context";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faHouse,
-  faTrash,
-  faUser,
-  faEnvelope,
-  faPhone,
-  faLayerGroup,
-  faPenToSquare,
-  faList,
-  faTimes,
-} from "@fortawesome/free-solid-svg-icons";
+import { faHouse, faList, faTimes } from "@fortawesome/free-solid-svg-icons";
 import Modal from "./Modal";
 import "./DarkMode.css";
+import ContactItem from "./ContactItem";
 
 const ContactList = () => {
   const { state, dispatch, deleteContact, deleteMultipleContacts } =
@@ -238,72 +229,24 @@ const ContactList = () => {
         filteredContacts.map((contact, index) => {
           const selected = selectedIds.includes(contact.id);
           return (
-            <div
+            <ContactItem
               key={contact.id || index}
-              className={`${Styles.item} ${
-                selectedIds.includes(contact.id) ? Styles.selectedItem : ""
-              }`}
-              style={{ animationDelay: `${index * 0.1}s` }}
-            >
-              {selection && (
-                <input
-                  type="checkbox"
-                  className={Styles.checkbox}
-                  checked={selected}
-                  onChange={() => checkboxChangeHandler(contact.id)}
-                />
-              )}
-              <p className={Styles.rowIndex}>{index + 1}</p>
-              <p>
-                <FontAwesomeIcon
-                  icon={faUser}
-                  className={Styles["icon-list"]}
-                />
-                {contact.Name} {contact.LastName}
-              </p>
-              <p>
-                <FontAwesomeIcon
-                  icon={faEnvelope}
-                  className={Styles["icon-list"]}
-                />
-                {contact.Email}
-              </p>
-              <p>
-                <FontAwesomeIcon
-                  icon={faPhone}
-                  className={Styles["icon-list"]}
-                />
-                {contact.Phone}
-              </p>
-              <p>
-                <FontAwesomeIcon
-                  icon={faLayerGroup}
-                  className={Styles["icon-list"]}
-                />
-                {contact.Category}
-              </p>
-              <p>{contact.Gender}</p>
-              {!selection && (
-                <div className={Styles.itemActions}>
-                  <button
-                    onClick={() =>
-                      setModal({ isOpen: true, type: "edit", data: contact })
-                    }
-                    className={Styles.actionButton}
-                  >
-                    <FontAwesomeIcon icon={faPenToSquare} />
-                  </button>
-                  <button
-                    onClick={() =>
-                      setModal({ isOpen: true, type: "delete", data: contact })
-                    }
-                    className={`${Styles.actionButton} ${Styles.deleteButton}`}
-                  >
-                    <FontAwesomeIcon icon={faTrash} />
-                  </button>
-                </div>
-              )}
-            </div>
+              contact={contact}
+              index={index}
+              selection={selection}
+              selected={selected}
+              onCheckboxChange={checkboxChangeHandler}
+              onEdit={(contactToEdit) =>
+                setModal({ isOpen: true, type: "edit", data: contactToEdit })
+              }
+              onDelete={(contactToDelete) =>
+                setModal({
+                  isOpen: true,
+                  type: "delete",
+                  data: contactToDelete,
+                })
+              }
+            />
           );
         })
       ) : (
