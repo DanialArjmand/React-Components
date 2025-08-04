@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Home from "./Components/Home";
-import { ContactService, useContacts } from "./API/Context";
+import { ContactService, useContacts } from "./context/Context";
 import "./App.css";
 
 const AppContent = () => {

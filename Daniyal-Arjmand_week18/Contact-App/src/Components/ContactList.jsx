@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Styles from "./ContactList.module.css";
-import { useContacts } from "../API/Context";
+import { useContacts } from "../context/Context";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHouse,

@@ -2,7 +2,7 @@ import "./Home.css";
 import Inputs from "./Inputs";
 import ContactList from "./ContactList";
 import { v4 } from "uuid";
-import { useContacts } from "../API/Context";
+import { useContacts } from "../context/Context";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAddressBook,
