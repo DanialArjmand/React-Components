@@ -4,8 +4,6 @@
 
 A modern and responsive web application for managing contacts, built with React and Vite. This app allows you to perform full CRUD (Create, Read, Update, Delete) operations and features a dark mode, dynamic form validation, and advanced functionalities like bulk deletion.
 
-![A demonstration of the Contact Management App](https://via.placeholder.com/800x450.png?text=App+Screenshot+Here)
-
 ---
 
 ## ✨ Features

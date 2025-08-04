@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { useContacts } from "../context/Context";
-import { validateForm } from "../utils/validation";
+import { contactSchema } from "../utils/validationSchema";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faExclamationCircle,
@@ -8,303 +10,272 @@ import {
   faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
 
-// import Banner from "./Inputs/Banner";
-// import FormFields from "./Inputs/FormFields";
-// import ActionButtons from "./Inputs/ActionButtons";
-
 const Inputs = () => {
   const { state, dispatch, saveContact } = useContacts();
   const { contactEdit } = state;
 
-  const [form, setForm] = useState({
-    Name: "",
-    LastName: "",
-    Email: "",
-    Phone: "",
-    Category: "",
-    Gender: "",
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    formState: { errors, isValid, isSubmitSuccessful, isSubmitted },
+  } = useForm({
+    resolver: yupResolver(contactSchema),
+    mode: "onChange",
   });
-  const [errors, setErrors] = useState({});
-  const [Submitted, setSubmitted] = useState(false);
-  const [bannerState, setBannerState] = useState("default");
-
-  const changeHandler = (event) => {
-    const { name, value } = event.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
-  };
-
-  useEffect(() => {
-    if (Submitted) {
-      setErrors(validateForm(form));
-    }
-  }, [form, Submitted]);
 
   useEffect(() => {
     if (contactEdit) {
-      setForm(contactEdit);
-    }
-  }, [contactEdit]);
-
-  useEffect(() => {
-    if (bannerState === "error" && Object.keys(errors).length === 0) {
-      setBannerState("default");
-    }
-  }, [errors, bannerState]);
-
-  const submitHandler = async () => {
-    setSubmitted(true);
-    const validationErrors = validateForm(form);
-    setErrors(validationErrors);
-
-    if (Object.keys(validationErrors).length === 0) {
-      const payload = { ...form };
-
-      if (contactEdit) {
-        payload.id = contactEdit.id;
-      }
-
-      await saveContact(payload);
-
-      setBannerState("success");
-
-      setTimeout(() => {
-        setForm({
-          Name: "",
-          LastName: "",
-          Email: "",
-          Phone: "",
-          Category: "",
-          Gender: "",
-        });
-        setErrors({});
-        setSubmitted(false);
-        setBannerState("default");
-      }, 2500);
+      reset(contactEdit);
     } else {
-      setBannerState("error");
+      reset({
+        Name: "",
+        LastName: "",
+        Email: "",
+        Phone: "",
+        Category: "",
+        Gender: "",
+      });
     }
+  }, [contactEdit, reset]);
+
+  const onSubmit = async (data) => {
+    const payload = { ...data };
+    if (contactEdit) {
+      payload.id = contactEdit.id;
+    }
+    await saveContact(payload);
+
+    setTimeout(() => {
+      reset({
+        Name: "",
+        LastName: "",
+        Email: "",
+        Phone: "",
+        Category: "",
+        Gender: "",
+      });
+    }, 2500);
   };
 
   const closeHandler = () => {
     dispatch({ type: "TOGGLE_FORM" });
   };
 
-  const bannerContent = {
-    default: {
+  const getBannerProps = () => {
+    if (isSubmitSuccessful) {
+      return {
+        icon: faCheckCircle,
+        text: "اطلاعات شما با موفقیت ذخیره شد!",
+        className: "success",
+      };
+    }
+    if (Object.keys(errors).length > 0) {
+      return {
+        icon: faExclamationCircle,
+        text: "یکی از فیلدها نادرست است. لطفاً موارد را اصلاح کنید.",
+        className: "error",
+      };
+    }
+    if (isValid) {
+      return {
+        icon: faInfoCircle,
+        text: "همه موارد صحیح است، اطلاعات خود را ذخیره کنید.",
+        className: "default",
+      };
+    }
+    return {
       icon: faInfoCircle,
-      text:
-        Object.keys(errors).length === 0 && Submitted
-          ? "همه موارد صحیح است، اطلاعات خود را ذخیره کنید."
-          : " لطفاً اطلاعات خود را وارد کنید.",
+      text: "لطفاً اطلاعات خود را وارد کنید.",
       className: "default",
-    },
-    error: {
-      icon: faExclamationCircle,
-      text: "یکی از فیلدها نادرست است. لطفاً موارد را اصلاح کنید.",
-      className: "error",
-    },
-    success: {
-      icon: faCheckCircle,
-      text: "اطلاعات شما با موفقیت ذخیره شد!",
-      className: "success",
-    },
+    };
   };
+
+  const banner = getBannerProps();
 
   return (
     <div>
-      <div className={`banner banner-${bannerContent[bannerState].className}`}>
-        <FontAwesomeIcon icon={bannerContent[bannerState].icon} />
-        <p>{bannerContent[bannerState].text}</p>
+      <div className={`banner banner-${banner.className}`}>
+        <FontAwesomeIcon icon={banner.icon} />
+        <p>{banner.text}</p>
       </div>
 
-      <div className="input-wrapper">
-        <div className={`inputs ${errors.Name ? "inputs-error" : ""}`}>
-          <label> نام : </label>
-          <div className="input-container">
-            <input
-              type="text"
-              placeholder="نام"
-              name="Name"
-              value={form.Name}
-              onChange={changeHandler}
-              className={errors.Name ? "input-error" : ""}
-            />
-            {Submitted &&
-              (errors.Name ? (
-                <FontAwesomeIcon
-                  icon={faExclamationCircle}
-                  className="icon error-icon"
-                />
-              ) : (
-                form.Name && (
+      <form onSubmit={handleSubmit(onSubmit)} noValidate>
+        <div className="input-wrapper">
+          <div className={`inputs ${errors.Name ? "inputs-error" : ""}`}>
+            <label> نام : </label>
+            <div className="input-container">
+              <input
+                type="text"
+                placeholder="نام"
+                {...register("Name")}
+                className={errors.Name ? "input-error" : ""}
+              />
+
+              {isSubmitted &&
+                (errors.Name ? (
                   <FontAwesomeIcon
-                    icon={faCheckCircle}
-                    className="icon success-icon"
+                    icon={faExclamationCircle}
+                    className="icon error-icon"
                   />
-                )
-              ))}
+                ) : (
+                  watch("Name") && (
+                    <FontAwesomeIcon
+                      icon={faCheckCircle}
+                      className="icon success-icon"
+                    />
+                  )
+                ))}
+            </div>
           </div>
+          {errors.Name && <p className="error-text">{errors.Name.message}</p>}
         </div>
-        {errors.Name && <p className="error-text">{errors.Name}</p>}
-      </div>
 
-      <div className="input-wrapper">
-        <div className={`inputs ${errors.LastName ? "inputs-error" : ""}`}>
-          <label> نام خانوادگی : </label>
-          <div className="input-container">
-            <input
-              type="text"
-              placeholder="نام خانوادگی"
-              name="LastName"
-              value={form.LastName}
-              onChange={changeHandler}
-              className={errors.LastName ? "input-error" : ""}
-            />
-            {Submitted &&
-              (errors.LastName ? (
-                <FontAwesomeIcon
-                  icon={faExclamationCircle}
-                  className="icon error-icon"
-                />
-              ) : (
-                form.LastName && (
+        <div className="input-wrapper">
+          <div className={`inputs ${errors.LastName ? "inputs-error" : ""}`}>
+            <label> نام خانوادگی : </label>
+            <div className="input-container">
+              <input
+                type="text"
+                placeholder="نام خانوادگی"
+                {...register("LastName")}
+                className={errors.LastName ? "input-error" : ""}
+              />
+              {isSubmitted &&
+                (errors.LastName ? (
                   <FontAwesomeIcon
-                    icon={faCheckCircle}
-                    className="icon success-icon"
+                    icon={faExclamationCircle}
+                    className="icon error-icon"
                   />
-                )
-              ))}
+                ) : (
+                  watch("LastName") && (
+                    <FontAwesomeIcon
+                      icon={faCheckCircle}
+                      className="icon success-icon"
+                    />
+                  )
+                ))}
+            </div>
           </div>
+          {errors.LastName && (
+            <p className="error-text">{errors.LastName.message}</p>
+          )}
         </div>
-        {errors.LastName && <p className="error-text">{errors.LastName}</p>}
-      </div>
 
-      <div className="input-wrapper">
-        <div className={`inputs ${errors.Email ? "inputs-error" : ""}`}>
-          <label> ایمیل : </label>
-          <div className="input-container">
-            <input
-              type="email"
-              placeholder="ایمیل"
-              name="Email"
-              value={form.Email}
-              onChange={changeHandler}
-              className={errors.Email ? "input-error" : ""}
-            />
-            {Submitted &&
-              (errors.Email ? (
-                <FontAwesomeIcon
-                  icon={faExclamationCircle}
-                  className="icon error-icon"
-                />
-              ) : (
-                form.Email && (
+        <div className="input-wrapper">
+          <div className={`inputs ${errors.Email ? "inputs-error" : ""}`}>
+            <label> ایمیل : </label>
+            <div className="input-container">
+              <input
+                type="email"
+                placeholder="ایمیل"
+                {...register("Email")}
+                className={errors.Email ? "input-error" : ""}
+              />
+              {isSubmitted &&
+                (errors.Email ? (
                   <FontAwesomeIcon
-                    icon={faCheckCircle}
-                    className="icon success-icon"
+                    icon={faExclamationCircle}
+                    className="icon error-icon"
                   />
-                )
-              ))}
+                ) : (
+                  watch("Email") && (
+                    <FontAwesomeIcon
+                      icon={faCheckCircle}
+                      className="icon success-icon"
+                    />
+                  )
+                ))}
+            </div>
           </div>
+          {errors.Email && <p className="error-text">{errors.Email.message}</p>}
         </div>
-        {errors.Email && <p className="error-text">{errors.Email}</p>}
-      </div>
 
-      <div className="input-wrapper">
-        <div className={`inputs ${errors.Phone ? "inputs-error" : ""}`}>
-          <label> شماره تلفن : </label>
-          <div className="input-container">
-            <input
-              type="number"
-              placeholder="شماره تلفن "
-              name="Phone"
-              value={form.Phone}
-              onChange={changeHandler}
-              className={errors.Phone ? "input-error" : ""}
-            />
-            {Submitted &&
-              (errors.Phone ? (
-                <FontAwesomeIcon
-                  icon={faExclamationCircle}
-                  className="icon error-icon"
-                />
-              ) : (
-                form.Phone && (
+        <div className="input-wrapper">
+          <div className={`inputs ${errors.Phone ? "inputs-error" : ""}`}>
+            <label> شماره تلفن : </label>
+            <div className="input-container">
+              <input
+                type="number"
+                placeholder="شماره تلفن "
+                {...register("Phone")}
+                className={errors.Phone ? "input-error" : ""}
+              />
+              {isSubmitted &&
+                (errors.Phone ? (
                   <FontAwesomeIcon
-                    icon={faCheckCircle}
-                    className="icon success-icon"
+                    icon={faExclamationCircle}
+                    className="icon error-icon"
                   />
-                )
-              ))}
+                ) : (
+                  watch("Phone") && (
+                    <FontAwesomeIcon
+                      icon={faCheckCircle}
+                      className="icon success-icon"
+                    />
+                  )
+                ))}
+            </div>
           </div>
+          {errors.Phone && <p className="error-text">{errors.Phone.message}</p>}
         </div>
-        {errors.Phone && <p className="error-text">{errors.Phone}</p>}
-      </div>
 
-      <div className="input-wrapper">
-        <div className={`select-op ${errors.Category ? "select-error" : ""}`}>
-          <label> دسته بندی : </label>
-          <select
-            name="Category"
-            value={form.Category}
-            onChange={changeHandler}
-            className={errors.Category ? "input-error" : ""}
+        <div className="input-wrapper">
+          <div className={`select-op ${errors.Category ? "select-error" : ""}`}>
+            <label> دسته بندی : </label>
+            <select
+              {...register("Category")}
+              className={errors.Category ? "input-error" : ""}
+            >
+              <option value="">یک دسته را انتخاب کنید</option>
+              <option value="خانواده">خانواده</option>
+              <option value="همکار">همکار</option>
+              <option value="دوست">دوست</option>
+              <option value="سایر">سایر</option>
+            </select>
+          </div>
+          {errors.Category && (
+            <p className="error-text">{errors.Category.message}</p>
+          )}
+        </div>
+
+        <div className="input-wrapper">
+          <div
+            className={`gender-group ${errors.Gender ? "gender-error" : ""}`}
           >
-            <option value="" disabled>
-              یک دسته را انتخاب کنید
-            </option>
-            <option value="خانواده">خانواده</option>
-            <option value="همکار">همکار</option>
-            <option value="دوست">دوست</option>
-            <option value="سایر">سایر</option>
-          </select>
-        </div>
-        {errors.Category && <p className="error-text">{errors.Category}</p>}
-      </div>
-
-      <div className="input-wrapper">
-        <div className={`gender-group ${errors.Gender ? "gender-error" : ""}`}>
-          <label>جنسیت :</label>
-          <div className="gender-parent">
-            <div className="gender-child">
-              <label className="gender-label">
-                <input
-                  className="radio-input"
-                  type="radio"
-                  name="Gender"
-                  value="مرد"
-                  checked={form.Gender === "مرد"}
-                  onChange={changeHandler}
-                />
-                مرد
-              </label>
-            </div>
-            <div className="gender-child">
-              <label className="gender-label">
-                <input
-                  className="radio-input"
-                  type="radio"
-                  name="Gender"
-                  value="زن"
-                  checked={form.Gender === "زن"}
-                  onChange={changeHandler}
-                />
-                زن
-              </label>
+            <label>جنسیت :</label>
+            <div className="gender-parent">
+              <div className="gender-child">
+                <label className="gender-label">
+                  <input type="radio" value="مرد" {...register("Gender")} /> مرد
+                </label>
+              </div>
+              <div className="gender-child">
+                <label className="gender-label">
+                  <input type="radio" value="زن" {...register("Gender")} /> زن
+                </label>
+              </div>
             </div>
           </div>
+          {errors.Gender && (
+            <p className="error-text">{errors.Gender.message}</p>
+          )}
         </div>
-        {errors.Gender && <p className="error-text">{errors.Gender}</p>}
-      </div>
 
-      <div className="butt-parent">
-        <button className="text-butt-state" onClick={submitHandler}>
-          ذخیره
-        </button>
-        <button className="text-butt-state" onClick={closeHandler}>
-          برگشت
-        </button>
-      </div>
+        <div className="butt-parent">
+          <button className="text-butt-state" type="submit">
+            ذخیره
+          </button>
+          <button
+            className="text-butt-state"
+            type="button"
+            onClick={closeHandler}
+          >
+            برگشت
+          </button>
+        </div>
+      </form>
     </div>
   );
 };

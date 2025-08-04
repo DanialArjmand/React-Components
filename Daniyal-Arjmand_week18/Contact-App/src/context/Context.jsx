@@ -24,7 +24,6 @@ const contactReducer = (state, action) => {
         contacts: state.contacts.map((c) =>
           c.id === action.payload.id ? action.payload : c
         ),
-        contactEdit: null,
       };
     case "DELETE_CONTACT_SUCCESS":
       return {
