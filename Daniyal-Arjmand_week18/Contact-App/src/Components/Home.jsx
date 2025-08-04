@@ -11,8 +11,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "./DarkMode.css";
 // import CountUp from "react-countup";
-import logoWhite from "../images/logo-white.png";
-import logoDark from "../images/logo-dark.png";
+// import logoWhite from "../images/logo-white.png";
+// import logoDark from "../images/logo-dark.png";
 
 const Home = () => {
   const { state, dispatch } = useContacts();
@@ -66,11 +66,11 @@ const Home = () => {
                   </button>
                 </div>
 
-                <img
+                {/* <img
                   src={darkMode ? logoWhite : logoDark}
                   alt="Logo DA"
                   style={{ width: "65px", height: "auto", margin: "0 10px" }}
-                />
+                /> */}
               </div>
               <div className="text-content">
                 <h1>

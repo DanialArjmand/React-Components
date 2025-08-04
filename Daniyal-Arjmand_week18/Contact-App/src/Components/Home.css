@@ -23,6 +23,10 @@ body {
   background-repeat: no-repeat;
 }
 
+button {
+  font-family: "Yekan", sans-serif !important;
+}
+
 .home-wrapper {
   display: flex;
   flex-direction: column;
@@ -180,12 +184,13 @@ span {
   color: #000;
   padding: 0 10px;
   border: 2px solid transparent;
+  font-family: "Yekan", sans-serif;
 }
 
 input:focus,
 select:focus {
   outline: none;
-  border: 2px solid #5046e3;
+  border-color: #5046e3;
 }
 
 .select-op {
@@ -201,6 +206,8 @@ select:focus {
   height: 40px;
   border-radius: 15px;
   padding: 10px;
+  font-size: 0.8rem;
+  font-family: "Yekan", sans-serif !important;
 }
 
 .gender-group {
@@ -427,7 +434,7 @@ select:focus {
   left: 40px;
   transform: translateY(-50%);
   white-space: nowrap;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: bold;
   color: #ffffff;
   transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
@@ -468,22 +475,8 @@ select:focus {
   transition: transform 0.4s ease-in-out;
 }
 
-.label-butt {
-  position: absolute;
-  opacity: 0;
-  visibility: hidden;
-  top: 50%;
-  left: 40px;
-  transform: translateY(-50%);
-  white-space: nowrap;
-  font-size: 16px;
-  font-weight: bold;
-  color: #ffffff;
-  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
-}
-
 .text-butt-list:hover {
-  width: 125px;
+  width: 137px;
   border-radius: 20px;
 }
 
@@ -516,22 +509,8 @@ select:focus {
   transition: transform 0.4s ease-in-out;
 }
 
-.label-butt {
-  position: absolute;
-  opacity: 0;
-  visibility: hidden;
-  top: 50%;
-  left: 40px;
-  transform: translateY(-50%);
-  white-space: nowrap;
-  font-size: 16px;
-  font-weight: bold;
-  color: #ffffff;
-  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
-}
-
 .text-butt-mode:hover {
-  width: 100px;
+  width: 110px;
   border-radius: 20px;
   border: none;
 }
@@ -567,4 +546,20 @@ select:focus {
   align-content: center;
   color: #5900ff;
   font-size: 3rem;
+}
+
+::-webkit-input-placeholder {
+  font-family: "Yekan", sans-serif;
+}
+
+:-moz-placeholder {
+  font-family: "Yekan", sans-serif;
+}
+
+::-moz-placeholder {
+  font-family: "Yekan", sans-serif;
+}
+
+:-ms-input-placeholder {
+  font-family: "Yekan", sans-serif;
 }
