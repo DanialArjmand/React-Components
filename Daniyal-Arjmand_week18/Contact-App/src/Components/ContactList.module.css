@@ -364,3 +364,19 @@ p {
   animation-timing-function: ease-out;
   animation-fill-mode: forwards;
 }
+
+.dark-mode-list .confirmButton,
+.dark-mode-list .cancelButton {
+  background-color: #fff;
+  color: #000;
+}
+
+.dark-mode-list .confirmButton:hover {
+  background-color: #1fb172;
+  color: #fff;
+}
+
+.dark-mode-list .cancelButton:hover {
+  background-color: #ff0000;
+  color: #fff;
+}

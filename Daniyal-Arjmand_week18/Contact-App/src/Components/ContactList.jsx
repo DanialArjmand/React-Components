@@ -44,12 +44,17 @@ const ContactList = () => {
   };
 
   const deleteSelectedHandler = async () => {
+    setModal({ isOpen: false });
+
     await deleteMultipleContacts(selectedIds);
-    setModal({
-      isOpen: true,
-      type: "success",
-      data: `${selectedIds.length} مخاطب با موفقیت حذف شدند.`,
-    });
+    setTimeout(() => {
+      setModal({
+        isOpen: true,
+        type: "success",
+        data: `${selectedIds.length} مخاطب با موفقیت حذف شدند.`,
+      });
+    }, 100);
+
     toggleSelection();
   };
 
@@ -199,7 +204,10 @@ const ContactList = () => {
               >
                 حذف ({selectedIds.length})
               </button>
-              <button onClick={toggleSelection} className={Styles.cancelButtonGruop}>
+              <button
+                onClick={toggleSelection}
+                className={Styles.cancelButtonGruop}
+              >
                 <FontAwesomeIcon icon={faTimes} /> لغو
               </button>
             </>
@@ -303,7 +311,12 @@ const ContactList = () => {
           <p>مخاطبی یافت نشد.</p>
         </div>
       )}
-      <Modal isOpen={modal.isOpen} onClose={() => setModal({ isOpen: false })} type={modal.type}>
+      <Modal
+        isOpen={modal.isOpen}
+        onClose={() => setModal({ isOpen: false })}
+        type={modal.type}
+        darkMode={darkMode}
+      >
         {modalContent()}
       </Modal>
     </div>

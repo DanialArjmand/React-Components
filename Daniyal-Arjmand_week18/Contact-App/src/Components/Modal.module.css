@@ -285,3 +285,18 @@
     opacity: 0.7;
   }
 }
+
+.darkModeBackdrop .errorMeseage,
+.darkModeBackdrop .errorMeseageSuccess,
+.darkModeBackdrop .errorMeseageDelete {
+  background-color: #111729;
+  color: #ffffff;
+}
+
+.darkModeBackdrop h3 {
+  color: #ffffff;
+}
+
+.darkModeBackdrop p {
+  color: #ffffff;
+}

@@ -3,7 +3,7 @@ import Styles from "./Modal.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faExclamation } from "@fortawesome/free-solid-svg-icons";
 
-const Modal = ({ isOpen, children, onClose, type = "default" }) => {
+const Modal = ({ isOpen, children, onClose, type = "default", darkMode }) => {
   if (!isOpen) return null;
 
   const icon = type === "success" ? faCheck : faExclamation;
@@ -29,10 +29,17 @@ const Modal = ({ isOpen, children, onClose, type = "default" }) => {
     },
   };
 
-  const current = typeStyles[type] || typeStyles.default;
+  const styleKey = type === "delete-multiple" ? "delete" : type;
+
+  const current = typeStyles[styleKey] || typeStyles.default;
 
   return (
-    <div className={Styles.backdrop} onClick={onClose}>
+    <div
+      className={`${Styles.backdrop} ${
+        darkMode ? Styles.darkModeBackdrop : ""
+      }`}
+      onClick={onClose}
+    >
       <div className={Styles.modal} onClick={(e) => e.stopPropagation()}>
         <div className={current.container}>
           <div className={current.iconWrapper}>

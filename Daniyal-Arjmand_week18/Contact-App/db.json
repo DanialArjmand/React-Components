@@ -1,31 +1,3 @@
 {
-  "contacts": [
-    {
-      "id": "ff01",
-      "Name": "دانیال",
-      "LastName": "ارجمند",
-      "Email": "ali@email.com",
-      "Phone": "09135993488",
-      "Category": "خانواده",
-      "Gender": "مرد"
-    },
-    {
-      "id": "480a",
-      "Name": "دانیال",
-      "LastName": "ارجمند",
-      "Email": "ali@email.com",
-      "Phone": "09135993488",
-      "Category": "خانواده",
-      "Gender": "مرد"
-    },
-    {
-      "id": "2d08",
-      "Name": "دانیال",
-      "LastName": "ارجمند",
-      "Email": "ali@email.com",
-      "Phone": "09135993488",
-      "Category": "خانواده",
-      "Gender": "مرد"
-    }
-  ]
+  "contacts": []
 }
