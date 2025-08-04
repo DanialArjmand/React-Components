@@ -1,6 +1,6 @@
 import "./Home.css";
-import Inputs from "./Inputs";
-import ContactList from "./ContactList";
+import Inputs from "./InputsComponent/Inputs";
+import ContactList from "./ContactListComponent/ContactList";
 import { v4 } from "uuid";
 import { useContacts } from "../context/Context";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
