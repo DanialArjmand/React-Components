@@ -1,27 +1,31 @@
-import * as yup from 'yup';
+import * as yup from "yup";
 
 export const contactSchema = yup.object().shape({
-  Name: yup.string()
+  Name: yup
+    .string()
     .trim()
+    .required("وارد کردن نام الزامی است.")
     .min(2, "نام باید حداقل ۲ حرف باشد!")
-    .required("وارد کردن نام الزامی است."),
+    .matches(/^[^0-9]*$/, "نام نمی‌تواند شامل عدد باشد."),
 
-  LastName: yup.string()
+  LastName: yup
+    .string()
     .trim()
+    .required("وارد کردن نام خانوادگی الزامی است.")
     .min(2, "نام خانوادگی باید حداقل ۲ حرف باشد!")
-    .required("وارد کردن نام خانوادگی الزامی است."),
+    .matches(/^[^0-9]*$/, "نام خانوادگی نمی‌تواند شامل عدد باشد."),
 
-  Email: yup.string()
+  Email: yup
+    .string()
     .required("وارد کردن ایمیل الزامی است.")
     .email("ایمیل وارد شده معتبر نیست."),
 
-  Phone: yup.string()
+  Phone: yup
+    .string()
     .required("وارد کردن شماره تلفن الزامی است.")
     .matches(/^0\d{10}$/, "شماره تلفن باید با 0 شروع شود و ۱۱ رقمی باشد."),
 
-  Category: yup.string()
-    .required("انتخاب دسته بندی الزامی است."),
+  Category: yup.string().required("انتخاب دسته بندی الزامی است."),
 
-  Gender: yup.string()
-    .required("انتخاب جنسیت الزامی است."),
+  Gender: yup.string().required("انتخاب جنسیت الزامی است."),
 });
