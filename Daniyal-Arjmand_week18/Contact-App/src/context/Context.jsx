@@ -9,7 +9,7 @@ const initialState = {
   view: "home",
   formVisible: false,
   contactEdit: null,
-  darkMode: false,
+  darkMode: JSON.parse(localStorage.getItem("darkMode")) || false,
 };
 
 const contactReducer = (state, action) => {
@@ -62,6 +62,10 @@ const contactReducer = (state, action) => {
 
 export const ContactService = ({ children }) => {
   const [state, dispatch] = useReducer(contactReducer, initialState);
+
+  useEffect(() => {
+    localStorage.setItem("darkMode", JSON.stringify(state.darkMode));
+  }, [state.darkMode]);
 
   useEffect(() => {
     const fetchContacts = async () => {
