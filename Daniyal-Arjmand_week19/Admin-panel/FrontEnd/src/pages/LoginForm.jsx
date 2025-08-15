@@ -1,7 +1,15 @@
+import { Link, useNavigate } from "react-router-dom";
+
 import logo from "../assets/Union.svg";
-import styles from "./LoginPage.module.css";
+import styles from "./LoginForm.module.css";
 
 function LoginPage() {
+  const navigate = useNavigate();
+
+  const loginClickHandler = () => {
+    navigate("/dashboard");
+  };
+
   return (
     <>
       <h2 className={styles.headerText}>بوت کمپ بوتواستارت</h2>
@@ -18,10 +26,10 @@ function LoginPage() {
           type="password"
           placeholder="رمز عبور"
         />
-        <button className={styles.buttonLogin}>ورود</button>
-        <a className={styles.linkLogin} href="./RegisterPage.jsx">
+        <button className={styles.buttonLogin} onClick={loginClickHandler}>ورود</button>
+        <Link className={styles.linkLogin} to="/register">
           !ایجاد حساب کاربری
-        </a>
+        </Link>
       </div>
     </>
   );

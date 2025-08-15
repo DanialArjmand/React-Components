@@ -1,3 +1,8 @@
+import { Link } from "react-router-dom";
+
+import logo from "../assets/Union.svg";
+import styles from "./LoginForm.module.css";
+
 function RegisterPage() {
   return (
     <>
@@ -21,9 +26,9 @@ function RegisterPage() {
           placeholder="تکرار رمز عبور"
         />
         <button className={styles.buttonLogin}>ثبت نام</button>
-        <a className={styles.linkLogin} href="">
+        <Link className={styles.linkLogin} to="/">
           حساب کاربری دارید؟
-        </a>
+        </Link>
       </div>
     </>
   );
