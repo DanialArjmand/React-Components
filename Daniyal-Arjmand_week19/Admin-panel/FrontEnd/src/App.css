@@ -1,0 +1,33 @@
+@font-face {
+  font-family: "Vazirmatn";
+  src: url("./assets/fonts/Vazirmatn[wght].woff2")
+      format("woff2 supports variations"),
+    url("./assets/fonts/Vazirmatn[wght].woff2") format("woff2-variations"),
+    url("./assets/fonts/Vazirmatn[wght].ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Kalameh Bold";
+  src: url("./assets/fonts/Kalameh-Bold.eot");
+  src: url("./assets/fonts/Kalameh-Bold.eot?#iefix") format("embedded-opentype"),
+       url("./assets/fonts/Kalameh-Bold.woff2") format("woff2"),
+       url("./assets/fonts/Kalameh-Bold.woff") format("woff"),
+       url("./assets/fonts/Kalameh-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+/* @font-face {
+    font-family: "Kalameh Bold";
+    src: url("https://db.onlinewebfonts.com/t/c56ea8aca8b3b1f84bcb7365c6ae4af0.eot");
+    src: url("https://db.onlinewebfonts.com/t/c56ea8aca8b3b1f84bcb7365c6ae4af0.eot?#iefix")format("embedded-opentype"),
+    url("https://db.onlinewebfonts.com/t/c56ea8aca8b3b1f84bcb7365c6ae4af0.woff2")format("woff2"),
+    url("https://db.onlinewebfonts.com/t/c56ea8aca8b3b1f84bcb7365c6ae4af0.woff")format("woff"),
+    url("https://db.onlinewebfonts.com/t/c56ea8aca8b3b1f84bcb7365c6ae4af0.ttf")format("truetype"),
+    url("https://db.onlinewebfonts.com/t/c56ea8aca8b3b1f84bcb7365c6ae4af0.svg#Kalameh Bold")format("svg");
+} */

@@ -1,0 +1,81 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* height: 700px; */
+  background-color: #f7f8f8;
+}
+
+.headerText {
+  padding: 16px 8px;
+  text-align: center;
+  color: #282828;
+  margin: 10px 0 50px;
+  font-family: "Kalameh Bold" , sans-serif;
+}
+
+.formLogin {
+  width: 470px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid #e4e4e4;
+  border-radius: 40px;
+  font-family: "Vazirmatn" , sans-serif;
+}
+
+.logo {
+  padding: 45px 10px 10px;
+}
+
+.textLogin {
+  font-size: 24px;
+  font-weight: 500;
+  padding: 10px 10px 40px;
+  color: #282828;
+}
+
+.inputLogin {
+  width: 400px;
+  height: 53px;
+  background-color: #f2f2f2;
+  border-radius: 15px;
+  border: none;
+  text-align: right;
+  padding: 15px;
+  margin: 10px 0;
+  font-family: "Vazirmatn" , sans-serif;
+}
+
+.buttonLogin {
+  width: 400px;
+  height: 53px;
+  border-radius: 15px;
+  margin-top: 30px;
+  background-color: #55a3f0;
+  border: none;
+  font-size: 20px;
+  font-weight: 600;
+  color: #fff;
+  font-family: "Vazirmatn" , sans-serif;
+
+}
+
+.linkLogin {
+  width: 400px;
+  color: #3a8bed;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 400;
+  text-align: right;
+  padding: 17px 0;
+}
