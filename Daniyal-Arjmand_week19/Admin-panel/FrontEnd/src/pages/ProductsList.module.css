@@ -27,7 +27,7 @@ body {
   background-color: #fff;
   border: 1px solid #e4e4e4;
   border-radius: 16px;
-  margin-top: 20px;
+  margin-top: 15px;
 }
 
 .searchProduct {
@@ -54,7 +54,97 @@ body {
 
 .adminStyles {
   display: flex;
-  width: 170px;
+  width: 180px;
   height: 50px;
   border-right: 1px solid #e4e4e4;
+}
+
+.adminStyles p {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: right;
+  padding: 0 10px 0 30px;
+  font-size: 16px;
+  font-weight: 400;
+  color: #282828;
+  line-height: 17px;
+  text-shadow: 1px 0 #e4e4e480, 1px 0 #e4e4e480, 0 1px #e4e4e480,
+    0 -1px #e4e4e480;
+}
+
+.adminStyles span {
+  font-size: 14px;
+  font-weight: 300;
+  color: #282828;
+}
+
+main {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.headTitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 40px 0 15px;
+}
+
+.headTitle button {
+  width: 132px;
+  height: 45px;
+  background-color: #55a3f0;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-family: "Vazirmatn", sans-serif;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.headTitle button:hover {
+  background-color: #367dc4;
+  transition: all 0.1s ease-in-out;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+}
+
+.title h2 {
+  font-size: 24px;
+  font-weight: 400;
+  padding: 0 7px;
+}
+
+.tableProducts {
+  width: 100%;
+  height: 450px;
+  border-radius: 30px;
+  border: 1px solid #e4e4e4;
+  border-spacing: 0;
+  overflow: hidden;
+  text-align: right;
+  table-layout: fixed;
+}
+
+.tableProducts thead th {
+  background-color: #f2f2f2;
+  height: 60px;
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 0 40px;
+}
+
+.tableProducts thead th:first-child {
+  border-top-right-radius: 30px;
+}
+.tableProducts thead th:last-child {
+  border-top-left-radius: 30px;
 }
