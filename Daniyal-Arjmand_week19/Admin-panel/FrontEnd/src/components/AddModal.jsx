@@ -1,11 +1,15 @@
 import stylesModal from "./AddModal.module.css";
 
-function AddModal() {
+function AddModal({ isOpen, onClose }) {
+  if (!isOpen) {
+    return null;
+  }
+
   return (
-    <div>
-      <div>
-        <h2>ایجاد محصول جدید</h2>
-        <div>
+    <div className={stylesModal.backgroundParent}>
+      <div className={stylesModal.addForm}>
+        <h3>ایجاد محصول جدید</h3>
+        <div className={stylesModal.inputs}>
           <label>نام کالا</label>
           <input type="text" placeholder="نام کالا" />
 
@@ -15,9 +19,9 @@ function AddModal() {
           <label>قیمت</label>
           <input type="text" placeholder="قیمت" />
         </div>
-        <div>
-          <button>ایجاد</button>
-          <button>انصراف</button>
+        <div className={stylesModal.buttonStatus}>
+          <button className={stylesModal.buttonCancel}>انصراف</button>
+          <button className={stylesModal.buttonCreate}>ایجاد</button>
         </div>
       </div>
     </div>
