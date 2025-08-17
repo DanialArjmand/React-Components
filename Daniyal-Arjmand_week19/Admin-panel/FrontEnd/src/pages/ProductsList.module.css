@@ -130,7 +130,11 @@ main {
   border-spacing: 0;
   overflow: hidden;
   text-align: right;
-  table-layout: fixed;
+}
+
+.tableProducts table {
+  width: 100%;
+  border-collapse: collapse;
 }
 
 .tableProducts thead th {
@@ -147,4 +151,46 @@ main {
 }
 .tableProducts thead th:last-child {
   border-top-left-radius: 30px;
+}
+
+.tableProducts tbody td {
+  height: 60px;
+  padding: 0 40px;
+  border-bottom: 2px solid #f2f2f2;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.tableProducts thead th:last-child {
+  width: 300px;
+  padding: 0;
+}
+
+.tableProducts tbody td:last-child {
+  width: 300px;
+  padding: 0;
+}
+
+.action {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  padding-left: 30px;
+}
+
+.action button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  margin: 0 2px;
+}
+
+.action button:hover {
+  transform: scale(1.3);
+  transition: all 0.1s ease-in-out;
 }

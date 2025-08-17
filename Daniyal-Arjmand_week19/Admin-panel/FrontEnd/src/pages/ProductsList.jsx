@@ -1,13 +1,44 @@
 import { useState } from "react";
 
 import AddModal from "../components/AddModal";
+import EditModal from "../components/EditModal";
+import DeleteModal from "../components/DeleteModal";
+
 import styles from "./ProductsList.module.css";
 import searchIcon from "../assets/search-normal.svg";
 import profile from "../assets/Felix-Vogel-4.svg";
 import settingIcon from "../assets/setting-3.svg";
+import deleteIcon from "../assets/trash.svg";
+import editIcon from "../assets/edit.svg";
 
 function ProductsList() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editingProduct, setEditingProduct] = useState(null);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [deletingProduct, setDeletingProduct] = useState(null);
+
+  const [products, setProducts] = useState([
+    { id: 1, name: "کفش نایکی", stock: 20, price: "3,500,000" },
+    { id: 2, name: "پیراهن آدیداس", stock: 50, price: "1,200,000" },
+  ]);
+
+  const openEditModalHandler = (product) => {
+    setEditingProduct(product);
+    setIsEditModalOpen(true);
+  };
+
+  const closeEditModalHandler = () => {
+    setIsEditModalOpen(false);
+    setEditingProduct(null);
+  };
+
+  const updateProductHandler = (updatedProduct) => {
+    setProducts((prevProducts) =>
+      prevProducts.map((p) => (p.id === updatedProduct.id ? updatedProduct : p))
+    );
+    closeEditModalHandler();
+  };
 
   const openModalHandler = () => {
     setIsModalOpen(true);
@@ -15,6 +46,31 @@ function ProductsList() {
 
   const closeModalHandler = () => {
     setIsModalOpen(false);
+  };
+
+  const addProductHandler = (newProduct) => {
+    setProducts((prevProducts) => [
+      ...prevProducts,
+      { ...newProduct, id: Math.random() },
+    ]);
+    setIsModalOpen(false);
+  };
+
+  const openDeleteModalHandler = (product) => {
+    setDeletingProduct(product);
+    setIsDeleteModalOpen(true);
+  };
+
+  const closeDeleteModalHandler = () => {
+    setIsDeleteModalOpen(false);
+    setDeletingProduct(null);
+  };
+
+  const confirmDeleteHandler = () => {
+    setProducts((prevProducts) =>
+      prevProducts.filter((p) => p.id !== deletingProduct.id)
+    );
+    closeDeleteModalHandler();
   };
 
   return (
@@ -41,8 +97,8 @@ function ProductsList() {
           </div>
         </div>
 
-        <div>
-          <table dir="rtl" className={styles.tableProducts}>
+        <div dir="rtl" className={styles.tableProducts}>
+          <table>
             <thead>
               <tr>
                 <th>نام کالا</th>
@@ -50,14 +106,48 @@ function ProductsList() {
                 <th>قیمت</th>
                 <th>شناسه کالا</th>
                 <th></th>
-                <th></th>
               </tr>
             </thead>
-            <tbody></tbody>
+            <tbody>
+              {products.map((product) => (
+                <tr key={product.id}>
+                  <td>{product.name}</td>
+                  <td>{product.stock}</td>
+                  <td>{product.price}</td>
+                  <td>{product.id.toString().slice(2, 8)}</td>
+                  <td>
+                    <div className={styles.action}>
+                      <button onClick={() => openEditModalHandler(product)}>
+                        <img src={editIcon} alt="editIcon" />
+                      </button>
+                      <button onClick={() => openDeleteModalHandler(product)}>
+                        <img src={deleteIcon} alt="deleteIcon" />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
           </table>
         </div>
       </main>
-      <AddModal isOpen={isModalOpen} isClose={closeModalHandler} />
+      <AddModal
+        isOpen={isModalOpen}
+        onClose={closeModalHandler}
+        onAddProduct={addProductHandler}
+      />
+      <EditModal
+        isOpen={isEditModalOpen}
+        onClose={closeEditModalHandler}
+        onUpdateProduct={updateProductHandler}
+        product={editingProduct}
+      />
+      <DeleteModal
+        isOpen={isDeleteModalOpen}
+        onClose={closeDeleteModalHandler}
+        onConfirm={confirmDeleteHandler}
+        product={deletingProduct}
+      />
     </div>
   );
 }
