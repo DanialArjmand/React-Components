@@ -101,6 +101,7 @@ function ProductsList() {
           <table>
             <thead>
               <tr>
+                <th>شماره ردیف</th>
                 <th>نام کالا</th>
                 <th>موجودی</th>
                 <th>قیمت</th>
@@ -109,24 +110,33 @@ function ProductsList() {
               </tr>
             </thead>
             <tbody>
-              {products.map((product) => (
-                <tr key={product.id}>
-                  <td>{product.name}</td>
-                  <td>{product.stock}</td>
-                  <td>{product.price}</td>
-                  <td>{product.id.toString().slice(2, 8)}</td>
-                  <td>
-                    <div className={styles.action}>
-                      <button onClick={() => openEditModalHandler(product)}>
-                        <img src={editIcon} alt="editIcon" />
-                      </button>
-                      <button onClick={() => openDeleteModalHandler(product)}>
-                        <img src={deleteIcon} alt="deleteIcon" />
-                      </button>
-                    </div>
+              {products.length === 0 ? (
+                <tr>
+                  <td colSpan={6} className={styles.noProductsText}>
+                    هیچ محصولی هنوز ثبت نشده
                   </td>
                 </tr>
-              ))}
+              ) : (
+                products.map((product, index) => (
+                  <tr key={product.id}>
+                    <td>{index + 1}</td>
+                    <td>{product.name}</td>
+                    <td>{product.stock}</td>
+                    <td>{product.price}</td>
+                    <td>{product.id.toString().slice(2, 8)}</td>
+                    <td>
+                      <div className={styles.action}>
+                        <button onClick={() => openEditModalHandler(product)}>
+                          <img src={editIcon} alt="editIcon" />
+                        </button>
+                        <button onClick={() => openDeleteModalHandler(product)}>
+                          <img src={deleteIcon} alt="deleteIcon" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>

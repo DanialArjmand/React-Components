@@ -124,7 +124,7 @@ main {
 
 .tableProducts {
   width: 100%;
-  height: 450px;
+  height: 480px;
   border-radius: 30px;
   border: 1px solid #e4e4e4;
   border-spacing: 0;
@@ -193,4 +193,8 @@ main {
 .action button:hover {
   transform: scale(1.3);
   transition: all 0.1s ease-in-out;
+}
+
+.noProductsText {
+  text-align: center;
 }

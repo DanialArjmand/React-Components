@@ -55,6 +55,12 @@
   font-family: "Vazirmatn", sans-serif;
   font-size: 14px;
   font-weight: 300;
+  border: 2px solid transparent;
+}
+
+.inputs input:focus {
+  outline: none;
+  border: 2px solid #3299ff;
 }
 
 .buttonStatus {
