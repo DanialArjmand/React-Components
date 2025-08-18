@@ -33,3 +33,16 @@ export const registerSchema = yup.object().shape({
     )
     .required("تکرار رمز عبور الزامی است"),
 });
+
+export const productSchema = yup.object().shape({
+  name: yup.string().required("نام کالا الزامی است"),
+  stock: yup
+    .number()
+    .typeError("موجودی باید به صورت عدد وارد شود")
+    .min(0, "موجودی نمی‌تواند منفی باشد")
+    .required("موجودی الزامی است"),
+  price: yup
+    .string()
+    .required("قیمت الزامی است")
+    .matches(/^[0-9,]+$/, "قیمت فقط می‌تواند شامل عدد و کاما باشد"),
+});

@@ -72,6 +72,7 @@ body {
   color: #fff;
   font-family: "Vazirmatn", sans-serif;
   cursor: pointer;
+  outline: none;
 }
 
 .linkLogin {
@@ -142,4 +143,9 @@ body {
 
 .inputError:focus {
   border-color: #ff4d4f !important;
+}
+
+.buttonLogin:disabled {
+  background-color: #a0c9f0;
+  cursor: not-allowed;
 }

@@ -1,73 +1,50 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema } from "../schemas/validationSchemas";
 
-import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import UserInput from "../components/UserInput";
+import PasswordInput from "../components/PasswordInput";
 
 import logo from "../assets/Union.svg";
 import styles from "./LoginForm.module.css";
 
 function LoginPage() {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({ username: "", password: "" });
-  const [errors, setErrors] = useState({});
   const [serverError, setServerError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
-  const changeHandler = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    if (errors[name]) setErrors((prev) => ({ ...prev, [name]: "" }));
-    if (serverError) setServerError("");
-  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(loginSchema),
+  });
 
-  const submitHandler = async (e) => {
-    e.preventDefault();
+  const onSubmit = async (data) => {
     setServerError("");
+    setIsLoading(true);
 
     try {
-      await loginSchema.validate(formData, { abortEarly: false });
-      setErrors({});
-    } catch (err) {
-      const newErrors = {};
-      err.inner.forEach((error) => {
-        newErrors[error.path] = error.message;
-      });
-      setErrors(newErrors);
-      return;
+      console.log("اطلاعات ورود معتبر است و به سرور ارسال می‌شود:", data);
+
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("ورود ناموفق بود:", error);
+    } finally {
+      setIsLoading(false);
     }
-
-    //   try {
-    //     const response = await fetch('your-backend-api/login', {
-    //       method: 'POST',
-    //       headers: { 'Content-Type': 'application/json' },
-    //       body: JSON.stringify(formData),
-    //     });
-
-    //     if (response.ok) {
-    //       navigate("/dashboard");
-    //     } else {
-    //       const errorData = await response.json();
-    //       if (response.status === 401 || response.status === 400) {
-    //         setServerError("نام کاربری یا رمز عبور اشتباه است.");
-    //       } else if (response.status === 429) {
-    //         setServerError("به دلیل چندین تلاش ناموفق، ورود شما به مدت ۵ دقیقه مسدود شده است.");
-    //       } else {
-    //         setServerError("خطایی در سیستم رخ داده است. لطفاً دوباره تلاش کنید.");
-    //       }
-    //     }
-
-    //     console.log("Login successful!", formData);
-    //     navigate("/dashboard");
-    //   } catch (networkError) {
-    //     setServerError("امکان اتصال به سرور وجود ندارد. لطفاً بعداً تلاش کنید.");
-    //   }
   };
 
   return (
     <>
       <h2 className={styles.headerText}>بوت کمپ بوتواستارت</h2>
-      <form className={styles.formLogin} onSubmit={submitHandler}>
+      <form className={styles.formLogin} onSubmit={handleSubmit(onSubmit)}>
         <img className={styles.logo} src={logo} alt="logo" />
         <h2 className={styles.textLogin}>فرم ورود</h2>
 
@@ -77,49 +54,28 @@ function LoginPage() {
           </p>
         )}
 
-        <input
-          className={`${styles.inputLogin} ${
-            errors.username ? styles.inputError : ""
-          }`}
-          type="text"
+        <UserInput
           name="username"
           placeholder="نام کاربری"
-          value={formData.username}
-          onChange={changeHandler}
+          register={register}
+          errors={errors}
         />
-        <div className={styles.errorContainer}>
-          {errors.username && (
-            <p className={styles.errorText}>{errors.username}</p>
-          )}
-        </div>
 
-        <div className={styles.passwordWrapper}>
-          <input
-            className={`${styles.inputLogin} ${
-              errors.password ? styles.inputError : ""
-            }`}
-            type={isPasswordVisible ? "text" : "password"}
-            name="password"
-            placeholder="رمز عبور"
-            value={formData.password}
-            onChange={changeHandler}
-          />
-          <button
-            type="button"
-            className={styles.togglePasswordBtn}
-            onClick={() => setIsPasswordVisible(!isPasswordVisible)}
-          >
-            {isPasswordVisible ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
-          </button>
-        </div>
-        <div className={styles.errorContainer}>
-          {errors.password && (
-            <p className={styles.errorText}>{errors.password}</p>
-          )}
-        </div>
+        <PasswordInput
+          name="password"
+          placeholder="رمز عبور"
+          register={register}
+          errors={errors}
+          isVisible={isPasswordVisible}
+          toggleVisibility={() => setIsPasswordVisible(!isPasswordVisible)}
+        />
 
-        <button type="submit" className={styles.buttonLogin}>
-          ورود
+        <button
+          type="submit"
+          className={styles.buttonLogin}
+          disabled={isLoading}
+        >
+          {isLoading ? "در حال ورود..." : "ورود"}
         </button>
         <Link className={styles.linkLogin} to="/register">
           !ایجاد حساب کاربری

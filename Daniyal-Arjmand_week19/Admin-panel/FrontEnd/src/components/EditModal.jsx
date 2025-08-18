@@ -1,74 +1,81 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+
 import stylesModal from "./AddModal.module.css";
+import { productSchema } from "../schemas/validationSchemas";
 
 function EditModal({ isOpen, onClose, product, onUpdateProduct }) {
-  const [productName, setProductName] = useState("");
-  const [productStock, setProductStock] = useState("");
-  const [productPrice, setProductPrice] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({
+    resolver: yupResolver(productSchema),
+  });
 
   useEffect(() => {
     if (product) {
-      setProductName(product.name);
-      setProductStock(product.stock);
-      setProductPrice(product.price);
+      reset(product);
     }
-  }, [product]);
+  }, [product, reset]);
 
   if (!isOpen) {
     return null;
   }
 
-  const handleUpdate = () => {
-    if (!productName || !productStock || !productPrice) {
-      alert("لطفاً تمام فیلدها را پر کنید!");
-      return;
-    }
-
+  const onSubmit = (data) => {
     const updatedProduct = {
       ...product,
-      name: productName,
-      stock: productStock,
-      price: productPrice,
+      ...data,
     };
-
     onUpdateProduct(updatedProduct);
+    reset();
+    onClose();
+  };
+
+  const handleClose = () => {
+    reset();
+    onClose();
   };
 
   return (
     <div className={stylesModal.backgroundParent}>
-      <div className={stylesModal.addForm}>
+      <form className={stylesModal.addForm} onSubmit={handleSubmit(onSubmit)}>
         <h3>ویرایش اطلاعات</h3>
         <div className={stylesModal.inputs}>
           <label>نام کالا</label>
-          <input
-            type="text"
-            value={productName}
-            onChange={(e) => setProductName(e.target.value)}
-          />
+          <input type="text" {...register("name")} />
+          {errors.name && (
+            <p className={stylesModal.errorText}>{errors.name.message}</p>
+          )}
 
           <label>تعداد موجودی</label>
-          <input
-            type="text"
-            value={productStock}
-            onChange={(e) => setProductStock(e.target.value)}
-          />
+          <input type="number" {...register("stock")} />
+          {errors.stock && (
+            <p className={stylesModal.errorText}>{errors.stock.message}</p>
+          )}
 
           <label>قیمت</label>
-          <input
-            type="text"
-            value={productPrice}
-            onChange={(e) => setProductPrice(e.target.value)}
-          />
+          <input type="text" {...register("price")} />
+          {errors.price && (
+            <p className={stylesModal.errorText}>{errors.price.message}</p>
+          )}
         </div>
         <div className={stylesModal.buttonStatus}>
-          <button className={stylesModal.buttonCancel} onClick={onClose}>
+          <button
+            type="button"
+            className={stylesModal.buttonCancel}
+            onClick={handleClose}
+          >
             انصراف
           </button>
-          <button className={stylesModal.buttonCreate} onClick={handleUpdate}>
+          <button type="submit" className={stylesModal.buttonCreate}>
             ثبت اطلاعات جدید
           </button>
         </div>
-      </div>
+      </form>
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 import AddModal from "../components/AddModal";
 import EditModal from "../components/EditModal";
@@ -12,66 +13,46 @@ import deleteIcon from "../assets/trash.svg";
 import editIcon from "../assets/edit.svg";
 
 function ProductsList() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [editingProduct, setEditingProduct] = useState(null);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [deletingProduct, setDeletingProduct] = useState(null);
+  const [modalState, setModalState] = useState({ type: null, data: null });
 
+  const [searchTerm, setSearchTerm] = useState("");
   const [products, setProducts] = useState([
     { id: 1, name: "کفش نایکی", stock: 20, price: "3,500,000" },
     { id: 2, name: "پیراهن آدیداس", stock: 50, price: "1,200,000" },
   ]);
 
-  const openEditModalHandler = (product) => {
-    setEditingProduct(product);
-    setIsEditModalOpen(true);
+  const openModal = (type, data = null) => {
+    setModalState({ type, data });
   };
 
-  const closeEditModalHandler = () => {
-    setIsEditModalOpen(false);
-    setEditingProduct(null);
+  const closeModal = () => {
+    setModalState({ type: null, data: null });
   };
 
   const updateProductHandler = (updatedProduct) => {
     setProducts((prevProducts) =>
       prevProducts.map((p) => (p.id === updatedProduct.id ? updatedProduct : p))
     );
-    closeEditModalHandler();
-  };
-
-  const openModalHandler = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModalHandler = () => {
-    setIsModalOpen(false);
+    closeModal();
   };
 
   const addProductHandler = (newProduct) => {
     setProducts((prevProducts) => [
       ...prevProducts,
-      { ...newProduct, id: Math.random() },
+      { ...newProduct, id: uuidv4() },
     ]);
-    setIsModalOpen(false);
-  };
-
-  const openDeleteModalHandler = (product) => {
-    setDeletingProduct(product);
-    setIsDeleteModalOpen(true);
-  };
-
-  const closeDeleteModalHandler = () => {
-    setIsDeleteModalOpen(false);
-    setDeletingProduct(null);
   };
 
   const confirmDeleteHandler = () => {
     setProducts((prevProducts) =>
-      prevProducts.filter((p) => p.id !== deletingProduct.id)
+      prevProducts.filter((p) => p.id !== modalState.data.id)
     );
-    closeDeleteModalHandler();
+    closeModal();
   };
+
+  const filteredProducts = products.filter((product) =>
+    product.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className={styles.form}>
@@ -83,14 +64,19 @@ function ProductsList() {
           <img src={profile} alt="profile" />
         </div>
         <div className={styles.searchProduct}>
-          <input type="text" placeholder="جستجو کالا" />
+          <input
+            type="text"
+            placeholder="جستجو کالا"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
           <img src={searchIcon} alt="searchIcon" />
         </div>
       </header>
 
       <main>
         <div className={styles.headTitle}>
-          <button onClick={openModalHandler}>افزودن محصول</button>
+          <button onClick={() => openModal("ADD")}>افزودن محصول</button>
           <div className={styles.title}>
             <h2>مدیریت کالا</h2>
             <img src={settingIcon} alt="settingIcon" />
@@ -110,14 +96,16 @@ function ProductsList() {
               </tr>
             </thead>
             <tbody>
-              {products.length === 0 ? (
+              {filteredProducts.length === 0 ? (
                 <tr>
                   <td colSpan={6} className={styles.noProductsText}>
-                    هیچ محصولی هنوز ثبت نشده
+                    {products.length === 0
+                      ? "هیچ محصولی هنوز ثبت نشده"
+                      : "محصولی با این مشخصات یافت نشد"}
                   </td>
                 </tr>
               ) : (
-                products.map((product, index) => (
+                filteredProducts.map((product, index) => (
                   <tr key={product.id}>
                     <td>{index + 1}</td>
                     <td>{product.name}</td>
@@ -126,10 +114,10 @@ function ProductsList() {
                     <td>{product.id.toString().slice(2, 8)}</td>
                     <td>
                       <div className={styles.action}>
-                        <button onClick={() => openEditModalHandler(product)}>
+                        <button onClick={() => openModal("EDIT", product)}>
                           <img src={editIcon} alt="editIcon" />
                         </button>
-                        <button onClick={() => openDeleteModalHandler(product)}>
+                        <button onClick={() => openModal("DELETE", product)}>
                           <img src={deleteIcon} alt="deleteIcon" />
                         </button>
                       </div>
@@ -141,22 +129,23 @@ function ProductsList() {
           </table>
         </div>
       </main>
+
       <AddModal
-        isOpen={isModalOpen}
-        onClose={closeModalHandler}
+        isOpen={modalState.type === "ADD"}
+        onClose={closeModal}
         onAddProduct={addProductHandler}
       />
       <EditModal
-        isOpen={isEditModalOpen}
-        onClose={closeEditModalHandler}
+        isOpen={modalState.type === "EDIT"}
+        onClose={closeModal}
         onUpdateProduct={updateProductHandler}
-        product={editingProduct}
+        product={modalState.data}
       />
       <DeleteModal
-        isOpen={isDeleteModalOpen}
-        onClose={closeDeleteModalHandler}
+        isOpen={modalState.type === "DELETE"}
+        onClose={closeModal}
         onConfirm={confirmDeleteHandler}
-        product={deletingProduct}
+        product={modalState.data}
       />
     </div>
   );
