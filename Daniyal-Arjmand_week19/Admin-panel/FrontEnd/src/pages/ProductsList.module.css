@@ -163,12 +163,12 @@ main {
 }
 
 .tableProducts thead th:last-child {
-  width: 300px;
+  width: 200px;
   padding: 0;
 }
 
 .tableProducts tbody td:last-child {
-  width: 300px;
+  width: 200px;
   padding: 0;
 }
 
@@ -198,4 +198,52 @@ main {
 
 .noProductsText {
   text-align: center;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0 0;
+  gap: 12px;
+  direction: rtl;
+}
+
+.pagination button {
+  width: 35px;
+  height: 35px;
+  border-radius: 42px;
+  border: 2px solid #8d8d8d80;
+  background-color: #fff;
+  color: #8d8d8d80;
+  font-family: "Vazirmatn", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  outline: none;
+}
+
+.pagination button:hover {
+  border-color: #55a3f0;
+  color: #55a3f0;
+  transition: all 0.1s ease-in-out;
+}
+
+.pagination .activePage {
+  background-color: #55a3f0;
+  color: #fff;
+  border-color: #55a3f0;
+}
+
+.pagination .activePage:hover {
+  color: #fff;
+}
+
+.ellipsis {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  color: #a0a0a0;
 }

@@ -69,7 +69,7 @@ function AddModal({ isOpen, onClose, onAddProduct }) {
           <label>قیمت</label>
           <input
             dir="rtl"
-            type="text"
+            type="number"
             placeholder="قیمت"
             className={`${stylesModal.input} ${
               errors.price ? stylesModal.inputError : ""

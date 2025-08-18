@@ -78,7 +78,7 @@ function EditModal({ isOpen, onClose, product, onUpdateProduct }) {
           <label>قیمت</label>
           <input
             dir="rtl"
-            type="text"
+            type="number"
             className={`${stylesModal.input} ${
               errors.price ? stylesModal.inputError : ""
             }`}
