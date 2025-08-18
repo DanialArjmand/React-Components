@@ -46,22 +46,49 @@ function EditModal({ isOpen, onClose, product, onUpdateProduct }) {
         <h3>ویرایش اطلاعات</h3>
         <div className={stylesModal.inputs}>
           <label>نام کالا</label>
-          <input type="text" {...register("name")} />
-          {errors.name && (
-            <p className={stylesModal.errorText}>{errors.name.message}</p>
-          )}
+          <input
+            dir="rtl"
+            type="text"
+            className={`${stylesModal.input} ${
+              errors.name ? stylesModal.inputError : ""
+            }`}
+            {...register("name")}
+          />
+          <div className={stylesModal.errorContainer}>
+            {errors.name && (
+              <p className={stylesModal.errorText}>{errors.name.message}</p>
+            )}
+          </div>
 
           <label>تعداد موجودی</label>
-          <input type="number" {...register("stock")} />
-          {errors.stock && (
-            <p className={stylesModal.errorText}>{errors.stock.message}</p>
-          )}
+          <input
+            dir="rtl"
+            type="number"
+            className={`${stylesModal.input} ${
+              errors.stock ? stylesModal.inputError : ""
+            }`}
+            {...register("stock")}
+          />
+          <div className={stylesModal.errorContainer}>
+            {errors.stock && (
+              <p className={stylesModal.errorText}>{errors.stock.message}</p>
+            )}
+          </div>
 
           <label>قیمت</label>
-          <input type="text" {...register("price")} />
-          {errors.price && (
-            <p className={stylesModal.errorText}>{errors.price.message}</p>
-          )}
+          <input
+            dir="rtl"
+            type="text"
+            className={`${stylesModal.input} ${
+              errors.price ? stylesModal.inputError : ""
+            }`}
+            {...register("price")}
+          />
+          <div className={stylesModal.errorContainer}>
+            {errors.price && (
+              <p className={stylesModal.errorText}>{errors.price.message}</p>
+            )}
+          </div>
         </div>
         <div className={stylesModal.buttonStatus}>
           <button

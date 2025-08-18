@@ -35,22 +35,52 @@ function AddModal({ isOpen, onClose, onAddProduct }) {
         <h3>ایجاد محصول جدید</h3>
         <div className={stylesModal.inputs}>
           <label>نام کالا</label>
-          <input type="text" placeholder="نام کالا" {...register("name")} />
-          {errors.name && (
-            <p className={stylesModal.errorText}>{errors.name.message}</p>
-          )}
+          <input
+            dir="rtl"
+            type="text"
+            placeholder="نام کالا"
+            className={`${stylesModal.input} ${
+              errors.name ? stylesModal.inputError : ""
+            }`}
+            {...register("name")}
+          />
+          <div className={stylesModal.errorContainer}>
+            {errors.name && (
+              <p className={stylesModal.errorText}>{errors.name.message}</p>
+            )}
+          </div>
 
           <label>تعداد موجودی</label>
-          <input type="number" placeholder="تعداد" {...register("stock")} />
-          {errors.stock && (
-            <p className={stylesModal.errorText}>{errors.stock.message}</p>
-          )}
+          <input
+            dir="rtl"
+            type="number"
+            placeholder="تعداد"
+            className={`${stylesModal.input} ${
+              errors.stock ? stylesModal.inputError : ""
+            }`}
+            {...register("stock")}
+          />
+          <div className={stylesModal.errorContainer}>
+            {errors.stock && (
+              <p className={stylesModal.errorText}>{errors.stock.message}</p>
+            )}
+          </div>
 
           <label>قیمت</label>
-          <input type="text" placeholder="قیمت" {...register("price")} />
-          {errors.price && (
-            <p className={stylesModal.errorText}>{errors.price.message}</p>
-          )}
+          <input
+            dir="rtl"
+            type="text"
+            placeholder="قیمت"
+            className={`${stylesModal.input} ${
+              errors.price ? stylesModal.inputError : ""
+            }`}
+            {...register("price")}
+          />
+          <div className={stylesModal.errorContainer}>
+            {errors.price && (
+              <p className={stylesModal.errorText}>{errors.price.message}</p>
+            )}
+          </div>
         </div>
         <div className={stylesModal.buttonStatus}>
           <button

@@ -35,7 +35,10 @@ export const registerSchema = yup.object().shape({
 });
 
 export const productSchema = yup.object().shape({
-  name: yup.string().required("نام کالا الزامی است"),
+  name: yup
+    .string()
+    .required("نام کالا الزامی است")
+    .matches(/^[^\d]+$/, "نام کالا نمی‌تواند شامل عدد باشد"),
   stock: yup
     .number()
     .typeError("موجودی باید به صورت عدد وارد شود")
