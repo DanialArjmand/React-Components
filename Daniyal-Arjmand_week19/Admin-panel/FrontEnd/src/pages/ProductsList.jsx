@@ -1,13 +1,14 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useSearchParams } from "react-router-dom";
 import apiClient from "../api/apiConfig";
 
 import AddModal from "../components/AddModal";
 import EditModal from "../components/EditModal";
 import DeleteModal from "../components/DeleteModal";
 import Pagination from "../components/Pagination";
-import { usePagination } from "../hooks/usePagination";
 
+import { CiLogout } from "react-icons/ci";
 import styles from "./ProductsList.module.css";
 import searchIcon from "../assets/search-normal.svg";
 import profile from "../assets/Felix-Vogel-4.svg";
@@ -24,15 +25,30 @@ const fetchProducts = async ({ queryKey }) => {
 
 function ProductsList() {
   const [modalState, setModalState] = useState({ type: null, data: null });
-  const [page, setPage] = useState(1);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
   const queryClient = useQueryClient();
 
+  const initialPage = Number(searchParams.get("page")) || 1;
+  const initialSearch = searchParams.get("search") || "";
+
+  const [page, setPage] = useState(initialPage);
+  const [searchTerm, setSearchTerm] = useState(initialSearch);
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(initialSearch);
+
   useEffect(() => {
-    const timer = setTimeout(() => setDebouncedSearchTerm(searchTerm), 500);
+    const timer = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm);
+      setPage(1);
+    }, 500);
     return () => clearTimeout(timer);
   }, [searchTerm]);
+
+  useEffect(() => {
+    const params = {};
+    if (page > 1) params.page = page;
+    if (debouncedSearchTerm) params.search = debouncedSearchTerm;
+    setSearchParams(params, { replace: true });
+  }, [page, debouncedSearchTerm, setSearchParams]);
 
   const {
     data: queryData,
@@ -65,7 +81,11 @@ function ProductsList() {
   const deleteProductMutation = useMutation({
     mutationFn: (productId) => apiClient.delete(`/products/${productId}`),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["products"] });
+      if (products.length === 1 && page > 1) {
+        setPage(page - 1);
+      } else {
+        queryClient.invalidateQueries({ queryKey: ["products"] });
+      }
       closeModal();
     },
   });
@@ -97,17 +117,6 @@ function ProductsList() {
   const products = queryData?.data ?? [];
   const totalPages = queryData?.totalPages ?? 1;
 
-  const filteredProducts = useMemo(() => {
-    return products.filter((product) =>
-      product.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  }, [products, searchTerm]);
-
-  const { currentItems, firstItemIndex, ...paginationProps } = usePagination(
-    filteredProducts,
-    7
-  );
-
   const formatPrice = (price) => {
     const cleanPrice = String(price).replace(/,/g, "");
     const num = Number(cleanPrice);
@@ -132,6 +141,9 @@ function ProductsList() {
     <div className={styles.form}>
       <header className={styles.header}>
         <div className={styles.adminStyles}>
+          <button>
+            <CiLogout className={styles.iconLogout} />
+          </button>
           <p>
             میلاد عظمی<span>مدیر</span>
           </p>
@@ -150,7 +162,10 @@ function ProductsList() {
 
       <main>
         <div className={styles.headTitle}>
-          <button onClick={() => openModal("ADD")}>افزودن محصول</button>
+          <div>
+            <button onClick={() => openModal("ADD")}>افزودن محصول</button>
+            <button className={styles.deleteGroup}>حذف گروهی</button>
+          </div>
           <div className={styles.title}>
             <h2>مدیریت کالا</h2>
             <img src={settingIcon} alt="settingIcon" />
@@ -172,11 +187,23 @@ function ProductsList() {
             <tbody>
               {isLoading ? (
                 <tr>
-                  <td colSpan="6">در حال بارگذاری...</td>
+                  <td colSpan="6" className={styles.noProductsText}>
+                    در حال بارگذاری...
+                  </td>
                 </tr>
               ) : isError ? (
                 <tr>
-                  <td colSpan="6">خطا در دریافت اطلاعات</td>
+                  <td colSpan="6" className={styles.noProductsText}>
+                    خطا در دریافت اطلاعات
+                  </td>
+                </tr>
+              ) : products.length === 0 ? (
+                <tr>
+                  <td colSpan="6" className={styles.noProductsText}>
+                    {debouncedSearchTerm
+                      ? "محصولی با این مشخصات یافت نشد"
+                      : "هیچ محصولی هنوز ثبت نشده"}
+                  </td>
                 </tr>
               ) : (
                 products.map((product, index) => (

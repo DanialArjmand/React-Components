@@ -17,6 +17,20 @@ const loginUser = async (credentials) => {
   return data;
 };
 
+const getCustomErrorMessage = (error) => {
+  const apiMessage = error?.response?.data?.message || "";
+
+  if (apiMessage.toLowerCase() === "invalid credentials") {
+    return "نام کاربری یا رمز عبور وارد شده صحیح نمی‌باشد";
+  }
+
+  if (apiMessage.toLowerCase() === "user not found") {
+    return "کاربری با این مشخصات یافت نشد";
+  }
+
+  return "خطایی رخ داده است. لطفاً دوباره تلاش کنید";
+};
+
 function LoginPage() {
   const navigate = useNavigate();
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -48,12 +62,13 @@ function LoginPage() {
         <img className={styles.logo} src={logo} alt="logo" />
         <h2 className={styles.textLogin}>فرم ورود</h2>
 
-        {mutation.isError && (
-          <p className={styles.errorText} style={{ textAlign: "center" }}>
-            {mutation.error.response?.data?.message ||
-              "نام کاربری یا رمز عبور اشتباه است"}
-          </p>
-        )}
+        <div className={styles.errorContainer}>
+          {mutation.isError && (
+            <p className={styles.errorText} style={{ textAlign: "center" }}>
+              {getCustomErrorMessage(mutation.error)}
+            </p>
+          )}
+        </div>
 
         <UserInput
           name="username"

@@ -54,9 +54,29 @@ body {
 
 .adminStyles {
   display: flex;
-  width: 180px;
+  align-items: center;
+  width: 200px;
   height: 50px;
   border-right: 1px solid #e4e4e4;
+}
+
+.adminStyles button {
+  width: 30px;
+  height: 40px;
+  margin-left: 10px;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.iconLogout {
+  width: 100%;
+  height: 100%;
+}
+
+.iconLogout:hover {
+  color: #55a3f0;
 }
 
 .adminStyles p {
@@ -64,7 +84,7 @@ body {
   flex-direction: column;
   justify-content: center;
   text-align: right;
-  padding: 0 10px 0 30px;
+  padding: 0 12px;
   font-size: 16px;
   font-weight: 400;
   color: #282828;
@@ -104,6 +124,10 @@ main {
   cursor: pointer;
   font-size: 16px;
   font-weight: 400;
+}
+
+.deleteGroup {
+  margin-left: 15px;
 }
 
 .headTitle button:hover {
