@@ -1,5 +1,6 @@
-import { useState, useMemo } from "react";
-import { v4 as uuidv4 } from "uuid";
+import { useState, useMemo, useEffect } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import apiClient from "../api/apiConfig";
 
 import AddModal from "../components/AddModal";
 import EditModal from "../components/EditModal";
@@ -14,49 +15,87 @@ import settingIcon from "../assets/setting-3.svg";
 import deleteIcon from "../assets/trash.svg";
 import editIcon from "../assets/edit.svg";
 
+const fetchProducts = async ({ queryKey }) => {
+  const [_key, { page, limit, name }] = queryKey;
+  const params = { page, limit, name: name || undefined };
+  const { data } = await apiClient.get("/products", { params });
+  return data;
+};
+
 function ProductsList() {
   const [modalState, setModalState] = useState({ type: null, data: null });
+  const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
-  const [products, setProducts] = useState([
-    { id: 1, name: "کفش نایکی", stock: 20, price: 3500000 },
-    { id: 2, name: "پیراهن آدیداس", stock: 50, price: 1200000 },
-    { id: 3, name: "شلوار جین", stock: 30, price: 950000 },
-    { id: 4, name: "کلاه کپ", stock: 100, price: 250000 },
-    { id: 5, name: "عینک آفتابی", stock: 15, price: 1800000 },
-    { id: 6, name: "ساعت مچی", stock: 25, price: 4200000 },
-    { id: 7, name: "کیف ورزشی", stock: 40, price: 700000 },
-    { id: 8, name: "جوراب ورزشی", stock: 200, price: 150000 },
-    { id: 9, name: "گرمکن ورزشی", stock: 35, price: 2100000 },
-  ]);
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
+  const queryClient = useQueryClient();
 
-  const openModal = (type, data = null) => {
-    setModalState({ type, data });
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedSearchTerm(searchTerm), 500);
+    return () => clearTimeout(timer);
+  }, [searchTerm]);
+
+  const {
+    data: queryData,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["products", { page, limit: 7, name: debouncedSearchTerm }],
+    queryFn: fetchProducts,
+    keepPreviousData: true,
+  });
+
+  const addProductMutation = useMutation({
+    mutationFn: (newProduct) => apiClient.post("/products", newProduct),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+      closeModal();
+    },
+  });
+
+  const updateProductMutation = useMutation({
+    mutationFn: (updatedProduct) =>
+      apiClient.put(`/products/${updatedProduct.id}`, updatedProduct),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+      closeModal();
+    },
+  });
+
+  const deleteProductMutation = useMutation({
+    mutationFn: (productId) => apiClient.delete(`/products/${productId}`),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+      closeModal();
+    },
+  });
+
+  const openModal = (type, data = null) => setModalState({ type, data });
+
+  const closeModal = () => setModalState({ type: null, data: null });
+
+  const addProductHandler = (data) => {
+    addProductMutation.mutate({
+      ...data,
+      price: Number(data.price),
+      quantity: Number(data.quantity),
+    });
   };
 
-  const closeModal = () => {
-    setModalState({ type: null, data: null });
-  };
-
-  const updateProductHandler = (updatedProduct) => {
-    setProducts((prevProducts) =>
-      prevProducts.map((p) => (p.id === updatedProduct.id ? updatedProduct : p))
-    );
-    closeModal();
-  };
-
-  const addProductHandler = (newProduct) => {
-    setProducts((prevProducts) => [
-      ...prevProducts,
-      { ...newProduct, price: Number(newProduct.price), id: uuidv4() },
-    ]);
+  const updateProductHandler = (data) => {
+    updateProductMutation.mutate({
+      ...data,
+      price: Number(data.price),
+      quantity: Number(data.quantity),
+    });
   };
 
   const confirmDeleteHandler = () => {
-    setProducts((prevProducts) =>
-      prevProducts.filter((p) => p.id !== modalState.data.id)
-    );
-    closeModal();
+    deleteProductMutation.mutate(modalState.data.id);
   };
+
+  const products = queryData?.data ?? [];
+  const totalPages = queryData?.totalPages ?? 1;
 
   const filteredProducts = useMemo(() => {
     return products.filter((product) =>
@@ -131,22 +170,22 @@ function ProductsList() {
               </tr>
             </thead>
             <tbody>
-              {currentItems.length === 0 ? (
+              {isLoading ? (
                 <tr>
-                  <td colSpan={6} className={styles.noProductsText}>
-                    {products.length === 0
-                      ? "هیچ محصولی هنوز ثبت نشده"
-                      : "محصولی با این مشخصات یافت نشد"}
-                  </td>
+                  <td colSpan="6">در حال بارگذاری...</td>
+                </tr>
+              ) : isError ? (
+                <tr>
+                  <td colSpan="6">خطا در دریافت اطلاعات</td>
                 </tr>
               ) : (
-                currentItems.map((product, index) => (
+                products.map((product, index) => (
                   <tr key={product.id}>
-                    <td>{firstItemIndex + index + 1}</td>
+                    <td>{(page - 1) * 7 + index + 1}</td>
                     <td>{product.name}</td>
-                    <td>{product.stock}</td>
+                    <td>{product.quantity}</td>
                     <td>{formatPrice(product.price)}</td>
-                    <td>{product.id.toString().slice(2, 8)}</td>
+                    <td>{product.id.slice(0, 8)}</td>
                     <td>
                       <div className={styles.action}>
                         <button onClick={() => openModal("EDIT", product)}>
@@ -163,25 +202,32 @@ function ProductsList() {
             </tbody>
           </table>
         </div>
-        <Pagination {...paginationProps} />
+        <Pagination
+          currentPage={page}
+          totalPages={totalPages}
+          onPageChange={setPage}
+        />
       </main>
 
       <AddModal
         isOpen={modalState.type === "ADD"}
         onClose={closeModal}
         onAddProduct={addProductHandler}
+        isSubmitting={addProductMutation.isLoading}
       />
       <EditModal
         isOpen={modalState.type === "EDIT"}
         onClose={closeModal}
         onUpdateProduct={updateProductHandler}
         product={modalState.data}
+        isSubmitting={updateProductMutation.isLoading}
       />
       <DeleteModal
         isOpen={modalState.type === "DELETE"}
         onClose={closeModal}
         onConfirm={confirmDeleteHandler}
         product={modalState.data}
+        isSubmitting={deleteProductMutation.isLoading}
       />
     </div>
   );

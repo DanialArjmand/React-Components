@@ -41,7 +41,7 @@ export const productSchema = yup.object().shape({
     .matches(/^[^\d]+$/, "نام کالا نمی‌تواند شامل عدد باشد")
     .min(2, "نام کالا نمی‌تواند کمتر از ۲ کاراکتر باشد")
     .max(30, "نام کالا نمی‌تواند بیشتر از ۳۰ کاراکتر باشد"),
-  stock: yup
+  quantity: yup
     .number()
     .typeError("موجودی باید به صورت عدد وارد شود")
     .required("موجودی الزامی است")

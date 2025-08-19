@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
 import { registerSchema } from "../schemas/validationSchemas";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import apiClient from "../api/apiConfig";
 
 import UserInput from "../components/UserInput";
 import PasswordInput from "../components/PasswordInput";
@@ -10,7 +12,14 @@ import PasswordInput from "../components/PasswordInput";
 import logo from "../assets/Union.svg";
 import styles from "./LoginForm.module.css";
 
+const registerUser = async (userData) => {
+  const { confirmPassword, ...payload } = userData;
+  const { data } = await apiClient.post("/auth/register", payload);
+  return data;
+};
+
 function RegisterPage() {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -23,8 +32,16 @@ function RegisterPage() {
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
     useState(false);
 
+  const mutation = useMutation({
+    mutationFn: registerUser,
+    onSuccess: () => {
+      alert("ثبت نام با موفقیت انجام شد! اکنون می‌توانید وارد شوید.");
+      navigate("/");
+    },
+  });
+
   const onSubmit = (data) => {
-    console.log("Form is valid, submitting...", data);
+    mutation.mutate(data);
   };
 
   return (
@@ -33,6 +50,13 @@ function RegisterPage() {
       <form className={styles.formLogin} onSubmit={handleSubmit(onSubmit)}>
         <img className={styles.logo} src={logo} alt="logo" />
         <h2 className={styles.textLogin}>فرم ثبت نام</h2>
+
+        {mutation.isError && (
+          <p className={styles.errorText} style={{ textAlign: "center" }}>
+            {mutation.error.response?.data?.message ||
+              "خطایی در ثبت نام رخ داد"}
+          </p>
+        )}
 
         <UserInput
           name="username"
@@ -61,8 +85,12 @@ function RegisterPage() {
           }
         />
 
-        <button type="submit" className={styles.buttonLogin}>
-          ثبت نام
+        <button
+          type="submit"
+          className={styles.buttonLogin}
+          disabled={mutation.isLoading}
+        >
+          {mutation.isLoading ? "در حال ثبت نام..." : "ثبت نام"}
         </button>
         <Link className={styles.linkLogin} to="/">
           حساب کاربری دارید؟

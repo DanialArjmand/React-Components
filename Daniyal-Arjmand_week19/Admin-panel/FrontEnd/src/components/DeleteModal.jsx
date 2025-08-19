@@ -1,7 +1,7 @@
 import stylesModal from "./DeleteModal.module.css";
 import closeIcon from "../assets/Close.svg";
 
-function DeleteModal({ isOpen, onClose, onConfirm, product }) {
+function DeleteModal({ isOpen, onClose, onConfirm, product, isSubmitting }) {
   if (!isOpen) {
     return null;
   }
@@ -20,8 +20,9 @@ function DeleteModal({ isOpen, onClose, onConfirm, product }) {
           <button
             className={`${stylesModal.buttonDelete} ${stylesModal.buttonDelete}`}
             onClick={onConfirm}
+            disabled={isSubmitting}
           >
-            حذف
+            {isSubmitting ? "در حال حذف..." : "حذف"}
           </button>
         </div>
       </div>

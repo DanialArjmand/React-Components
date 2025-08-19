@@ -5,7 +5,13 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import stylesModal from "./AddModal.module.css";
 import { productSchema } from "../schemas/validationSchemas";
 
-function EditModal({ isOpen, onClose, product, onUpdateProduct }) {
+function EditModal({
+  isOpen,
+  onClose,
+  product,
+  onUpdateProduct,
+  isSubmitting,
+}) {
   const {
     register,
     handleSubmit,
@@ -65,13 +71,13 @@ function EditModal({ isOpen, onClose, product, onUpdateProduct }) {
             dir="rtl"
             type="number"
             className={`${stylesModal.input} ${
-              errors.stock ? stylesModal.inputError : ""
+              errors.quantity ? stylesModal.inputError : ""
             }`}
-            {...register("stock")}
+            {...register("quantity")}
           />
           <div className={stylesModal.errorContainer}>
-            {errors.stock && (
-              <p className={stylesModal.errorText}>{errors.stock.message}</p>
+            {errors.quantity && (
+              <p className={stylesModal.errorText}>{errors.quantity.message}</p>
             )}
           </div>
 
@@ -98,8 +104,12 @@ function EditModal({ isOpen, onClose, product, onUpdateProduct }) {
           >
             انصراف
           </button>
-          <button type="submit" className={stylesModal.buttonCreate}>
-            ثبت اطلاعات جدید
+          <button
+            type="submit"
+            className={stylesModal.buttonCreate}
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? "در حال ثبت اطلاعات جدید..." : "ثبت اطلاعات جدید"}
           </button>
         </div>
       </form>

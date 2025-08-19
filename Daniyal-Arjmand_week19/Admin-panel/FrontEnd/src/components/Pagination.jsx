@@ -1,44 +1,46 @@
 import styles from "../pages/ProductsList.module.css";
 
-const Pagination = ({
-  totalPages,
-  pageNumbersToDisplay,
-  currentPage,
-  setCurrentPage,
-  prevPageHandler,
-  nextPageHandler,
-}) => {
+const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   if (totalPages <= 1) {
     return null;
+  }
+
+  const prevHandler = () => {
+    if (currentPage > 1) {
+      onPageChange(currentPage - 1);
+    }
+  };
+
+  const nextHandler = () => {
+    if (currentPage < totalPages) {
+      onPageChange(currentPage + 1);
+    }
+  };
+
+  const pageNumbers = [];
+  for (let i = 1; i <= totalPages; i++) {
+    pageNumbers.push(i);
   }
 
   return (
     <div className={styles.pagination}>
       {totalPages > 3 && (
-        <button onClick={prevPageHandler} disabled={currentPage === 1}>
+        <button onClick={prevHandler} disabled={currentPage === 1}>
           {"<<"}
         </button>
       )}
-      {pageNumbersToDisplay.map((item, index) =>
-        typeof item === "number" ? (
-          <button
-            key={index}
-            onClick={() => setCurrentPage(item)}
-            className={currentPage === item ? styles.activePage : ""}
-          >
-            {new Intl.NumberFormat("fa-IR").format(item)}
-          </button>
-        ) : (
-          <span key={index} className={styles.ellipsis}>
-            ...
-          </span>
-        )
-      )}
-      {totalPages > 3 && (
-        <button onClick={nextPageHandler} disabled={currentPage === totalPages}>
-          {">>"}
+      {pageNumbers.map((number) => (
+        <button
+          key={number}
+          onClick={() => onPageChange(number)}
+          className={currentPage === number ? styles.activePage : ""}
+        >
+          {new Intl.NumberFormat("fa-IR").format(number)}
         </button>
-      )}
+      ))}
+      <button onClick={nextHandler} disabled={currentPage === totalPages}>
+        {">>"}
+      </button>
     </div>
   );
 };
