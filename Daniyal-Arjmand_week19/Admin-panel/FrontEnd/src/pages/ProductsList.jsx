@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import AddModal from "../components/AddModal";
 import EditModal from "../components/EditModal";
 import DeleteModal from "../components/DeleteModal";
+import Pagination from "../components/Pagination";
+import { usePagination } from "../hooks/usePagination";
 
 import styles from "./ProductsList.module.css";
 import searchIcon from "../assets/search-normal.svg";
@@ -14,8 +16,6 @@ import editIcon from "../assets/edit.svg";
 
 function ProductsList() {
   const [modalState, setModalState] = useState({ type: null, data: null });
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(7);
   const [searchTerm, setSearchTerm] = useState("");
   const [products, setProducts] = useState([
     { id: 1, name: "کفش نایکی", stock: 20, price: 3500000 },
@@ -58,8 +58,15 @@ function ProductsList() {
     closeModal();
   };
 
-  const filteredProducts = products.filter((product) =>
-    product.name.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredProducts = useMemo(() => {
+    return products.filter((product) =>
+      product.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }, [products, searchTerm]);
+
+  const { currentItems, firstItemIndex, ...paginationProps } = usePagination(
+    filteredProducts,
+    7
   );
 
   const formatPrice = (price) => {
@@ -81,39 +88,6 @@ function ProductsList() {
     }
     return `${new Intl.NumberFormat("fa-IR").format(num)} تومان`;
   };
-
-  const lastItemIndex = currentPage * itemsPerPage;
-  const firstItemIndex = lastItemIndex - itemsPerPage;
-  const currentItems = filteredProducts.slice(firstItemIndex, lastItemIndex);
-
-  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
-
-  const nextPageHandler = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-
-  const prevPageHandler = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-
-  const generatePagination = () => {
-    if (totalPages <= 3) {
-      return Array.from({ length: totalPages }, (_, i) => i + 1);
-    }
-    if (currentPage <= 2) {
-      return [1, 2, "..."];
-    }
-    if (currentPage >= totalPages - 1) {
-      return ["...", totalPages - 1, totalPages];
-    }
-    return [1, "...", currentPage];
-  };
-
-  const pageNumbersToDisplay = generatePagination();
 
   return (
     <div className={styles.form}>
@@ -189,38 +163,7 @@ function ProductsList() {
             </tbody>
           </table>
         </div>
-        {totalPages > 1 && (
-          <div className={styles.pagination}>
-            {totalPages > 3 && (
-              <button onClick={prevPageHandler} disabled={currentPage === 1}>
-                {"<<"}
-              </button>
-            )}
-            {pageNumbersToDisplay.map((item, index) =>
-              typeof item === "number" ? (
-                <button
-                  key={index}
-                  onClick={() => setCurrentPage(item)}
-                  className={currentPage === item ? styles.activePage : ""}
-                >
-                  {new Intl.NumberFormat("fa-IR").format(item)}
-                </button>
-              ) : (
-                <span key={index} className={styles.ellipsis}>
-                  ...
-                </span>
-              )
-            )}
-            {totalPages > 3 && (
-              <button
-                onClick={nextPageHandler}
-                disabled={currentPage === totalPages}
-              >
-                {">>"}
-              </button>
-            )}
-          </div>
-        )}
+        <Pagination {...paginationProps} />
       </main>
 
       <AddModal
