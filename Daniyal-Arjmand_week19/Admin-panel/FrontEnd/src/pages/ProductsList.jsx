@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import apiClient from "../api/apiConfig";
@@ -32,6 +32,7 @@ function ProductsList() {
   const [isBulkDeleteMode, setIsBulkDeleteMode] = useState(false);
   const [selectedIds, setSelectedIds] = useState([]);
   const [copiedId, setCopiedId] = useState(null);
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
   const navigate = useNavigate();
 
   const initialPage = Number(searchParams.get("page")) || 1;
@@ -76,6 +77,27 @@ function ProductsList() {
 
   const products = queryData?.data ?? [];
   const totalPages = queryData?.totalPages ?? 1;
+
+  const sortedProducts = useMemo(() => {
+    if (!sortConfig.key || !sortConfig.direction) return products;
+
+    return [...products].sort((a, b) => {
+      if (a[sortConfig.key] < b[sortConfig.key])
+        return sortConfig.direction === "ascending" ? -1 : 1;
+      if (a[sortConfig.key] > b[sortConfig.key])
+        return sortConfig.direction === "ascending" ? 1 : -1;
+      return 0;
+    });
+  }, [products, sortConfig]);
+
+  const handleSort = (key, direction) => {
+    setSortConfig((prev) => {
+      if (prev.key === key && prev.direction === direction) {
+        return { key: null, direction: null };
+      }
+      return { key, direction };
+    });
+  };
 
   const handleEnterBulkDeleteMode = () => {
     setIsBulkDeleteMode(true);
@@ -326,8 +348,64 @@ function ProductsList() {
                 )}
                 <th className={styles.rowNumber}>شماره ردیف</th>
                 <th className={styles.nameProducts}>نام کالا</th>
-                <th className={styles.quantity}>موجودی</th>
-                <th className={styles.price}>قیمت</th>
+                <th className={styles.quantity}>
+                  <div className={styles.sortableHeader}>
+                    موجودی
+                    <div className={styles.sortIcons}>
+                      <span
+                        onClick={() => handleSort("quantity", "descending")}
+                        className={`${styles.sortIcon} ${
+                          sortConfig.key === "quantity" &&
+                          sortConfig.direction === "descending"
+                            ? styles.activeDesc
+                            : ""
+                        }`}
+                      >
+                        ▲
+                      </span>
+                      <span
+                        onClick={() => handleSort("quantity", "ascending")}
+                        className={`${styles.sortIcon} ${
+                          sortConfig.key === "quantity" &&
+                          sortConfig.direction === "ascending"
+                            ? styles.activeAsc
+                            : ""
+                        }`}
+                      >
+                        ▼
+                      </span>
+                    </div>
+                  </div>
+                </th>
+                <th className={styles.price}>
+                  <div className={styles.sortableHeader}>
+                    قیمت
+                    <div className={styles.sortIcons}>
+                      <span
+                        onClick={() => handleSort("price", "descending")}
+                        className={`${styles.sortIcon} ${
+                          sortConfig.key === "price" &&
+                          sortConfig.direction === "descending"
+                            ? styles.activeDesc
+                            : ""
+                        }`}
+                      >
+                        ▲
+                      </span>
+                      <span
+                        onClick={() => handleSort("price", "ascending")}
+                        className={`${styles.sortIcon} ${
+                          sortConfig.key === "price" &&
+                          sortConfig.direction === "ascending"
+                            ? styles.activeAsc
+                            : ""
+                        }`}
+                      >
+                        ▼
+                      </span>
+                    </div>
+                  </div>
+                </th>
                 <th className={styles.idStyles}>شناسه کالا</th>
                 <th className={styles.buttons}></th>
               </tr>
@@ -355,7 +433,7 @@ function ProductsList() {
                   </td>
                 </tr>
               ) : (
-                products.map((product, index) => (
+                sortedProducts.map((product, index) => (
                   <tr
                     key={product.id}
                     className={

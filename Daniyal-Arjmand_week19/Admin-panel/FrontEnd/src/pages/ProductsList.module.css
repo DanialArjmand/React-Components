@@ -152,6 +152,31 @@ main {
   cursor: not-allowed;
 }
 
+.sortableHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sortIcons {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+.sortIcon {
+  color: #ccc;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.activeAsc {
+  color: #27ae60;
+}
+.activeDesc {
+  color: #e74c3c;
+}
+
 .checkboxContainer {
   display: block;
   position: relative;
@@ -163,7 +188,7 @@ main {
 }
 
 .checkboxAll {
-  padding: 0 !important; 
+  padding: 0 !important;
   display: flex;
   justify-content: center;
   align-items: center;
