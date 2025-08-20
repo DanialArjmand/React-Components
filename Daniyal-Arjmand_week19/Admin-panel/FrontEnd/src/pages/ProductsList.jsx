@@ -9,6 +9,7 @@ import DeleteModal from "../components/DeleteModal";
 import Pagination from "../components/Pagination";
 
 import { CiLogout } from "react-icons/ci";
+import { IoCopyOutline } from "react-icons/io5";
 import styles from "./ProductsList.module.css";
 import searchIcon from "../assets/search-normal.svg";
 import profile from "../assets/Felix-Vogel-4.svg";
@@ -28,6 +29,9 @@ function ProductsList() {
   const [searchParams, setSearchParams] = useSearchParams();
   const queryClient = useQueryClient();
   const [username, setUsername] = useState("");
+  const [isBulkDeleteMode, setIsBulkDeleteMode] = useState(false);
+  const [selectedIds, setSelectedIds] = useState([]);
+  const [copiedId, setCopiedId] = useState(null);
   const navigate = useNavigate();
 
   const initialPage = Number(searchParams.get("page")) || 1;
@@ -70,6 +74,47 @@ function ProductsList() {
     keepPreviousData: true,
   });
 
+  const products = queryData?.data ?? [];
+  const totalPages = queryData?.totalPages ?? 1;
+
+  const handleEnterBulkDeleteMode = () => {
+    setIsBulkDeleteMode(true);
+  };
+
+  const handleCancelBulkDelete = () => {
+    setIsBulkDeleteMode(false);
+    setSelectedIds([]);
+  };
+
+  const handleSelectProduct = (id) => {
+    setSelectedIds((prev) =>
+      prev.includes(id)
+        ? prev.filter((selectedId) => selectedId !== id)
+        : [...prev, id]
+    );
+  };
+
+  const handleCopyId = async (id) => {
+    try {
+      await navigator.clipboard.writeText(id);
+      setCopiedId(id);
+      setTimeout(() => setCopiedId(null), 2000);
+    } catch (err) {
+      console.error("خطا در کپی کردن شناسه: ", err);
+    }
+  };
+
+  const areAllOnPageSelected =
+    products.length > 0 && selectedIds.length === products.length;
+
+  const handleSelectAll = () => {
+    if (areAllOnPageSelected) {
+      setSelectedIds([]);
+    } else {
+      setSelectedIds(products.map((p) => p.id));
+    }
+  };
+
   const handleLogout = () => {
     localStorage.removeItem("authToken");
     queryClient.clear();
@@ -96,14 +141,42 @@ function ProductsList() {
   const deleteProductMutation = useMutation({
     mutationFn: (productId) => apiClient.delete(`/products/${productId}`),
     onSuccess: () => {
+      closeModal();
       if (products.length === 1 && page > 1) {
         setPage(page - 1);
       } else {
         queryClient.invalidateQueries({ queryKey: ["products"] });
       }
-      closeModal();
     },
   });
+
+  const bulkDeleteMutation = useMutation({
+    mutationFn: (ids) => apiClient.delete("/products", { data: { ids } }),
+    onSuccess: () => {
+      closeModal();
+      if (selectedIds.length === products.length && page > 1) {
+        setPage(page - 1);
+      } else {
+        queryClient.invalidateQueries({ queryKey: ["products"] });
+      }
+      setIsBulkDeleteMode(false);
+      setSelectedIds([]);
+    },
+  });
+
+  const handleConfirmDeletion = () => {
+    if (modalState.type === "DELETE") {
+      deleteProductMutation.mutate(modalState.data.id);
+    } else if (modalState.type === "BULK_DELETE") {
+      bulkDeleteMutation.mutate(selectedIds);
+    }
+  };
+
+  const handleOpenBulkDeleteModal = () => {
+    if (selectedIds.length > 0) {
+      openModal("BULK_DELETE");
+    }
+  };
 
   const openModal = (type, data = null) => setModalState({ type, data });
 
@@ -125,13 +198,6 @@ function ProductsList() {
     });
   };
 
-  const confirmDeleteHandler = () => {
-    deleteProductMutation.mutate(modalState.data.id);
-  };
-
-  const products = queryData?.data ?? [];
-  const totalPages = queryData?.totalPages ?? 1;
-
   const formatPrice = (price) => {
     const cleanPrice = String(price).replace(/,/g, "");
     const num = Number(cleanPrice);
@@ -151,6 +217,25 @@ function ProductsList() {
     }
     return `${new Intl.NumberFormat("fa-IR").format(num)} تومان`;
   };
+
+  let deleteModalTitle = "";
+  if (modalState.type === "DELETE" && modalState.data) {
+    deleteModalTitle = (
+      <>
+        آیا از حذف محصول
+        <span className={styles.highlightedName}>«{modalState.data.name}»</span>
+        مطمئن هستید؟
+      </>
+    );
+  } else if (modalState.type === "BULK_DELETE") {
+    deleteModalTitle = (
+      <>
+        آیا از حذف
+        <span className={styles.highlightedName}>«{selectedIds.length}»</span>
+        محصول مطمئن هستید؟
+      </>
+    );
+  }
 
   return (
     <div className={styles.form}>
@@ -178,9 +263,43 @@ function ProductsList() {
 
       <main>
         <div className={styles.headTitle}>
-          <div>
-            <button onClick={() => openModal("ADD")}>افزودن محصول</button>
-            <button className={styles.deleteGroup}>حذف گروهی</button>
+          <div className={styles.buttonContainer}>
+            {!isBulkDeleteMode ? (
+              <>
+                <button
+                  className={styles.addButton}
+                  onClick={() => openModal("ADD")}
+                >
+                  افزودن محصول
+                </button>
+                <button
+                  className={styles.deleteGroup}
+                  onClick={handleEnterBulkDeleteMode}
+                >
+                  حذف گروهی
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  className={styles.cancelButton}
+                  onClick={handleCancelBulkDelete}
+                >
+                  لغو
+                </button>
+                <button
+                  className={styles.deleteConfirm}
+                  onClick={handleOpenBulkDeleteModal}
+                  disabled={
+                    selectedIds.length === 0 || bulkDeleteMutation.isLoading
+                  }
+                >
+                  {bulkDeleteMutation.isLoading
+                    ? "در حال حذف..."
+                    : `حذف (${selectedIds.length})`}
+                </button>
+              </>
+            )}
           </div>
           <div className={styles.title}>
             <h2>مدیریت کالا</h2>
@@ -192,49 +311,102 @@ function ProductsList() {
           <table>
             <thead>
               <tr>
-                <th>شماره ردیف</th>
-                <th>نام کالا</th>
-                <th>موجودی</th>
-                <th>قیمت</th>
-                <th>شناسه کالا</th>
-                <th></th>
+                {isBulkDeleteMode && (
+                  <th className={styles.checkboxAll}>
+                    <label className={styles.checkboxContainer}>
+                      <input
+                        type="checkbox"
+                        checked={areAllOnPageSelected}
+                        onChange={handleSelectAll}
+                      />
+                      <span className={styles.customCheckbox}></span>
+                      <span className={styles.selectAllText}>انتخاب همه</span>
+                    </label>
+                  </th>
+                )}
+                <th className={styles.rowNumber}>شماره ردیف</th>
+                <th className={styles.nameProducts}>نام کالا</th>
+                <th className={styles.quantity}>موجودی</th>
+                <th className={styles.price}>قیمت</th>
+                <th className={styles.idStyles}>شناسه کالا</th>
+                <th className={styles.buttons}></th>
               </tr>
             </thead>
             <tbody>
               {isLoading ? (
                 <tr>
-                  <td colSpan="6" className={styles.noProductsText}>
-                    در حال بارگذاری...
-                  </td>
+                  <td colSpan={isBulkDeleteMode ? 7 : 6}>درحال بارگذاری...</td>
                 </tr>
               ) : isError ? (
                 <tr>
-                  <td colSpan="6" className={styles.noProductsText}>
-                    خطا در دریافت اطلاعات
+                  <td colSpan={isBulkDeleteMode ? 7 : 6}>
+                    {error?.response?.data?.message || "خطا در دریافت اطلاعات"}
                   </td>
                 </tr>
               ) : products.length === 0 ? (
                 <tr>
-                  <td colSpan="6" className={styles.noProductsText}>
+                  <td
+                    colSpan={isBulkDeleteMode ? 7 : 6}
+                    className={styles.noProductsText}
+                  >
                     {debouncedSearchTerm
-                      ? "محصولی با این مشخصات یافت نشد"
-                      : "هیچ محصولی هنوز ثبت نشده"}
+                      ? "محصولی یافت نشد"
+                      : "هیچ محصولی ثبت نشده"}
                   </td>
                 </tr>
               ) : (
                 products.map((product, index) => (
-                  <tr key={product.id}>
-                    <td>{(page - 1) * 7 + index + 1}</td>
+                  <tr
+                    key={product.id}
+                    className={
+                      selectedIds.includes(product.id) ? styles.selectedRow : ""
+                    }
+                  >
+                    {isBulkDeleteMode && (
+                      <td>
+                        <label className={styles.checkboxContainer}>
+                          <input
+                            type="checkbox"
+                            checked={selectedIds.includes(product.id)}
+                            onChange={() => handleSelectProduct(product.id)}
+                          />
+                          <span className={styles.customCheckbox}></span>
+                        </label>
+                      </td>
+                    )}
+                    <td className={styles.rowNumber}>
+                      {(page - 1) * 7 + index + 1}
+                    </td>
                     <td>{product.name}</td>
-                    <td>{product.quantity}</td>
-                    <td>{formatPrice(product.price)}</td>
-                    <td>{product.id.slice(0, 8)}</td>
-                    <td>
+                    <td className={styles.quantity}>{product.quantity}</td>
+                    <td className={styles.price}>
+                      {formatPrice(product.price)}
+                    </td>
+                    <td className={styles.idStyles} title={product.id}>
+                      {product.id.slice(0, 8)}
+                    </td>
+                    <td className={styles.buttons}>
                       <div className={styles.action}>
-                        <button onClick={() => openModal("EDIT", product)}>
+                        <button
+                          title="کپی کامل شناسه کالا"
+                          onClick={() => handleCopyId(product.id)}
+                        >
+                          {copiedId === product.id ? (
+                            <span className={styles.copiedText}>کپی شد</span>
+                          ) : (
+                            <IoCopyOutline className={styles.copyIcon} />
+                          )}
+                        </button>
+                        <button
+                          title="ویرایش"
+                          onClick={() => openModal("EDIT", product)}
+                        >
                           <img src={editIcon} alt="editIcon" />
                         </button>
-                        <button onClick={() => openModal("DELETE", product)}>
+                        <button
+                          title="حذف"
+                          onClick={() => openModal("DELETE", product)}
+                        >
                           <img src={deleteIcon} alt="deleteIcon" />
                         </button>
                       </div>
@@ -266,11 +438,15 @@ function ProductsList() {
         isSubmitting={updateProductMutation.isLoading}
       />
       <DeleteModal
-        isOpen={modalState.type === "DELETE"}
+        isOpen={
+          modalState.type === "DELETE" || modalState.type === "BULK_DELETE"
+        }
         onClose={closeModal}
-        onConfirm={confirmDeleteHandler}
-        product={modalState.data}
-        isSubmitting={deleteProductMutation.isLoading}
+        onConfirm={handleConfirmDeletion}
+        title={deleteModalTitle}
+        isSubmitting={
+          deleteProductMutation.isLoading || bulkDeleteMutation.isLoading
+        }
       />
     </div>
   );

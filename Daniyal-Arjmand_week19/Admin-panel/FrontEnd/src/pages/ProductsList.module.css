@@ -42,7 +42,6 @@ body {
 
 .searchProduct input {
   text-align: right;
-
   height: 50px;
   margin: 0 10px;
   font-family: "Vazirmatn", sans-serif;
@@ -127,8 +126,91 @@ main {
   font-weight: 400;
 }
 
-.deleteGroup {
-  margin-left: 15px;
+.buttonContainer {
+  width: 279px;
+  display: flex;
+}
+
+.addButton {
+  margin-right: 15px;
+}
+
+.cancelButton {
+  margin-right: 15px;
+}
+
+.deleteConfirm {
+  background-color: #f43f5e !important;
+}
+
+.deleteConfirm:hover {
+  background-color: #cc2e49 !important;
+}
+
+.deleteConfirm:disabled {
+  background-color: #f5c6cb !important;
+  cursor: not-allowed;
+}
+
+.checkboxContainer {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.checkboxAll {
+  padding: 0 !important; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.selectAllText {
+  margin-right: 8px;
+  font-weight: normal;
+  font-size: 14px;
+}
+
+.checkboxContainer input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.customCheckbox {
+  position: relative;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-color: #eee;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.checkboxContainer input:checked ~ .customCheckbox {
+  background-color: #2196f3;
+  border-color: #2196f3;
+}
+
+.customCheckbox::after {
+  content: "";
+  position: absolute;
+  display: none;
+  left: 6px;
+  top: 1px;
+  width: 5px;
+  height: 10px;
+  border: solid #fff;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+}
+
+.checkboxContainer input:checked ~ .customCheckbox::after {
+  display: block;
 }
 
 .headTitle button:hover {
@@ -187,14 +269,33 @@ main {
   font-weight: 400;
 }
 
-.tableProducts thead th:last-child {
+.tableProducts .rowNumber {
+  width: 150px;
+}
+
+.tableProducts .nameProducts {
   width: 200px;
+}
+
+.tableProducts .quantity {
+  width: 150px;
+}
+
+.tableProducts .price {
+  width: 180px;
+}
+
+.tableProducts .idStyles {
+  width: 150px;
+}
+
+.tableProducts .buttons {
+  width: 180px;
   padding: 0;
 }
 
-.tableProducts tbody td:last-child {
-  width: 200px;
-  padding: 0;
+.tableProducts input {
+  padding: 0 5px;
 }
 
 .action {
@@ -204,6 +305,18 @@ main {
   align-items: center;
   gap: 10px;
   padding-left: 30px;
+}
+
+.copyIcon {
+  width: 20px;
+  height: 20px;
+  color: #ffc300;
+}
+
+.copiedText {
+  font-family: "Vazirmatn", sans-serif;
+  font-size: 12px;
+  font-weight: 400;
 }
 
 .action button {

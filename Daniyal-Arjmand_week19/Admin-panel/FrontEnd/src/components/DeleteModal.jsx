@@ -1,7 +1,7 @@
 import stylesModal from "./DeleteModal.module.css";
 import closeIcon from "../assets/Close.svg";
 
-function DeleteModal({ isOpen, onClose, onConfirm, product, isSubmitting }) {
+function DeleteModal({ isOpen, onClose, onConfirm, title, isSubmitting }) {
   if (!isOpen) {
     return null;
   }
@@ -10,15 +10,13 @@ function DeleteModal({ isOpen, onClose, onConfirm, product, isSubmitting }) {
     <div className={stylesModal.backgroundParent}>
       <div className={stylesModal.deleteForm}>
         <img src={closeIcon} alt="closeIcon" />
-        <p>
-          آیا از حذف محصول <span>{product.name}</span> مطمئن هستید؟
-        </p>
+        <p>{title}</p>
         <div className={stylesModal.buttonStatus}>
           <button className={stylesModal.buttonCancel} onClick={onClose}>
             لغو
           </button>
           <button
-            className={`${stylesModal.buttonDelete} ${stylesModal.buttonDelete}`}
+            className={stylesModal.buttonDelete}
             onClick={onConfirm}
             disabled={isSubmitting}
           >
