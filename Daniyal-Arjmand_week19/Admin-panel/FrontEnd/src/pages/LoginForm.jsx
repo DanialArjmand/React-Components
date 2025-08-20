@@ -3,9 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
+import { jwtDecode } from "jwt-decode";
+
 import { loginSchema } from "../schemas/validationSchemas";
 import apiClient from "../api/apiConfig";
-
 import UserInput from "../components/UserInput";
 import PasswordInput from "../components/PasswordInput";
 
@@ -46,7 +47,9 @@ function LoginPage() {
   const mutation = useMutation({
     mutationFn: loginUser,
     onSuccess: (data) => {
+      const decodedToken = jwtDecode(data.token);
       localStorage.setItem("authToken", data.token);
+      localStorage.setItem("username", decodedToken.username);
       navigate("/dashboard");
     },
   });

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import apiClient from "../api/apiConfig";
 
 import AddModal from "../components/AddModal";
@@ -27,6 +27,8 @@ function ProductsList() {
   const [modalState, setModalState] = useState({ type: null, data: null });
   const [searchParams, setSearchParams] = useSearchParams();
   const queryClient = useQueryClient();
+  const [username, setUsername] = useState("");
+  const navigate = useNavigate();
 
   const initialPage = Number(searchParams.get("page")) || 1;
   const initialSearch = searchParams.get("search") || "";
@@ -34,6 +36,13 @@ function ProductsList() {
   const [page, setPage] = useState(initialPage);
   const [searchTerm, setSearchTerm] = useState(initialSearch);
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(initialSearch);
+
+  useEffect(() => {
+    const storedUsername = localStorage.getItem("username");
+    if (storedUsername) {
+      setUsername(storedUsername);
+    }
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -60,6 +69,12 @@ function ProductsList() {
     queryFn: fetchProducts,
     keepPreviousData: true,
   });
+
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    queryClient.clear();
+    navigate("/");
+  };
 
   const addProductMutation = useMutation({
     mutationFn: (newProduct) => apiClient.post("/products", newProduct),
@@ -141,11 +156,12 @@ function ProductsList() {
     <div className={styles.form}>
       <header className={styles.header}>
         <div className={styles.adminStyles}>
-          <button>
+          <button onClick={handleLogout} title="خروج از حساب کاربری">
             <CiLogout className={styles.iconLogout} />
           </button>
           <p>
-            میلاد عظمی<span>مدیر</span>
+            {username}
+            <span>مدیر</span>
           </p>
           <img src={profile} alt="profile" />
         </div>
