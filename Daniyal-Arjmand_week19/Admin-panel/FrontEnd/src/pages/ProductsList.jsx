@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSearchParams, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import apiClient from "../api/apiConfig";
 
 import AddModal from "../components/AddModal";
@@ -145,37 +146,61 @@ function ProductsList() {
 
   const addProductMutation = useMutation({
     mutationFn: (newProduct) => apiClient.post("/products", newProduct),
-    onSuccess: () => {
+    onSuccess: (data, variables) => {
       queryClient.invalidateQueries({ queryKey: ["products"] });
       closeModal();
+      toast.success(`محصول «${variables.name}» با موفقیت اضافه شد.`, {
+        className: "toast-base toast-success",
+        progressClassName: "toast-success-progress",
+      });
+    },
+    onError: (error) => {
+      toast.error(error.response?.data?.message || "خطا در افزودن محصول");
     },
   });
 
   const updateProductMutation = useMutation({
     mutationFn: (updatedProduct) =>
       apiClient.put(`/products/${updatedProduct.id}`, updatedProduct),
-    onSuccess: () => {
+    onSuccess: (data, variables) => {
       queryClient.invalidateQueries({ queryKey: ["products"] });
       closeModal();
+      toast.success(`محصول «${variables.name}» با موفقیت ویرایش شد.`, {
+        className: "toast-base toast-success",
+        progressClassName: "toast-success-progress",
+      });
+    },
+    onError: (error) => {
+      toast.error(error.response?.data?.message || "خطا در ویرایش محصول");
     },
   });
 
   const deleteProductMutation = useMutation({
-    mutationFn: (productId) => apiClient.delete(`/products/${productId}`),
-    onSuccess: () => {
+    mutationFn: (product) => apiClient.delete(`/products/${product.id}`),
+    onSuccess: (data, variables) => {
       closeModal();
+      toast.success(`محصول «${variables.name}» با موفقیت حذف شد.`, {
+        className: "toast-base toast-delete",
+        progressClassName: "toast-delete-progress",
+      });
       if (products.length === 1 && page > 1) {
         setPage(page - 1);
       } else {
         queryClient.invalidateQueries({ queryKey: ["products"] });
       }
     },
+    onError: (error) => {
+      toast.error(error.response?.data?.message || "خطا در حذف محصول");
+    },
   });
 
   const bulkDeleteMutation = useMutation({
     mutationFn: (ids) => apiClient.delete("/products", { data: { ids } }),
-    onSuccess: () => {
+    onSuccess: (data, variables) => {
       closeModal();
+      toast.success(`تعداد ${variables.length} محصول با موفقیت حذف شد.`, {
+        className: "toast-base toast-delete",
+      });
       if (selectedIds.length === products.length && page > 1) {
         setPage(page - 1);
       } else {
@@ -184,11 +209,14 @@ function ProductsList() {
       setIsBulkDeleteMode(false);
       setSelectedIds([]);
     },
+    onError: (error) => {
+      toast.error(error.response?.data?.message || "خطا در حذف گروهی");
+    },
   });
 
   const handleConfirmDeletion = () => {
     if (modalState.type === "DELETE") {
-      deleteProductMutation.mutate(modalState.data.id);
+      deleteProductMutation.mutate(modalState.data);
     } else if (modalState.type === "BULK_DELETE") {
       bulkDeleteMutation.mutate(selectedIds);
     }

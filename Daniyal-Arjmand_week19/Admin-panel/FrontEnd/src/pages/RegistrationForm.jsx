@@ -4,8 +4,10 @@ import { useMutation } from "@tanstack/react-query";
 import { registerSchema } from "../schemas/validationSchemas";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { toast } from "react-toastify";
 import apiClient from "../api/apiConfig";
 
+import "./custom-toast.css";
 import UserInput from "../components/UserInput";
 import PasswordInput from "../components/PasswordInput";
 
@@ -35,7 +37,16 @@ function RegisterPage() {
   const mutation = useMutation({
     mutationFn: registerUser,
     onSuccess: () => {
-      alert("ثبت نام با موفقیت انجام شد! اکنون می‌توانید وارد شوید.");
+      toast.success("ثبت نام با موفقیت انجام شد! اکنون می‌توانید وارد شوید.", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        className: "toast-base toast-success",
+        progressClassName: "toast-success-progress",
+      });
       navigate("/");
     },
   });

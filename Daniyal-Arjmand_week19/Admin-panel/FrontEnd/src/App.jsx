@@ -1,4 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import LoginPage from "./pages/LoginForm";
 import RegisterPage from "./pages/RegistrationForm";
 import ProductsList from "./pages/ProductsList";
@@ -7,6 +10,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 function App() {
   return (
     <BrowserRouter>
+      <ToastContainer rtl={true} />
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
