@@ -6,6 +6,7 @@ import LoginPage from "./pages/LoginForm";
 import RegisterPage from "./pages/RegistrationForm";
 import ProductsList from "./pages/ProductsList";
 import ProtectedRoute from "./components/ProtectedRoute";
+import NotFoundPage from "./pages/NotFoundPage";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   );

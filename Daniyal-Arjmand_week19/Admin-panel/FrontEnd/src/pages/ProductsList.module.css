@@ -34,6 +34,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 400px;
 }
 
 .searchProduct img {
@@ -41,6 +42,7 @@ body {
 }
 
 .searchProduct input {
+  width: 100%;
   text-align: right;
   height: 50px;
   margin: 0 10px;
