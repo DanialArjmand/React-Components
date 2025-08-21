@@ -36,12 +36,6 @@
     "quantity": 5555
   },
   {
-    "id": "52d11e83-ec48-4d2a-b8ad-6cff9ffc3ce9",
-    "name": "کفش نایکی",
-    "price": 55555555,
-    "quantity": 7777777
-  },
-  {
     "id": "8bc2beb8-c282-417e-9ec2-e88edcfa4c02",
     "name": "شلوار",
     "price": 5555555555,
@@ -102,24 +96,6 @@
     "quantity": 5
   },
   {
-    "id": "e2d81b63-5c6d-4e9d-a0ce-fe51e20f2094",
-    "name": "گرمکن ورزشی",
-    "price": 222222222222,
-    "quantity": 2
-  },
-  {
-    "id": "8cf2032f-8b1a-495b-9c70-cb9633d2bc5a",
-    "name": "کفش نایکی",
-    "price": 22222222222,
-    "quantity": 2
-  },
-  {
-    "id": "bb89099c-5fe8-4aac-92d9-dc2bdcdd6f6f",
-    "name": "کفش نایکی",
-    "price": 2222222222,
-    "quantity": 222222
-  },
-  {
     "id": "d63d2f6a-f0f5-4978-879c-c039c452b3e6",
     "name": "کفش نایکی",
     "price": 22222222222,
@@ -172,5 +148,11 @@
     "name": "گرمکن ورزشی",
     "price": 555555555,
     "quantity": 5
+  },
+  {
+    "id": "78a1a99b-164f-4d4e-b332-f83f06997f9e",
+    "name": "کفش نایکی",
+    "price": 250000000,
+    "quantity": 5000
   }
 ]
