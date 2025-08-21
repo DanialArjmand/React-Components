@@ -441,12 +441,24 @@ function ProductsList() {
             <tbody>
               {isLoading ? (
                 <tr>
-                  <td colSpan={isBulkDeleteMode ? 7 : 6}>درحال بارگذاری...</td>
+                  <td
+                    style={{ textAlign: "center" }}
+                    colSpan={isBulkDeleteMode ? 7 : 6}
+                  >
+                    درحال بارگذاری...
+                  </td>
                 </tr>
               ) : isError ? (
                 <tr>
-                  <td colSpan={isBulkDeleteMode ? 7 : 6}>
-                    {error?.response?.data?.message || "خطا در دریافت اطلاعات"}
+                  <td
+                    style={{ textAlign: "center" }}
+                    colSpan={isBulkDeleteMode ? 7 : 6}
+                  >
+                    {error.response?.data?.message ===
+                    "Page 1 is out of bounds. There are only 0 pages."
+                      ? "محصولی یافت نشد"
+                      : error.response?.data?.message ||
+                        "خطا در دریافت اطلاعات"}
                   </td>
                 </tr>
               ) : products.length === 0 ? (

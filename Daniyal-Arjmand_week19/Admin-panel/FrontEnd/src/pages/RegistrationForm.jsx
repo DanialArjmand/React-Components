@@ -20,6 +20,16 @@ const registerUser = async (userData) => {
   return data;
 };
 
+const getRegisterErrorMessage = (error) => {
+  const apiMessage = error?.response?.data?.message || "";
+
+  if (apiMessage === "User already exists") {
+    return "این نام کاربری قبلاً ثبت شده است";
+  }
+
+  return "خطایی در ثبت نام رخ داد. لطفاً دوباره تلاش کنید.";
+};
+
 function RegisterPage() {
   const navigate = useNavigate();
   const {
@@ -38,14 +48,10 @@ function RegisterPage() {
     mutationFn: registerUser,
     onSuccess: () => {
       toast.success("ثبت نام با موفقیت انجام شد! اکنون می‌توانید وارد شوید.", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
         className: "toast-base toast-success",
         progressClassName: "toast-success-progress",
+        position: "top-right",
+        autoClose: 4500,
       });
       navigate("/");
     },
@@ -64,8 +70,7 @@ function RegisterPage() {
 
         {mutation.isError && (
           <p className={styles.errorText} style={{ textAlign: "center" }}>
-            {mutation.error.response?.data?.message ||
-              "خطایی در ثبت نام رخ داد"}
+            {getRegisterErrorMessage(mutation.error)}
           </p>
         )}
 
