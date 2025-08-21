@@ -60,7 +60,7 @@ function LoginPage() {
   };
 
   return (
-    <>
+    <div className={styles.pageContainer}>
       <h2 className={styles.headerText}>بوت کمپ بوتواستارت</h2>
       <form className={styles.formLogin} onSubmit={handleSubmit(onSubmit)}>
         <img className={styles.logo} src={logo} alt="logo" />
@@ -101,7 +101,7 @@ function LoginPage() {
           !ایجاد حساب کاربری
         </Link>
       </form>
-    </>
+    </div>
   );
 }
 

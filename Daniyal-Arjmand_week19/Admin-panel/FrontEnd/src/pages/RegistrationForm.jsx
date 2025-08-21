@@ -62,7 +62,7 @@ function RegisterPage() {
   };
 
   return (
-    <>
+    <div className={styles.pageContainer}>
       <h2 className={styles.headerText}>بوت کمپ بوتواستارت</h2>
       <form className={styles.formLogin} onSubmit={handleSubmit(onSubmit)}>
         <img className={styles.logo} src={logo} alt="logo" />
@@ -112,7 +112,7 @@ function RegisterPage() {
           حساب کاربری دارید؟
         </Link>
       </form>
-    </>
+    </div>
   );
 }
 

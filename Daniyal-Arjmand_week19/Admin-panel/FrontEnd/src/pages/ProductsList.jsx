@@ -157,159 +157,161 @@ function ProductsList() {
   }, [debouncedSearchTerm, searchParams, setSearchParams]);
 
   return (
-    <div className={styles.form}>
-      <ProductsHeader
-        username={username}
-        logout={logout}
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-      />
-
-      <main>
-        <ProductsActions
-          isBulkDeleteMode={isBulkDeleteMode}
-          setIsBulkDeleteMode={setIsBulkDeleteMode}
-          handleCancelBulkDelete={handleCancelBulkDelete}
-          openAddModal={() => openModal("ADD")}
-          openBulkDeleteModal={() => openModal("BULK_DELETE")}
-          selectedIds={selectedIds}
-          isBulkDeleting={bulkDeleteMutation.isLoading}
+    <div className={styles.pageContainer}>
+      <div className={styles.form}>
+        <ProductsHeader
+          username={username}
+          logout={logout}
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
         />
 
-        <div dir="rtl" className={styles.tableProducts}>
-          <table>
-            <thead>
-              <tr>
-                {isBulkDeleteMode && (
-                  <th className={styles.checkboxAll}>
-                    <label className={styles.checkboxContainer}>
-                      <input
-                        type="checkbox"
-                        checked={areAllOnPageSelected}
-                        onChange={handleSelectAll}
-                      />
-                      <span className={styles.customCheckbox}></span>
-                      <span className={styles.selectAllText}>انتخاب همه</span>
-                    </label>
-                  </th>
-                )}
-                <th className={styles.rowNumber}>ردیف</th>
-                <th className={styles.nameProducts}>نام کالا</th>
-                <th className={styles.quantity}>
-                  <div className={styles.sortableHeader}>
-                    موجودی
-                    <div className={styles.sortIcons}>
-                      <span
-                        onClick={() => handleSort("quantity", "descending")}
-                        className={`${styles.sortIcon} ${
-                          sortConfig.key === "quantity" &&
-                          sortConfig.direction === "descending"
-                            ? styles.activeDesc
-                            : ""
-                        }`}
-                      >
-                        ▲
-                      </span>
-                      <span
-                        onClick={() => handleSort("quantity", "ascending")}
-                        className={`${styles.sortIcon} ${
-                          sortConfig.key === "quantity" &&
-                          sortConfig.direction === "ascending"
-                            ? styles.activeAsc
-                            : ""
-                        }`}
-                      >
-                        ▼
-                      </span>
-                    </div>
-                  </div>
-                </th>
-                <th className={styles.price}>
-                  <div className={styles.sortableHeader}>
-                    قیمت
-                    <div className={styles.sortIcons}>
-                      <span
-                        onClick={() => handleSort("price", "descending")}
-                        className={`${styles.sortIcon} ${
-                          sortConfig.key === "price" &&
-                          sortConfig.direction === "descending"
-                            ? styles.activeDesc
-                            : ""
-                        }`}
-                      >
-                        ▲
-                      </span>
-                      <span
-                        onClick={() => handleSort("price", "ascending")}
-                        className={`${styles.sortIcon} ${
-                          sortConfig.key === "price" &&
-                          sortConfig.direction === "ascending"
-                            ? styles.activeAsc
-                            : ""
-                        }`}
-                      >
-                        ▼
-                      </span>
-                    </div>
-                  </div>
-                </th>
-                <th className={styles.idStyles}>شناسه کالا</th>
-                <th className={styles.buttons}></th>
-              </tr>
-            </thead>
-            <tbody>
-              <ProductsTable
-                isLoading={isLoading}
-                isError={isError}
-                error={error}
-                products={sortedProducts}
-                debouncedSearchTerm={debouncedSearchTerm}
-                isBulkDeleteMode={isBulkDeleteMode}
-                selectedIds={selectedIds}
-                handleSelectProduct={handleSelectProduct}
-                page={page}
-                copiedId={copiedId}
-                handleCopyId={handleCopyId}
-                openEditModal={(product) => openModal("EDIT", product)}
-                openDeleteModal={(product) => openModal("DELETE", product)}
-              />
-            </tbody>
-          </table>
-        </div>
-
-        {totalPages > 1 && (
-          <Pagination
-            currentPage={page}
-            totalPages={totalPages}
-            onPageChange={setPage}
+        <main>
+          <ProductsActions
+            isBulkDeleteMode={isBulkDeleteMode}
+            setIsBulkDeleteMode={setIsBulkDeleteMode}
+            handleCancelBulkDelete={handleCancelBulkDelete}
+            openAddModal={() => openModal("ADD")}
+            openBulkDeleteModal={() => openModal("BULK_DELETE")}
+            selectedIds={selectedIds}
+            isBulkDeleting={bulkDeleteMutation.isLoading}
           />
-        )}
-      </main>
 
-      <AddModal
-        isOpen={modalState.type === "ADD"}
-        onClose={closeModal}
-        onAddProduct={addProductHandler}
-        isSubmitting={addProductMutation.isLoading}
-      />
-      <EditModal
-        isOpen={modalState.type === "EDIT"}
-        onClose={closeModal}
-        product={modalState.data}
-        onUpdateProduct={updateProductHandler}
-        isSubmitting={updateProductMutation.isLoading}
-      />
-      <DeleteModal
-        isOpen={
-          modalState.type === "DELETE" || modalState.type === "BULK_DELETE"
-        }
-        onClose={closeModal}
-        onConfirm={handleConfirmDeletion}
-        title={deleteModalTitle}
-        isSubmitting={
-          deleteProductMutation.isLoading || bulkDeleteMutation.isLoading
-        }
-      />
+          <div dir="rtl" className={styles.tableProducts}>
+            <table>
+              <thead>
+                <tr>
+                  {isBulkDeleteMode && (
+                    <th className={styles.checkboxAll}>
+                      <label className={styles.checkboxContainer}>
+                        <input
+                          type="checkbox"
+                          checked={areAllOnPageSelected}
+                          onChange={handleSelectAll}
+                        />
+                        <span className={styles.customCheckbox}></span>
+                        <span className={styles.selectAllText}>انتخاب همه</span>
+                      </label>
+                    </th>
+                  )}
+                  <th className={styles.rowNumber}>ردیف</th>
+                  <th className={styles.nameProducts}>نام کالا</th>
+                  <th className={styles.quantity}>
+                    <div className={styles.sortableHeader}>
+                      موجودی
+                      <div className={styles.sortIcons}>
+                        <span
+                          onClick={() => handleSort("quantity", "descending")}
+                          className={`${styles.sortIcon} ${
+                            sortConfig.key === "quantity" &&
+                            sortConfig.direction === "descending"
+                              ? styles.activeDesc
+                              : ""
+                          }`}
+                        >
+                          ▲
+                        </span>
+                        <span
+                          onClick={() => handleSort("quantity", "ascending")}
+                          className={`${styles.sortIcon} ${
+                            sortConfig.key === "quantity" &&
+                            sortConfig.direction === "ascending"
+                              ? styles.activeAsc
+                              : ""
+                          }`}
+                        >
+                          ▼
+                        </span>
+                      </div>
+                    </div>
+                  </th>
+                  <th className={styles.price}>
+                    <div className={styles.sortableHeader}>
+                      قیمت
+                      <div className={styles.sortIcons}>
+                        <span
+                          onClick={() => handleSort("price", "descending")}
+                          className={`${styles.sortIcon} ${
+                            sortConfig.key === "price" &&
+                            sortConfig.direction === "descending"
+                              ? styles.activeDesc
+                              : ""
+                          }`}
+                        >
+                          ▲
+                        </span>
+                        <span
+                          onClick={() => handleSort("price", "ascending")}
+                          className={`${styles.sortIcon} ${
+                            sortConfig.key === "price" &&
+                            sortConfig.direction === "ascending"
+                              ? styles.activeAsc
+                              : ""
+                          }`}
+                        >
+                          ▼
+                        </span>
+                      </div>
+                    </div>
+                  </th>
+                  <th className={styles.idStyles}>شناسه کالا</th>
+                  <th className={styles.buttons}></th>
+                </tr>
+              </thead>
+              <tbody>
+                <ProductsTable
+                  isLoading={isLoading}
+                  isError={isError}
+                  error={error}
+                  products={sortedProducts}
+                  debouncedSearchTerm={debouncedSearchTerm}
+                  isBulkDeleteMode={isBulkDeleteMode}
+                  selectedIds={selectedIds}
+                  handleSelectProduct={handleSelectProduct}
+                  page={page}
+                  copiedId={copiedId}
+                  handleCopyId={handleCopyId}
+                  openEditModal={(product) => openModal("EDIT", product)}
+                  openDeleteModal={(product) => openModal("DELETE", product)}
+                />
+              </tbody>
+            </table>
+          </div>
+
+          {totalPages > 1 && (
+            <Pagination
+              currentPage={page}
+              totalPages={totalPages}
+              onPageChange={setPage}
+            />
+          )}
+        </main>
+
+        <AddModal
+          isOpen={modalState.type === "ADD"}
+          onClose={closeModal}
+          onAddProduct={addProductHandler}
+          isSubmitting={addProductMutation.isLoading}
+        />
+        <EditModal
+          isOpen={modalState.type === "EDIT"}
+          onClose={closeModal}
+          product={modalState.data}
+          onUpdateProduct={updateProductHandler}
+          isSubmitting={updateProductMutation.isLoading}
+        />
+        <DeleteModal
+          isOpen={
+            modalState.type === "DELETE" || modalState.type === "BULK_DELETE"
+          }
+          onClose={closeModal}
+          onConfirm={handleConfirmDeletion}
+          title={deleteModalTitle}
+          isSubmitting={
+            deleteProductMutation.isLoading || bulkDeleteMutation.isLoading
+          }
+        />
+      </div>
     </div>
   );
 }

@@ -4,12 +4,16 @@
   box-sizing: border-box;
 }
 
-body {
+.pageContainer {
+  width: 100%;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  background-color: #f7f8f8;
+  background: url(../assets/blob-scene-haikei.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 
 .headerText {
