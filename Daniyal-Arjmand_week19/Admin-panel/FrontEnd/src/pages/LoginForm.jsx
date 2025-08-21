@@ -5,6 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
 import { jwtDecode } from "jwt-decode";
 
+import { useAuth } from "../context/AuthContext";
 import { loginSchema } from "../schemas/validationSchemas";
 import apiClient from "../api/apiConfig";
 import UserInput from "../components/UserInput";
@@ -34,6 +35,7 @@ const getCustomErrorMessage = (error) => {
 
 function LoginPage() {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const {
@@ -48,8 +50,7 @@ function LoginPage() {
     mutationFn: loginUser,
     onSuccess: (data) => {
       const decodedToken = jwtDecode(data.token);
-      localStorage.setItem("authToken", data.token);
-      localStorage.setItem("username", decodedToken.username);
+      login({ token: data.token, username: decodedToken.username });
       navigate("/dashboard");
     },
   });

@@ -1,13 +1,20 @@
-import { useState, useEffect, useMemo } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useSearchParams, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import apiClient from "../api/apiConfig";
+import { useState, useMemo, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
 
-import AddModal from "../components/AddModal";
-import EditModal from "../components/EditModal";
-import DeleteModal from "../components/DeleteModal";
+import AddModal from "../components/modals/AddModal";
+import EditModal from "../components/modals/EditModal";
+import DeleteModal from "../components/modals/DeleteModal";
 import Pagination from "../components/Pagination";
+
+import { useAuth } from "../context/AuthContext";
+import { useProductsQuery } from "../hooks/useProductsQuery";
+import { useProductMutations } from "../hooks/useProductMutations";
+import { useSorting } from "../hooks/useSorting";
+import useDebouncedValue from "../hooks/useDebouncedValue";
+import { usePagination } from "../hooks/usePagination";
+
+import { PAGE_SIZE } from "../constants/pagination";
 
 import { CiLogout } from "react-icons/ci";
 import { IoCopyOutline } from "react-icons/io5";
@@ -18,103 +25,103 @@ import settingIcon from "../assets/setting-3.svg";
 import deleteIcon from "../assets/trash.svg";
 import editIcon from "../assets/edit.svg";
 
-const fetchProducts = async ({ queryKey }) => {
-  const [_key, { page, limit, name }] = queryKey;
-  const params = { page, limit, name: name || undefined };
-  const { data } = await apiClient.get("/products", { params });
-  return data;
+const formatPrice = (price) => {
+  const num = Number(String(price).replace(/,/g, ""));
+  if (isNaN(num)) return price;
+  if (num >= 1000000000)
+    return `${new Intl.NumberFormat("fa-IR").format(
+      num / 1000000000
+    )} میلیارد تومان`;
+  if (num >= 1000000)
+    return `${new Intl.NumberFormat("fa-IR").format(
+      num / 1000000
+    )} میلیون تومان`;
+  return `${new Intl.NumberFormat("fa-IR").format(num)} تومان`;
 };
 
 function ProductsList() {
-  const [modalState, setModalState] = useState({ type: null, data: null });
-  const [searchParams, setSearchParams] = useSearchParams();
   const queryClient = useQueryClient();
-  const [username, setUsername] = useState("");
-  const [isBulkDeleteMode, setIsBulkDeleteMode] = useState(false);
-  const [selectedIds, setSelectedIds] = useState([]);
-  const [copiedId, setCopiedId] = useState(null);
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
-  const navigate = useNavigate();
+  const { username, logout } = useAuth();
 
-  const initialPage = Number(searchParams.get("page")) || 1;
-  const initialSearch = searchParams.get("search") || "";
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { page, setPage } = usePagination(searchParams, setSearchParams);
 
-  const [page, setPage] = useState(initialPage);
-  const [searchTerm, setSearchTerm] = useState(initialSearch);
-  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(initialSearch);
+  const [searchTerm, setSearchTerm] = useState(
+    searchParams.get("search") || ""
+  );
+  const debouncedSearchTerm = useDebouncedValue(searchTerm, 500);
 
-  useEffect(() => {
-    const storedUsername = localStorage.getItem("username");
-    if (storedUsername) {
-      setUsername(storedUsername);
-    }
-  }, []);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedSearchTerm(searchTerm);
-      setPage(1);
-    }, 500);
-    return () => clearTimeout(timer);
-  }, [searchTerm]);
-
-  useEffect(() => {
-    const params = {};
-    if (page > 1) params.page = page;
-    if (debouncedSearchTerm) params.search = debouncedSearchTerm;
-    setSearchParams(params, { replace: true });
-  }, [page, debouncedSearchTerm, setSearchParams]);
-
+  const { sortConfig, handleSort, sortWithMemo } = useSorting();
   const {
     data: queryData,
     isLoading,
     isError,
     error,
-  } = useQuery({
-    queryKey: ["products", { page, limit: 7, name: debouncedSearchTerm }],
-    queryFn: fetchProducts,
-    keepPreviousData: true,
+  } = useProductsQuery({
+    page,
+    limit: PAGE_SIZE,
+    name: debouncedSearchTerm,
   });
 
   const products = queryData?.data ?? [];
   const totalPages = queryData?.totalPages ?? 1;
+  const sortedProducts = sortWithMemo(products);
 
-  const sortedProducts = useMemo(() => {
-    if (!sortConfig.key || !sortConfig.direction) return products;
+  const [modalState, setModalState] = useState({ type: null, data: null });
+  const [isBulkDeleteMode, setIsBulkDeleteMode] = useState(false);
+  const [selectedIds, setSelectedIds] = useState([]);
+  const [copiedId, setCopiedId] = useState(null);
 
-    return [...products].sort((a, b) => {
-      if (a[sortConfig.key] < b[sortConfig.key])
-        return sortConfig.direction === "ascending" ? -1 : 1;
-      if (a[sortConfig.key] > b[sortConfig.key])
-        return sortConfig.direction === "ascending" ? 1 : -1;
-      return 0;
-    });
-  }, [products, sortConfig]);
+  const openModal = (type, data = null) => setModalState({ type, data });
+  const closeModal = () => setModalState({ type: null, data: null });
 
-  const handleSort = (key, direction) => {
-    setSortConfig((prev) => {
-      if (prev.key === key && prev.direction === direction) {
-        return { key: null, direction: null };
+  const {
+    addProductMutation,
+    updateProductMutation,
+    deleteProductMutation,
+    bulkDeleteMutation,
+  } = useProductMutations({
+    onAddSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ["products"] }),
+    onUpdateSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ["products"] }),
+    onDeleteSuccess: () => {
+      if (products.length === 1 && page > 1) {
+        setPage(page - 1);
+      } else {
+        queryClient.invalidateQueries({ queryKey: ["products"] });
       }
-      return { key, direction };
+    },
+    onBulkDeleteSuccess: () => {
+      handleCancelBulkDelete();
+      if (selectedIds.length === products.length && page > 1) {
+        setPage(page - 1);
+      } else {
+        queryClient.invalidateQueries({ queryKey: ["products"] });
+      }
+    },
+  });
+
+  const addProductHandler = (data) =>
+    addProductMutation.mutate({
+      ...data,
+      price: Number(data.price),
+      quantity: Number(data.quantity),
     });
-  };
-
-  const handleEnterBulkDeleteMode = () => {
-    setIsBulkDeleteMode(true);
-  };
-
-  const handleCancelBulkDelete = () => {
-    setIsBulkDeleteMode(false);
-    setSelectedIds([]);
-  };
-
-  const handleSelectProduct = (id) => {
-    setSelectedIds((prev) =>
-      prev.includes(id)
-        ? prev.filter((selectedId) => selectedId !== id)
-        : [...prev, id]
-    );
+  const updateProductHandler = (data) =>
+    updateProductMutation.mutate({
+      ...modalState.data,
+      ...data,
+      price: Number(data.price),
+      quantity: Number(data.quantity),
+    });
+  const handleConfirmDeletion = () => {
+    if (modalState.type === "DELETE") {
+      deleteProductMutation.mutate(modalState.data);
+    } else if (modalState.type === "BULK_DELETE") {
+      bulkDeleteMutation.mutate(selectedIds);
+    }
+    closeModal();
   };
 
   const handleCopyId = async (id) => {
@@ -127,171 +134,77 @@ function ProductsList() {
     }
   };
 
+  const handleSelectProduct = (id) => {
+    setSelectedIds((prev) =>
+      prev.includes(id)
+        ? prev.filter((selectedId) => selectedId !== id)
+        : [...prev, id]
+    );
+  };
+
   const areAllOnPageSelected =
-    products.length > 0 && selectedIds.length === products.length;
+    sortedProducts.length > 0 && selectedIds.length === sortedProducts.length;
 
   const handleSelectAll = () => {
     if (areAllOnPageSelected) {
       setSelectedIds([]);
     } else {
-      setSelectedIds(products.map((p) => p.id));
+      setSelectedIds(sortedProducts.map((p) => p.id));
     }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("authToken");
-    queryClient.clear();
-    navigate("/");
+  const handleCancelBulkDelete = () => {
+    setIsBulkDeleteMode(false);
+    setSelectedIds([]);
   };
 
-  const addProductMutation = useMutation({
-    mutationFn: (newProduct) => apiClient.post("/products", newProduct),
-    onSuccess: (data, variables) => {
-      queryClient.invalidateQueries({ queryKey: ["products"] });
-      closeModal();
-      toast.success(`محصول «${variables.name}» با موفقیت اضافه شد.`, {
-        className: "toast-base toast-success",
-        progressClassName: "toast-success-progress",
-      });
-    },
-    onError: (error) => {
-      toast.error(error.response?.data?.message || "خطا در افزودن محصول");
-    },
-  });
-
-  const updateProductMutation = useMutation({
-    mutationFn: (updatedProduct) =>
-      apiClient.put(`/products/${updatedProduct.id}`, updatedProduct),
-    onSuccess: (data, variables) => {
-      queryClient.invalidateQueries({ queryKey: ["products"] });
-      closeModal();
-      toast.success(`محصول «${variables.name}» با موفقیت ویرایش شد.`, {
-        className: "toast-base toast-success",
-        progressClassName: "toast-success-progress",
-      });
-    },
-    onError: (error) => {
-      toast.error(error.response?.data?.message || "خطا در ویرایش محصول");
-    },
-  });
-
-  const deleteProductMutation = useMutation({
-    mutationFn: (product) => apiClient.delete(`/products/${product.id}`),
-    onSuccess: (data, variables) => {
-      closeModal();
-      toast.success(`محصول «${variables.name}» با موفقیت حذف شد.`, {
-        className: "toast-base toast-delete",
-        progressClassName: "toast-delete-progress",
-      });
-      if (products.length === 1 && page > 1) {
-        setPage(page - 1);
-      } else {
-        queryClient.invalidateQueries({ queryKey: ["products"] });
-      }
-    },
-    onError: (error) => {
-      toast.error(error.response?.data?.message || "خطا در حذف محصول");
-    },
-  });
-
-  const bulkDeleteMutation = useMutation({
-    mutationFn: (ids) => apiClient.delete("/products", { data: { ids } }),
-    onSuccess: (data, variables) => {
-      closeModal();
-      toast.success(`تعداد ${variables.length} محصول با موفقیت حذف شد.`, {
-        className: "toast-base toast-delete",
-      });
-      if (selectedIds.length === products.length && page > 1) {
-        setPage(page - 1);
-      } else {
-        queryClient.invalidateQueries({ queryKey: ["products"] });
-      }
-      setIsBulkDeleteMode(false);
-      setSelectedIds([]);
-    },
-    onError: (error) => {
-      toast.error(error.response?.data?.message || "خطا در حذف گروهی");
-    },
-  });
-
-  const handleConfirmDeletion = () => {
-    if (modalState.type === "DELETE") {
-      deleteProductMutation.mutate(modalState.data);
-    } else if (modalState.type === "BULK_DELETE") {
-      bulkDeleteMutation.mutate(selectedIds);
+  const deleteModalTitle = useMemo(() => {
+    if (modalState.type === "DELETE" && modalState.data) {
+      return (
+        <>
+          آیا از حذف محصول{" "}
+          <span className={styles.highlightedName}>
+            «{modalState.data.name}»
+          </span>{" "}
+          مطمئن هستید؟
+        </>
+      );
     }
-  };
-
-  const handleOpenBulkDeleteModal = () => {
-    if (selectedIds.length > 0) {
-      openModal("BULK_DELETE");
+    if (modalState.type === "BULK_DELETE") {
+      return (
+        <>
+          آیا از حذف{" "}
+          <span className={styles.highlightedName}>«{selectedIds.length}»</span>{" "}
+          محصول مطمئن هستید؟
+        </>
+      );
     }
-  };
+    return "";
+  }, [modalState, selectedIds.length]);
 
-  const openModal = (type, data = null) => setModalState({ type, data });
-
-  const closeModal = () => setModalState({ type: null, data: null });
-
-  const addProductHandler = (data) => {
-    addProductMutation.mutate({
-      ...data,
-      price: Number(data.price),
-      quantity: Number(data.quantity),
-    });
-  };
-
-  const updateProductHandler = (data) => {
-    updateProductMutation.mutate({
-      ...data,
-      price: Number(data.price),
-      quantity: Number(data.quantity),
-    });
-  };
-
-  const formatPrice = (price) => {
-    const cleanPrice = String(price).replace(/,/g, "");
-    const num = Number(cleanPrice);
-
-    if (isNaN(num)) return price;
-
-    if (num >= 1000000000) {
-      const billions = num / 1000000000;
-      return `${new Intl.NumberFormat("fa-IR").format(billions)} میلیارد تومان`;
+  useEffect(() => {
+    const currentSearchInUrl = searchParams.get("search") || "";
+    if (debouncedSearchTerm !== currentSearchInUrl) {
+      setSearchParams(
+        (prev) => {
+          if (debouncedSearchTerm) {
+            prev.set("search", debouncedSearchTerm);
+            prev.set("page", "1");
+          } else {
+            prev.delete("search");
+          }
+          return prev;
+        },
+        { replace: true }
+      );
     }
-    if (num >= 1000000) {
-      const millions = num / 1000000;
-      return `${new Intl.NumberFormat("fa-IR").format(millions)} میلیون تومان`;
-    }
-    if (num >= 10000) {
-      return `${new Intl.NumberFormat("fa-IR").format(num)} هزار تومان`;
-    }
-    return `${new Intl.NumberFormat("fa-IR").format(num)} تومان`;
-  };
-
-  let deleteModalTitle = "";
-  if (modalState.type === "DELETE" && modalState.data) {
-    deleteModalTitle = (
-      <>
-        آیا از حذف محصول
-        <span className={styles.highlightedName}>«{modalState.data.name}»</span>
-        مطمئن هستید؟
-      </>
-    );
-  } else if (modalState.type === "BULK_DELETE") {
-    deleteModalTitle = (
-      <>
-        آیا از حذف
-        <span className={styles.highlightedName}>«{selectedIds.length}»</span>
-        محصول مطمئن هستید؟
-      </>
-    );
-  }
+  }, [debouncedSearchTerm, searchParams, setSearchParams]);
 
   return (
     <div className={styles.form}>
       <header className={styles.header}>
         <div className={styles.adminStyles}>
-          <button onClick={handleLogout} title="خروج از حساب کاربری">
+          <button onClick={logout} title="خروج از حساب کاربری">
             <CiLogout className={styles.iconLogout} />
           </button>
           <p>
@@ -324,7 +237,7 @@ function ProductsList() {
                 </button>
                 <button
                   className={styles.deleteGroup}
-                  onClick={handleEnterBulkDeleteMode}
+                  onClick={() => setIsBulkDeleteMode(true)}
                 >
                   حذف گروهی
                 </button>
@@ -339,7 +252,7 @@ function ProductsList() {
                 </button>
                 <button
                   className={styles.deleteConfirm}
-                  onClick={handleOpenBulkDeleteModal}
+                  onClick={() => openModal("BULK_DELETE")}
                   disabled={
                     selectedIds.length === 0 || bulkDeleteMutation.isLoading
                   }
@@ -374,7 +287,7 @@ function ProductsList() {
                     </label>
                   </th>
                 )}
-                <th className={styles.rowNumber}>شماره ردیف</th>
+                <th className={styles.rowNumber}>ردیف</th>
                 <th className={styles.nameProducts}>نام کالا</th>
                 <th className={styles.quantity}>
                   <div className={styles.sortableHeader}>
@@ -442,8 +355,8 @@ function ProductsList() {
               {isLoading ? (
                 <tr>
                   <td
-                    style={{ textAlign: "center" }}
                     colSpan={isBulkDeleteMode ? 7 : 6}
+                    style={{ textAlign: "center" }}
                   >
                     درحال بارگذاری...
                   </td>
@@ -451,17 +364,16 @@ function ProductsList() {
               ) : isError ? (
                 <tr>
                   <td
-                    style={{ textAlign: "center" }}
                     colSpan={isBulkDeleteMode ? 7 : 6}
+                    style={{ textAlign: "center" }}
                   >
                     {error.response?.data?.message ===
                     "Page 1 is out of bounds. There are only 0 pages."
                       ? "محصولی یافت نشد"
-                      : error.response?.data?.message ||
-                        "خطا در دریافت اطلاعات"}
+                      : error.message || "خطا در دریافت اطلاعات"}
                   </td>
                 </tr>
-              ) : products.length === 0 ? (
+              ) : sortedProducts.length === 0 ? (
                 <tr>
                   <td
                     colSpan={isBulkDeleteMode ? 7 : 6}
@@ -493,7 +405,7 @@ function ProductsList() {
                       </td>
                     )}
                     <td className={styles.rowNumber}>
-                      {(page - 1) * 7 + index + 1}
+                      {(page - 1) * PAGE_SIZE + index + 1}
                     </td>
                     <td>{product.name}</td>
                     <td className={styles.quantity}>{product.quantity}</td>
@@ -535,11 +447,14 @@ function ProductsList() {
             </tbody>
           </table>
         </div>
-        <Pagination
-          currentPage={page}
-          totalPages={totalPages}
-          onPageChange={setPage}
-        />
+
+        {totalPages > 1 && (
+          <Pagination
+            currentPage={page}
+            totalPages={totalPages}
+            onPageChange={setPage}
+          />
+        )}
       </main>
 
       <AddModal
@@ -551,8 +466,8 @@ function ProductsList() {
       <EditModal
         isOpen={modalState.type === "EDIT"}
         onClose={closeModal}
-        onUpdateProduct={updateProductHandler}
         product={modalState.data}
+        onUpdateProduct={updateProductHandler}
         isSubmitting={updateProductMutation.isLoading}
       />
       <DeleteModal
