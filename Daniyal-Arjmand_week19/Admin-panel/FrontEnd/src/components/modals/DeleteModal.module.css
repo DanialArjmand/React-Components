@@ -10,14 +10,18 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 50;
   background: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(4.2px);
   -webkit-backdrop-filter: blur(4.2px);
 }
 
 .deleteForm {
-  width: 472px;
+  max-width: 472px;
+  width: 95%;
   background-color: #fff;
   border-radius: 30px;
   text-align: center;
@@ -82,4 +86,57 @@
 .buttonDelete:hover {
   background-color: #cc2e49;
   transition: all 0.1s ease-in-out;
+}
+
+@media (max-width: 1024px) {
+}
+
+@media (max-width: 768px) {
+  .deleteForm {
+    max-width: 400px;
+  }
+}
+
+@media (max-width: 480px) {
+  .deleteForm {
+    width: 90%;
+    border-radius: 20px;
+  }
+  .deleteForm img {
+    padding: 20px 0 10px;
+    width: 50px;
+  }
+  .deleteForm p {
+    font-size: 16px;
+    padding: 10px 20px 25px;
+  }
+
+  .buttonStatus {
+    flex-direction: column;
+    gap: 10px;
+    padding: 0 20px;
+    margin-bottom: 25px;
+  }
+  .buttonCancel,
+  .buttonDelete {
+    width: 100%;
+    margin: 0;
+  }
+}
+
+@media (max-width: 420px) {
+  .deleteForm p {
+    font-size: 15px;
+  }
+  .buttonCancel,
+  .buttonDelete {
+    height: 40px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 360px) {
+  .deleteForm {
+    max-width: 300px;
+  }
 }

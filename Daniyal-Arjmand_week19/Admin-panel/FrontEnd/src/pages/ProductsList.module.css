@@ -15,7 +15,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 1140px;
+  width: 95%;
+  max-width: 1140px;
 }
 
 .header {
@@ -269,7 +270,7 @@ main {
 .tableProducts table {
   width: 100%;
   border-collapse: collapse;
-  table-layout: fixed;
+  table-layout: auto;
 }
 
 .tableProducts thead th {
@@ -411,4 +412,123 @@ main {
   width: 32px;
   height: 32px;
   color: #a0a0a0;
+}
+
+@media (max-width: 1200px) {
+  .tableProducts thead th,
+  .tableProducts tbody td {
+    padding: 0 20px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .searchProduct {
+    width: 300px;
+  }
+
+  .title h2 {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    height: auto;
+    padding: 10px;
+    gap: 10px;
+  }
+  .adminStyles {
+    width: 100%;
+    border-right: none;
+    justify-content: space-between;
+  }
+  .searchProduct {
+    width: 100%;
+  }
+
+  .headTitle {
+    flex-direction: column-reverse;
+    gap: 20px;
+    padding: 20px 0;
+  }
+
+  .title {
+    width: 100%;
+    justify-content: center;
+  }
+  .buttonContainer {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .tableProducts .idStyles {
+    display: none;
+  }
+
+  .tableProducts thead th,
+  .tableProducts tbody td {
+    padding: 0 10px;
+    font-size: 13px;
+  }
+
+  .action {
+    padding-left: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .headTitle button {
+    width: 110px;
+    height: 40px;
+    font-size: 14px;
+  }
+
+  .buttonContainer {
+    width: auto;
+  }
+
+  .tableProducts .rowNumber {
+    display: none;
+  }
+
+  .tableProducts thead th,
+  .tableProducts tbody td {
+    padding: 0 8px;
+  }
+
+  .tableProducts {
+    height: auto;
+    border-radius: 20px;
+  }
+
+  .action {
+    gap: 5px;
+  }
+  .action button {
+    transform: scale(0.9);
+  }
+  .action button:hover {
+    transform: scale(1.1);
+  }
+
+  .pagination button {
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 360px) {
+  .title h2 {
+    font-size: 20px;
+  }
+
+  .tableProducts .quantity {
+    display: none;
+  }
+
+  .copiedText {
+    display: none;
+  }
 }

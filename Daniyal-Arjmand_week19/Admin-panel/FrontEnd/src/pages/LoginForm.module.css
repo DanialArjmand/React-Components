@@ -25,7 +25,8 @@
 }
 
 .formLogin {
-  width: 470px;
+  max-width: 470px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -48,7 +49,8 @@
 }
 
 .inputLogin {
-  width: 400px;
+  width: 100%;
+  max-width: 400px;
   height: 53px;
   background-color: #f2f2f2;
   border-radius: 15px;
@@ -65,7 +67,8 @@
 }
 
 .buttonLogin {
-  width: 400px;
+  width: 100%;
+  max-width: 400px;
   height: 53px;
   border-radius: 15px;
   margin-top: 30px;
@@ -80,7 +83,8 @@
 }
 
 .linkLogin {
-  width: 400px;
+  width: 100%;
+  max-width: 400px;
   color: #3a8bed;
   text-decoration: none;
   font-size: 16px;
@@ -99,7 +103,8 @@
 }
 
 .errorContainer {
-  width: 400px;
+  width: 100%;
+  max-width: 400px;
   height: 20px;
   display: flex;
   align-items: center;
@@ -115,7 +120,8 @@
 
 .passwordWrapper {
   position: relative;
-  width: 400px;
+  width: 100%;
+  max-width: 400px;
   height: 53px;
 }
 
@@ -152,4 +158,73 @@
 .buttonLogin:disabled {
   background-color: #a0c9f0;
   cursor: not-allowed;
+}
+
+@media (max-width: 1024px) {
+}
+
+@media (max-width: 768px) {
+  .formLogin {
+    max-width: 450px;
+    margin-top: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pageContainer {
+    justify-content: flex-start;
+    padding-top: 5vh;
+  }
+
+  .formLogin {
+    width: 90%;
+    border-radius: 25px;
+    padding: 15px;
+  }
+
+  .headerText {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+
+  .textLogin {
+    font-size: 1.25rem;
+    padding-bottom: 20px;
+  }
+
+  .logo {
+    padding-top: 15px;
+    width: 60px;
+  }
+
+  .buttonLogin {
+    font-size: 18px;
+    height: 50px;
+  }
+}
+
+@media (max-width: 420px) {
+  .formLogin {
+    padding: 10px;
+  }
+  .inputLogin {
+    height: 50px;
+  }
+}
+
+@media (max-width: 360px) {
+  .headerText {
+    font-size: 1.3rem;
+  }
+
+  .textLogin {
+    font-size: 1.1rem;
+  }
+
+  .buttonLogin {
+    margin-top: 20px;
+  }
+  .linkLogin {
+    font-size: 14px;
+  }
 }

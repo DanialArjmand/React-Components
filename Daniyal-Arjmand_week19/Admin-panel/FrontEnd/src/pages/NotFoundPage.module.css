@@ -35,3 +35,46 @@
   background-color: #0056b3;
   transition: background-color 0.1s ease-in-out;
 }
+
+@media (max-width: 1200px) {
+  .errorCode {
+    font-size: 7rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .errorCode {
+    font-size: 6rem;
+  }
+  .message {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .errorCode {
+    font-size: 5rem;
+  }
+  .message {
+    font-size: 1.2rem;
+  }
+  .link {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .errorCode {
+    font-size: 4.5rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .errorCode {
+    font-size: 4rem;
+  }
+  .message {
+    font-size: 1.1rem;
+  }
+}
