@@ -20,14 +20,3 @@
   font-style: normal;
   font-display: swap;
 }
-
-
-/* @font-face {
-    font-family: "Kalameh Bold";
-    src: url("https://db.onlinewebfonts.com/t/c56ea8aca8b3b1f84bcb7365c6ae4af0.eot");
-    src: url("https://db.onlinewebfonts.com/t/c56ea8aca8b3b1f84bcb7365c6ae4af0.eot?#iefix")format("embedded-opentype"),
-    url("https://db.onlinewebfonts.com/t/c56ea8aca8b3b1f84bcb7365c6ae4af0.woff2")format("woff2"),
-    url("https://db.onlinewebfonts.com/t/c56ea8aca8b3b1f84bcb7365c6ae4af0.woff")format("woff"),
-    url("https://db.onlinewebfonts.com/t/c56ea8aca8b3b1f84bcb7365c6ae4af0.ttf")format("truetype"),
-    url("https://db.onlinewebfonts.com/t/c56ea8aca8b3b1f84bcb7365c6ae4af0.svg#Kalameh Bold")format("svg");
-} */

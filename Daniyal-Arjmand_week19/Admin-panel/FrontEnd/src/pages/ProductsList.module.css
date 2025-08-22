@@ -9,6 +9,8 @@
   align-items: center;
   background-color: #f7f8f8;
   font-family: "Vazirmatn", sans-serif;
+  padding-bottom: 10px;
+  min-height: 100vh
 }
 
 .form {

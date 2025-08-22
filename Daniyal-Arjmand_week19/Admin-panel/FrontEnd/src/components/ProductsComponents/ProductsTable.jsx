@@ -15,6 +15,9 @@ const formatPrice = (price) => {
     return `${new Intl.NumberFormat("fa-IR").format(
       num / 1000000
     )} میلیون تومان`;
+  if (num >= 10000) {
+    return `${new Intl.NumberFormat("fa-IR").format(num)} هزار تومان`;
+  }
   return `${new Intl.NumberFormat("fa-IR").format(num)} تومان`;
 };
 
